@@ -1,0 +1,144 @@
+/* ========================================
+   Light Theme
+   ======================================== */
+
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* Backgrounds */
+
+  --color-bg: var(--color-neutral-50);
+  --color-bg-secondary: var(--color-neutral-100);
+
+  --color-surface: var(--color-neutral-0);
+  --color-surface-raised: var(--color-neutral-0);
+  --color-surface-hover: var(--color-neutral-50);
+  --color-surface-active: var(--color-primary-50);
+
+  /* Text */
+
+  --color-text-primary: var(--color-neutral-900);
+  --color-text-secondary: var(--color-neutral-600);
+  --color-text-muted: var(--color-neutral-500);
+  --color-text-disabled: var(--color-neutral-400);
+  --color-text-on-primary: var(--color-neutral-0);
+
+  /* Borders */
+
+  --color-border: var(--color-neutral-200);
+  --color-border-strong: var(--color-neutral-300);
+  --color-border-focus: var(--color-primary-500);
+
+  /* Brand */
+
+  --color-primary: var(--color-primary-500);
+  --color-primary-hover: var(--color-primary-600);
+  --color-primary-active: var(--color-primary-700);
+  --color-primary-soft: var(--color-primary-50);
+
+  /* Overlay */
+
+  --color-overlay: rgb(2 6 23 / 0.45);
+
+  /* Focus */
+
+  --focus-ring: 0 0 0 3px rgb(0 118 167 / 0.2);
+
+  /* Shadows */
+
+  --shadow-surface: var(--shadow-sm);
+  --shadow-elevated: var(--shadow-md);
+}
+
+/* ========================================
+   Dark Theme
+   ======================================== */
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Backgrounds */
+
+  --color-bg: var(--color-neutral-950);
+  --color-bg-secondary: var(--color-neutral-900);
+
+  --color-surface: var(--color-neutral-900);
+  --color-surface-raised: var(--color-neutral-800);
+  --color-surface-hover: var(--color-neutral-800);
+  --color-surface-active: #12394a;
+
+  /* Text */
+
+  --color-text-primary: var(--color-neutral-50);
+  --color-text-secondary: var(--color-neutral-300);
+  --color-text-muted: var(--color-neutral-400);
+  --color-text-disabled: var(--color-neutral-600);
+  --color-text-on-primary: var(--color-neutral-0);
+
+  /* Borders */
+
+  --color-border: var(--color-neutral-700);
+  --color-border-strong: var(--color-neutral-600);
+  --color-border-focus: #35a7d0;
+
+  /* Brand */
+
+  --color-primary: #35a7d0;
+  --color-primary-hover: #55b8d8;
+  --color-primary-active: #79c7dd;
+  --color-primary-soft: #12394a;
+
+  /* Overlay */
+
+  --color-overlay: rgb(0 0 0 / 0.65);
+
+  /* Focus */
+
+  --focus-ring: 0 0 0 3px rgb(53 167 208 / 0.25);
+
+  /* Shadows */
+
+  --shadow-surface: 0 1px 2px rgb(0 0 0 / 0.2);
+  --shadow-elevated: 0 8px 24px rgb(0 0 0 / 0.35);
+
+  /* Feedback */
+
+  --color-success: #4dcc91;
+  --color-success-soft: #153b2c;
+
+  --color-warning: #f0ae4c;
+  --color-warning-soft: #493719;
+
+  --color-danger: #ef7070;
+  --color-danger-soft: #472323;
+
+  --color-info: #55a9d6;
+  --color-info-soft: #17384b;
+
+  /* Ticket Status */
+
+  --status-created: #60a9d8;
+  --status-created-soft: #16364d;
+
+  --status-assigned: #b18be0;
+  --status-assigned-soft: #352449;
+
+  --status-in-progress: #f59a55;
+  --status-in-progress-soft: #4a2d18;
+
+  --status-paused: #829bcb;
+  --status-paused-soft: #26344f;
+
+  --status-closed: #94a3b8;
+  --status-closed-soft: #293241;
+
+  --status-quotation: #3ac2b7;
+  --status-quotation-soft: #123c39;
+
+  --status-resolved: #6cc995;
+  --status-resolved-soft: #1c3b2b;
+
+  --status-default: #94a3b8;
+  --status-default-soft: #293241;
+}
