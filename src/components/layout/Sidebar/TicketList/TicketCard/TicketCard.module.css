@@ -1,0 +1,130 @@
+.card {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex-shrink: 0;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-left: 3px solid var(--ticket-status);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  text-align: left;
+  box-shadow: var(--shadow-xs);
+}
+
+.card:hover {
+  background: var(--color-surface-hover);
+  box-shadow: var(--shadow-sm);
+}
+
+.card.selected {
+  border-color: var(--ticket-status);
+  background: var(--ticket-status-soft);
+  box-shadow: var(--shadow-sm);
+}
+
+.topRow {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.identifier {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: var(--radius-full);
+  background: var(--ticket-status);
+}
+
+.id {
+  min-width: 0;
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sla {
+  display: flex;
+  flex-shrink: 0;
+  gap: var(--space-1);
+}
+
+.slaIcon {
+  display: grid;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: var(--radius-sm);
+}
+
+.metadata {
+  display: grid;
+  min-width: 0;
+  gap: var(--space-1);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs);
+}
+
+.metadata span {
+  display: flex;
+  min-width: 0;
+  gap: var(--space-2);
+}
+
+.metadata strong {
+  width: 72px;
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+  font-weight: var(--font-weight-medium);
+}
+
+.metadata span {
+  overflow: hidden;
+}
+
+.metadata span {
+  white-space: nowrap;
+}
+
+.metadata span:not(:last-child) {
+  padding-bottom: var(--space-1);
+  border-bottom: var(--border-width-thin) solid var(--color-border);
+}
+
+.metadata span:not(:last-child),
+.metadata strong {
+  min-width: 0;
+}
+
+.status {
+  align-self: flex-start;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 3px var(--space-2);
+  border-radius: var(--radius-full);
+  background: var(--ticket-status-soft);
+  color: var(--ticket-status);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -8,11 +8,26 @@
   box-sizing: border-box;
 }
 
+#root {
+  min-height: 100%;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
 html {
   min-width: 320px;
   min-height: 100%;
   background: var(--color-bg);
   color: var(--color-text-primary);
+
+  overflow: hidden;
+
   transition:
     background-color var(--duration-normal) var(--ease-standard),
     color var(--duration-normal) var(--ease-standard);
@@ -24,6 +39,7 @@ body {
   margin: 0;
   background: var(--color-bg);
   color: var(--color-text-primary);
+  font-family: var(--font-sans);
   transition:
     background-color var(--duration-normal) var(--ease-standard),
     color var(--duration-normal) var(--ease-standard);

@@ -1,12 +1,14 @@
 import { Outlet } from "react-router-dom";
 
+import { Sidebar } from "../Sidebar/Sidebar";
+
 import styles from "./AppShell.module.css";
 
 export function AppShell() {
   return (
     <div className={styles.shell}>
       <aside className={styles.sidebar}>
-        <div className={styles.placeholder}>Sidebar</div>
+        <Sidebar />
       </aside>
 
       <aside className={styles.taskbar}>
