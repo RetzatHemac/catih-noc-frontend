@@ -1,0 +1,61 @@
+.shell {
+  display: grid;
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+}
+
+.sidebar,
+.taskbar,
+.detail {
+  min-width: 0;
+}
+
+.sidebar {
+  background: var(--color-surface);
+  border-bottom: var(--border-width-thin) solid var(--color-border);
+}
+
+.taskbar {
+  background: var(--color-surface);
+  border-bottom: var(--border-width-thin) solid var(--color-border);
+}
+
+.detail {
+  min-height: 0;
+  overflow: auto;
+}
+
+.placeholder {
+  display: grid;
+  min-height: 100%;
+  padding: var(--space-6);
+  place-items: center;
+  color: var(--color-text-muted);
+  justify-content: center;
+}
+
+/* Desktop */
+
+@media (min-width: 1024px) {
+  .shell {
+    grid-template-columns:
+      var(--sidebar-width)
+      var(--taskbar-width)
+      minmax(0, 1fr);
+  }
+
+  .sidebar {
+    border-right: var(--border-width-thin) solid var(--color-border);
+    border-bottom: 0;
+  }
+
+  .taskbar {
+    border-right: var(--border-width-thin) solid var(--color-border);
+    border-bottom: 0;
+  }
+
+  .detail {
+    min-height: 100vh;
+  }
+}

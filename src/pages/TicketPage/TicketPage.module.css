@@ -1,0 +1,28 @@
+.page {
+  min-height: 100%;
+  padding: var(--space-6);
+  background: var(--color-bg);
+}
+
+.eyebrow {
+  margin-bottom: var(--space-2);
+  color: var(--color-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.page h1 {
+  margin-bottom: var(--space-2);
+}
+
+.description {
+  color: var(--color-text-secondary);
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding: var(--space-8);
+  }
+}
