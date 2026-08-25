@@ -2,7 +2,14 @@ import { Plus, Search } from "lucide-react";
 
 import styles from "./SidebarHeader.module.css";
 
+import { useNavigate } from "react-router-dom";
+
 export function SidebarHeader() {
+  const navigate = useNavigate();
+
+  function handleCreateTicket() {
+    navigate("/tickets/new");
+  }
   return (
     <header className={styles.header}>
       {/* <div className={styles.brand}>
@@ -30,6 +37,7 @@ export function SidebarHeader() {
           className={styles.createButton}
           aria-label="Crear ticket"
           title="Crear ticket"
+          onClick={handleCreateTicket}
         >
           <Plus size={20} aria-hidden="true" />
         </button>

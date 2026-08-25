@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { MOCK_TICKETS } from "../../../../features/tickets/config/mockTickets";
-import type { Ticket } from "../../../../features/tickets/types/ticket";
+import type { Ticket } from "../../../../features/tickets/types/tickets.types";
 
 import { TicketCard } from "./TicketCard/TicketCard";
 
