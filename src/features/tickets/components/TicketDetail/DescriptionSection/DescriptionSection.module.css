@@ -1,0 +1,16 @@
+.description,
+.empty {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+}
+
+.description {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.empty {
+  color: var(--color-text-muted);
+  font-style: italic;
+}

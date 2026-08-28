@@ -1,4 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
+import { Children } from "react";
 
 import styles from "./Button.module.css";
 
@@ -24,6 +25,11 @@ export function Button({
   className,
   ...props
 }: ButtonProps) {
+  // Check if children contains icons (JSX elements) and text
+  const hasIcons = Children.toArray(children).some((child) => {
+    return typeof child === "object" && child !== null && "type" in child;
+  });
+
   const classNames = [
     styles.button,
     styles[variant],
@@ -44,7 +50,7 @@ export function Button({
     >
       {loading ? <span className={styles.spinner} aria-hidden="true" /> : null}
 
-      <span>{children}</span>
+      {hasIcons ? children : <span>{children}</span>}
     </button>
   );
 }

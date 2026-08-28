@@ -74,6 +74,22 @@
   flex-shrink: 0;
   place-items: center;
   border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+}
+
+.slaIcon[data-sla="ok"] {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+
+.slaIcon[data-sla="warning"] {
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+
+.slaIcon[data-sla="danger"] {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
 }
 
 .metadata {

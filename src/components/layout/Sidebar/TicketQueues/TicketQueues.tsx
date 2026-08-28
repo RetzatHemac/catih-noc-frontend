@@ -2,7 +2,7 @@ import { Inbox, Wifi } from "lucide-react";
 import { useState } from "react";
 import { Boxes } from "lucide-react";
 
-import type { TicketQueue } from "../../../../features/tickets/types/ticket";
+import type { TicketQueue } from "../../../../features/tickets/types/tickets.types";
 
 import styles from "./TicketQueues.module.css";
 

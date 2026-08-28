@@ -14,6 +14,7 @@ import {
 import { AppShell } from "../components/layout/AppShell/AppShell";
 
 import { TicketPage } from "../pages/TicketPage/TicketPage";
+import { TicketDetailPage } from "../pages/TicketDetailPage/TicketDetailPage";
 
 import { CreateTicket } from "../features/tickets/components/CreateTicket/CreateTicket";
 
@@ -46,6 +47,16 @@ export const router = createBrowserRouter([
           title: "Crear ticket",
           description: "Registra un nuevo ticket para su atención.",
           icon: ClipboardPlus,
+        } satisfies DetailRouteHandle,
+      },
+
+      {
+        path: "tickets/:ticketId",
+        element: <TicketDetailPage />,
+        handle: {
+          title: "Detalle del ticket",
+          description: "Consulta y administra la información del ticket.",
+          icon: Ticket,
         } satisfies DetailRouteHandle,
       },
 

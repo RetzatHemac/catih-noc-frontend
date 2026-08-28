@@ -112,7 +112,7 @@ export function SidebarFilters() {
           </label>
 
           <div className={styles.actions}>
-            <button type="button" className={styles.secondaryButton}>
+            <button type="button" className={`${styles.secondaryButton} ${styles.flex}`}>
               <RotateCcw size={15} />
               Restablecer
             </button>

@@ -1,0 +1,31 @@
+.content {
+  margin: 0;
+  padding: var(--space-3);
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+  overflow: auto;
+  font-size: var(--font-size-xs);
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.footer {
+  display: flex;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.footer button {
+  flex: 1;
+}
+
+@media (min-width: 640px) {
+  .footer {
+    width: auto;
+  }
+
+  .footer button {
+    flex: 0 1 auto;
+  }
+}

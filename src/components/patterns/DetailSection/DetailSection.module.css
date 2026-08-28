@@ -1,0 +1,101 @@
+.section {
+  width: 100%;
+  padding: 1rem 0;
+
+  border-bottom: 1px solid var(--color-border);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  margin-bottom: 1rem;
+}
+
+.collapsibleHeader {
+  margin-bottom: 0;
+}
+
+.title {
+  margin: 0;
+
+  color: var(--color-text-primary);
+
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+}
+
+.toggle {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+
+  color: inherit;
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.toggle:hover .title {
+  color: var(--color-primary);
+}
+
+.toggle:focus-visible {
+  outline: none;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--focus-ring);
+}
+
+.chevron {
+  flex-shrink: 0;
+
+  color: var(--color-text-muted);
+
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.toggle:hover .chevron {
+  color: var(--color-primary);
+}
+
+.actions {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.content {
+  width: 100%;
+  min-width: 0;
+
+  padding-top: 1rem;
+}
+
+.header:not(.collapsibleHeader) + .content {
+  padding-top: 0;
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding: 1.25rem 0;
+  }
+}

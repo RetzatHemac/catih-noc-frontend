@@ -33,7 +33,6 @@ function AppShellContent() {
 
       <aside className={styles.taskbar}>
         <TaskBar />
-        <div className={styles.placeholder}>Actions</div>
       </aside>
 
       <main

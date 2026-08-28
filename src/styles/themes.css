@@ -44,6 +44,7 @@
   /* Focus */
 
   --focus-ring: 0 0 0 3px rgb(0 118 167 / 0.2);
+  --focus-ring-danger: 0 0 0 3px rgb(212 69 69 / 0.2);
 
   /* Shadows */
 
@@ -96,6 +97,7 @@
   /* Focus */
 
   --focus-ring: 0 0 0 3px rgb(53 167 208 / 0.25);
+  --focus-ring-danger: 0 0 0 3px rgb(239 112 112 / 0.3);
 
   /* Shadows */
 

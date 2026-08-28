@@ -1,0 +1,157 @@
+.desktopWrapper {
+  display: none;
+}
+
+.mobileList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.card {
+  min-width: 0;
+  padding: var(--space-4);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  background: var(--color-surface);
+}
+
+.cardContent {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+}
+
+.cardField {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.cardLabel {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.cardValue {
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  overflow-wrap: anywhere;
+}
+
+.cardActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-1);
+
+  margin-top: var(--space-4);
+  padding-top: var(--space-3);
+
+  border-top: 1px solid var(--color-border);
+}
+
+.empty {
+  padding: var(--space-4);
+
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .mobileList {
+    display: none;
+  }
+
+  .desktopWrapper {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+
+  .table {
+    width: 100%;
+    min-width: 1100px;
+
+    border-collapse: separate;
+    border-spacing: 0;
+
+    color: var(--color-text-primary);
+    font-size: var(--font-size-sm);
+  }
+
+  .table th,
+  .table td {
+    padding: var(--space-3);
+
+    border-bottom: 1px solid var(--color-border);
+
+    text-align: left;
+    vertical-align: middle;
+  }
+
+  .table th {
+    background: var(--color-bg-secondary);
+
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+
+    white-space: nowrap;
+  }
+
+  .table td {
+    background: var(--color-surface);
+  }
+
+  .table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .table tbody tr:hover td {
+    background: var(--color-surface-hover);
+  }
+
+  .actionsHeader {
+    position: sticky;
+    right: 0;
+    z-index: 2;
+
+    width: 96px;
+    min-width: 96px;
+
+    background: var(--color-bg-secondary);
+
+    text-align: center !important;
+  }
+
+  .actionsCell {
+    position: sticky;
+    right: 0;
+    z-index: 1;
+
+    width: 96px;
+    min-width: 96px;
+
+    background: var(--color-surface);
+
+    text-align: center !important;
+    white-space: nowrap;
+
+    box-shadow: -1px 0 0 var(--color-border);
+  }
+
+  .table tbody tr:hover .actionsCell {
+    background: var(--color-surface-hover);
+  }
+}

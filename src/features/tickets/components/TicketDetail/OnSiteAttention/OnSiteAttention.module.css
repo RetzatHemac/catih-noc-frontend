@@ -1,0 +1,167 @@
+.container {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+.infoField,
+.providerField {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--space-2);
+
+  padding: var(--space-4);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  background: var(--color-bg-secondary);
+}
+
+.fieldHeading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+
+  color: var(--color-text-secondary);
+}
+
+.fieldHeading svg {
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+
+.label {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.value {
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  overflow-wrap: anywhere;
+}
+
+.providerControl {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: var(--space-2);
+}
+
+.unassignButton {
+  flex-shrink: 0;
+  margin-bottom: 4px;
+  color: var(--color-danger);
+}
+
+.personnelSection {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--space-3);
+
+  padding-top: var(--space-5);
+
+  border-top: 1px solid var(--color-border);
+}
+
+.personnelHeading {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.personnelHeading > svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--color-primary);
+}
+
+.personnelHeading > div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.personnelCount {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.personnelList {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2);
+}
+
+.person {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: var(--space-2);
+
+  padding: var(--space-3);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  background: var(--color-surface);
+
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+}
+
+.person svg {
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+}
+
+.empty {
+  padding: var(--space-4);
+
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .providerField {
+    grid-column: 1 / -1;
+  }
+
+  .personnelList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .providerField {
+    grid-column: auto;
+  }
+
+  .personnelList {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

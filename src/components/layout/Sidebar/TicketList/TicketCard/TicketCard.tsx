@@ -1,7 +1,8 @@
 import { Clock3, Timer } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 import { TICKET_STATUS_CONFIG } from "../../../../../features/tickets/config/ticketStatus";
-import type { Ticket } from "../../../../../features/tickets/types/ticket";
+import type { Ticket } from "../../../../../features/tickets/types/tickets.types";
 
 import styles from "./TicketCard.module.css";
 
@@ -12,7 +13,13 @@ interface TicketCardProps {
 }
 
 export function TicketCard({ ticket, selected, onSelect }: TicketCardProps) {
+  const navigate = useNavigate();
   const status = TICKET_STATUS_CONFIG[ticket.status];
+
+  const handleClick = () => {
+    onSelect(ticket);
+    navigate(`/tickets/${ticket.id}`);
+  };
 
   return (
     <button
@@ -24,7 +31,7 @@ export function TicketCard({ ticket, selected, onSelect }: TicketCardProps) {
           "--ticket-status-soft": status.softColor,
         } as React.CSSProperties
       }
-      onClick={() => onSelect(ticket)}
+      onClick={handleClick}
     >
       <div className={styles.topRow}>
         <div className={styles.identifier}>
