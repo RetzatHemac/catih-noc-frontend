@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
+import { useAuth } from "../../../../auth";
 
 import { CopyAuxiliaryTextModal } from "./CopyAuxiliaryTextModal/CopyAuxiliaryTextModal";
 import type {
@@ -18,6 +20,9 @@ import { RelatedTickets } from "./RelatedTickets/RelatedTickets";
 import { ReplacedEquipmentTable } from "./ReplacedEquipmentTable/ReplacedEquipmentTable";
 import { IntervenedEquipmentTable } from "./IntervenedEquipmentTable/IntervenedEquipmentTable";
 import { MaterialsTable } from "./MaterialsTable/MaterialsTable";
+import { StatusMessage } from "../../../../components/ui/StatusMessage/StatusMessage";
+import { getTicketDetailCapabilities } from "../../policies/ticketAccess";
+import { useTicketWorkspace } from "../../context/useTicketWorkspace";
 
 import {
   GeneralInformation,
@@ -28,25 +33,48 @@ import { TicketDetailHeader } from "./TicketDetailHeader/TicketDetailHeader";
 
 import styles from "./TicketDetail.module.css";
 
-interface TicketDetailProps {
-  ticket: TicketDetailType;
-}
-
-export function TicketDetail({ ticket }: TicketDetailProps) {
-  const [currentTicket, setCurrentTicket] = useState<TicketDetailType>(ticket);
+export function TicketDetail() {
+  const { user } = useAuth();
+  const {
+    ticket: currentTicket,
+    updateTicket: setCurrentTicket,
+    feedback,
+    setFeedback,
+  } = useTicketWorkspace();
   const [isAuxiliaryTextOpen, setAuxiliaryTextOpen] = useState(false);
   type ImageGroupKey = keyof TicketDetailType["imageGroups"];
 
-  useEffect(() => {
-    setCurrentTicket(ticket);
-  }, [ticket]);
+  if (!currentTicket) {
+    return null;
+  }
+
+  const ticketIdentifier = currentTicket.identifier;
+  const capabilities = getTicketDetailCapabilities(user, currentTicket.status);
 
   function handleStartTicket() {
-    console.log("Iniciar ticket:", currentTicket.id);
+    setCurrentTicket((current) => ({
+      ...current,
+      status: "EN_PROCESO",
+    }));
+    setFeedback({
+      message: `El ticket ${ticketIdentifier} se inició correctamente en el mock.`,
+      tone: "success",
+    });
   }
 
   function handleDeleteTicket() {
-    console.log("Eliminar ticket:", currentTicket.id);
+    const shouldDelete = window.confirm(
+      `¿Deseas eliminar el ticket ${ticketIdentifier}?`,
+    );
+
+    if (!shouldDelete) {
+      return;
+    }
+
+    setFeedback({
+      message: `La eliminación de ${ticketIdentifier} se simuló correctamente.`,
+      tone: "success",
+    });
   }
 
   function handleCloseOnsiteSla(slaKey: "first" | "second") {
@@ -198,11 +226,23 @@ export function TicketDetail({ ticket }: TicketDetailProps) {
     });
   }
 
-  function handleEditRemoteActivity(activityId: string, message: string) {
+  function handleDescriptionUpdate(description: string) {
+    setCurrentTicket((current) => ({ ...current, description }));
+    setFeedback({
+      message: "La descripción se actualizó correctamente.",
+      tone: "success",
+    });
+  }
+
+  function handleEditActivity(
+    group: "remoteActivities" | "onsiteActivities",
+    activityId: string,
+    message: string,
+  ) {
     setCurrentTicket((current) => ({
       ...current,
 
-      remoteActivities: current.remoteActivities.map((activity) =>
+      [group]: current[group].map((activity) =>
         activity.id === activityId
           ? {
               ...activity,
@@ -213,17 +253,30 @@ export function TicketDetail({ ticket }: TicketDetailProps) {
     }));
   }
 
-  function handleDeleteRemoteActivity(activityId: string) {
+  function handleDeleteActivity(
+    group: "remoteActivities" | "onsiteActivities",
+    activityId: string,
+  ) {
+    if (!window.confirm("¿Deseas eliminar esta actividad?")) {
+      return;
+    }
+
     setCurrentTicket((current) => ({
       ...current,
 
-      remoteActivities: current.remoteActivities.filter(
-        (activity) => activity.id !== activityId,
-      ),
+      [group]: current[group].filter((activity) => activity.id !== activityId),
     }));
+    setFeedback({
+      message: "La actividad remota se eliminó correctamente.",
+      tone: "success",
+    });
   }
 
   function handleDeleteImage(group: ImageGroupKey, imageId: string) {
+    if (!window.confirm("¿Deseas eliminar esta imagen?")) {
+      return;
+    }
+
     setCurrentTicket((current) => ({
       ...current,
 
@@ -235,15 +288,24 @@ export function TicketDetail({ ticket }: TicketDetailProps) {
         ),
       },
     }));
+    setFeedback({
+      message: "La imagen se eliminó correctamente.",
+      tone: "success",
+    });
   }
 
   function handleEditReplacedEquipment(equipment: ReplacedEquipment) {
-    console.log("Editar equipo reemplazado:", equipment);
-
-    // Después abrimos modal de edición.
+    setFeedback({
+      message: `La edición del equipo ${equipment.damagedSerial} está preparada para conectarse al formulario correspondiente.`,
+      tone: "info",
+    });
   }
 
   function handleDeleteReplacedEquipment(equipmentId: string) {
+    if (!window.confirm("¿Deseas eliminar este equipo reemplazado?")) {
+      return;
+    }
+
     setCurrentTicket((current) => ({
       ...current,
 
@@ -251,9 +313,17 @@ export function TicketDetail({ ticket }: TicketDetailProps) {
         (equipment) => equipment.id !== equipmentId,
       ),
     }));
+    setFeedback({
+      message: "El equipo reemplazado se eliminó correctamente.",
+      tone: "success",
+    });
   }
 
   function handleDeleteIntervenedEquipment(equipmentId: string) {
+    if (!window.confirm("¿Deseas eliminar este equipo intervenido?")) {
+      return;
+    }
+
     setCurrentTicket((current) => ({
       ...current,
 
@@ -261,6 +331,10 @@ export function TicketDetail({ ticket }: TicketDetailProps) {
         (equipment) => equipment.id !== equipmentId,
       ),
     }));
+    setFeedback({
+      message: "El equipo intervenido se eliminó correctamente.",
+      tone: "success",
+    });
   }
 
   function handleMaterialReviewChange(materialId: string, reviewed: boolean) {
@@ -283,14 +357,26 @@ export function TicketDetail({ ticket }: TicketDetailProps) {
       <TicketDetailHeader
         ticket={currentTicket}
         onCopyAuxiliaryText={() => setAuxiliaryTextOpen(true)}
+        canStartTicket={capabilities.canStartTicket}
+        canDeleteTicket={capabilities.canDeleteTicket}
         onStartTicket={handleStartTicket}
         onDeleteTicket={handleDeleteTicket}
       />
+
+      {feedback && (
+        <StatusMessage tone={feedback.tone}>{feedback.message}</StatusMessage>
+      )}
 
       <CopyAuxiliaryTextModal
         open={isAuxiliaryTextOpen}
         ticket={currentTicket}
         onClose={() => setAuxiliaryTextOpen(false)}
+        onCopied={() =>
+          setFeedback({
+            message: "La información auxiliar se copió al portapapeles.",
+            tone: "success",
+          })
+        }
       />
 
       <div className={styles.sections}>
@@ -298,16 +384,25 @@ export function TicketDetail({ ticket }: TicketDetailProps) {
           <GeneralInformation
             ticket={currentTicket}
             onUpdate={handleGeneralInformationUpdate}
+            canEditTicket={capabilities.canEditTicket}
+            canEditSite={capabilities.canEditSite}
+            canChangeSiteAddress={capabilities.canChangeSiteAddress}
           />
         </DetailSection>
 
         <DetailSection title="Descripción">
-          <DescriptionSection description={currentTicket.description} />
+          <DescriptionSection
+            description={currentTicket.description}
+            editable={capabilities.canEditTicket}
+            onSave={handleDescriptionUpdate}
+          />
         </DetailSection>
 
-        <DetailSection title="Imagen del problema">
-          <ProblemImages images={currentTicket.problemImages} />
-        </DetailSection>
+        {capabilities.canViewImages && (
+          <DetailSection title="Imagen del problema">
+            <ProblemImages images={currentTicket.problemImages} />
+          </DetailSection>
+        )}
 
         <DetailSection title="Ubicación del sitio">
           <SiteLocation location={currentTicket.location} />
@@ -332,6 +427,7 @@ export function TicketDetail({ ticket }: TicketDetailProps) {
             data={currentTicket.onsiteAttention}
             onUpdateProvider={handleProviderUpdate}
             onUnassignProvider={handleUnassignProvider}
+            canAssignProvider={capabilities.canAssignProvider}
           />
         </DetailSection>
 
@@ -349,76 +445,137 @@ export function TicketDetail({ ticket }: TicketDetailProps) {
           />
         </DetailSection>
 
-        <DetailSection title="Actividades remoto">
+        <DetailSection title="Actividad remoto">
           <ActivityList
             items={currentTicket.remoteActivities}
             emptyLabel="Sin actividades remotas"
             showPerson
-            editable
-            onEdit={handleEditRemoteActivity}
-            onDelete={handleDeleteRemoteActivity}
-          />
-        </DetailSection>
-
-        <DetailSection title="Imágenes antes de reemplazos">
-          <ImageGallery
-            images={currentTicket.imageGroups.beforeReplacement}
-            emptyLabel="Sin imágenes antes de reemplazos"
-            editable
-            onDelete={(imageId) =>
-              handleDeleteImage("beforeReplacement", imageId)
+            editable={capabilities.canReportActivities}
+            onEdit={
+              capabilities.canReportActivities
+                ? (activityId, message) =>
+                    handleEditActivity("remoteActivities", activityId, message)
+                : undefined
+            }
+            onDelete={
+              capabilities.canDeleteObjects
+                ? (activityId) =>
+                    handleDeleteActivity("remoteActivities", activityId)
+                : undefined
             }
           />
         </DetailSection>
 
-        <DetailSection title="Imágenes después de reemplazos">
-          <ImageGallery
-            images={currentTicket.imageGroups.afterReplacement}
-            emptyLabel="Sin imágenes después de reemplazos"
-            editable
-            onDelete={(imageId) =>
-              handleDeleteImage("afterReplacement", imageId)
+        <DetailSection title="Actividad en sitio">
+          <ActivityList
+            items={currentTicket.onsiteActivities}
+            emptyLabel="Sin actividades en sitio"
+            showPerson
+            editable={capabilities.canReportActivities}
+            onEdit={
+              capabilities.canReportActivities
+                ? (activityId, message) =>
+                    handleEditActivity("onsiteActivities", activityId, message)
+                : undefined
+            }
+            onDelete={
+              capabilities.canDeleteObjects
+                ? (activityId) =>
+                    handleDeleteActivity("onsiteActivities", activityId)
+                : undefined
             }
           />
         </DetailSection>
 
-        <DetailSection title="Imágenes antes actual">
-          <ImageGallery
-            images={currentTicket.imageGroups.beforeCurrent}
-            emptyLabel="Sin imágenes antes actual"
-            editable
-            onDelete={(imageId) => handleDeleteImage("beforeCurrent", imageId)}
-          />
-        </DetailSection>
+        {capabilities.canViewImages && (
+          <>
+            <DetailSection title="Imágenes antes de reemplazos">
+              <ImageGallery
+                images={currentTicket.imageGroups.beforeReplacement}
+                emptyLabel="Sin imágenes antes de reemplazos"
+                editable={capabilities.canDeleteObjects}
+                onDelete={
+                  capabilities.canDeleteObjects
+                    ? (imageId) =>
+                        handleDeleteImage("beforeReplacement", imageId)
+                    : undefined
+                }
+              />
+            </DetailSection>
 
-        <DetailSection title="Imágenes después actual">
-          <ImageGallery
-            images={currentTicket.imageGroups.afterCurrent}
-            emptyLabel="Sin imágenes después actual"
-            editable
-            onDelete={(imageId) => handleDeleteImage("afterCurrent", imageId)}
-          />
-        </DetailSection>
+            <DetailSection title="Imágenes después de reemplazos">
+              <ImageGallery
+                images={currentTicket.imageGroups.afterReplacement}
+                emptyLabel="Sin imágenes después de reemplazos"
+                editable={capabilities.canDeleteObjects}
+                onDelete={
+                  capabilities.canDeleteObjects
+                    ? (imageId) =>
+                        handleDeleteImage("afterReplacement", imageId)
+                    : undefined
+                }
+              />
+            </DetailSection>
 
-        <DetailSection title="Imágenes general hallazgo">
-          <ImageGallery
-            images={currentTicket.imageGroups.generalFinding}
-            emptyLabel="Sin imágenes de hallazgo general"
-            editable
-            onDelete={(imageId) => handleDeleteImage("generalFinding", imageId)}
-          />
-        </DetailSection>
+            <DetailSection title="Imágenes antes actual">
+              <ImageGallery
+                images={currentTicket.imageGroups.beforeCurrent}
+                emptyLabel="Sin imágenes antes actual"
+                editable={capabilities.canDeleteObjects}
+                onDelete={
+                  capabilities.canDeleteObjects
+                    ? (imageId) => handleDeleteImage("beforeCurrent", imageId)
+                    : undefined
+                }
+              />
+            </DetailSection>
 
-        <DetailSection title="Imágenes acercamiento hallazgo">
-          <ImageGallery
-            images={currentTicket.imageGroups.closeFinding}
-            emptyLabel="Sin imágenes de acercamiento de hallazgo"
-            editable
-            onDelete={(imageId) => handleDeleteImage("closeFinding", imageId)}
-          />
-        </DetailSection>
+            <DetailSection title="Imágenes después actual">
+              <ImageGallery
+                images={currentTicket.imageGroups.afterCurrent}
+                emptyLabel="Sin imágenes después actual"
+                editable={capabilities.canDeleteObjects}
+                onDelete={
+                  capabilities.canDeleteObjects
+                    ? (imageId) => handleDeleteImage("afterCurrent", imageId)
+                    : undefined
+                }
+              />
+            </DetailSection>
 
-        <DetailSection title="Tickets relacionados">
+            <DetailSection title="Imágenes general hallazgo">
+              <ImageGallery
+                images={currentTicket.imageGroups.generalFinding}
+                emptyLabel="Sin imágenes de hallazgo general"
+                editable={capabilities.canDeleteObjects}
+                onDelete={
+                  capabilities.canDeleteObjects
+                    ? (imageId) => handleDeleteImage("generalFinding", imageId)
+                    : undefined
+                }
+              />
+            </DetailSection>
+
+            <DetailSection title="Imágenes acercamiento hallazgo">
+              <ImageGallery
+                images={currentTicket.imageGroups.closeFinding}
+                emptyLabel="Sin imágenes de acercamiento de hallazgo"
+                editable={capabilities.canDeleteObjects}
+                onDelete={
+                  capabilities.canDeleteObjects
+                    ? (imageId) => handleDeleteImage("closeFinding", imageId)
+                    : undefined
+                }
+              />
+            </DetailSection>
+          </>
+        )}
+
+        <DetailSection
+          title="Tickets relacionados"
+          collapsible
+          defaultOpen={false}
+        >
           <RelatedTickets tickets={currentTicket.relatedTickets} />
         </DetailSection>
 
@@ -429,8 +586,16 @@ export function TicketDetail({ ticket }: TicketDetailProps) {
         >
           <ReplacedEquipmentTable
             equipment={currentTicket.replacedEquipment}
-            onEdit={handleEditReplacedEquipment}
-            onDelete={handleDeleteReplacedEquipment}
+            onEdit={
+              capabilities.canReportReplacements
+                ? handleEditReplacedEquipment
+                : undefined
+            }
+            onDelete={
+              capabilities.canDeleteObjects
+                ? handleDeleteReplacedEquipment
+                : undefined
+            }
           />
         </DetailSection>
 
@@ -441,16 +606,23 @@ export function TicketDetail({ ticket }: TicketDetailProps) {
         >
           <IntervenedEquipmentTable
             equipment={currentTicket.intervenedEquipment}
-            onDelete={handleDeleteIntervenedEquipment}
+            onDelete={
+              capabilities.canDeleteObjects
+                ? handleDeleteIntervenedEquipment
+                : undefined
+            }
           />
         </DetailSection>
 
-        <DetailSection title="Materiales" collapsible defaultOpen={false}>
-          <MaterialsTable
-            materials={currentTicket.materials}
-            onReviewChange={handleMaterialReviewChange}
-          />
-        </DetailSection>
+        {capabilities.canViewMaterials && (
+          <DetailSection title="Materiales" collapsible defaultOpen={false}>
+            <MaterialsTable
+              materials={currentTicket.materials}
+              onReviewChange={handleMaterialReviewChange}
+              canValidate={capabilities.canValidateMaterials}
+            />
+          </DetailSection>
+        )}
       </div>
     </section>
   );

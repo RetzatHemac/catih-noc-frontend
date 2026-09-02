@@ -1,5 +1,7 @@
 import { Check, Pencil, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
+import type { ReactNode } from "react";
 
 import { Button } from "../../ui/Button/Button";
 import { Input } from "../../ui/Input/Input";
@@ -17,50 +19,43 @@ interface EditableFieldBaseProps {
   value?: string | number | null;
   editable?: boolean;
   emptyLabel?: string;
+  displayValue?: ReactNode;
   onSave?: (value: string) => void;
 }
 
-interface EditableFieldInputProps
-  extends EditableFieldBaseProps {
+interface EditableFieldInputProps extends EditableFieldBaseProps {
   control?: "text" | "number" | "datetime-local";
   options?: never;
 }
 
-interface EditableFieldSelectProps
-  extends EditableFieldBaseProps {
+interface EditableFieldSelectProps extends EditableFieldBaseProps {
   control: "select";
   options: EditableFieldOption[];
 }
 
-type EditableFieldProps =
-  | EditableFieldInputProps
-  | EditableFieldSelectProps;
+type EditableFieldProps = EditableFieldInputProps | EditableFieldSelectProps;
 
 export function EditableField({
   label,
   value,
   editable = false,
   emptyLabel = "Sin información",
+  displayValue,
   onSave,
   ...props
 }: EditableFieldProps) {
   const stringValue =
-    value === null || value === undefined
-      ? ""
-      : String(value);
+    value === null || value === undefined ? "" : String(value);
 
   const [isEditing, setIsEditing] = useState(false);
-  const [draftValue, setDraftValue] =
-    useState(stringValue);
-
-  useEffect(() => {
-    if (!isEditing) {
-      setDraftValue(stringValue);
-    }
-  }, [stringValue, isEditing]);
+  const [draftValue, setDraftValue] = useState(stringValue);
 
   function handleEdit() {
-    setDraftValue(stringValue);
+    setDraftValue(
+      props.control === "datetime-local"
+        ? stringValue.replace(" ", "T")
+        : stringValue,
+    );
     setIsEditing(true);
   }
 
@@ -79,10 +74,12 @@ export function EditableField({
       return emptyLabel;
     }
 
+    if (displayValue !== undefined) {
+      return displayValue;
+    }
+
     if (props.control === "select") {
-      const option = props.options.find(
-        (item) => item.value === stringValue,
-      );
+      const option = props.options.find((item) => item.value === stringValue);
 
       return option?.label ?? stringValue;
     }
@@ -92,28 +89,24 @@ export function EditableField({
 
   return (
     <div className={styles.field}>
-      <span className={styles.label}>
-        {label}
-      </span>
+      <span className={styles.label}>{label}</span>
 
       {isEditing ? (
         <div className={styles.editRow}>
           <div className={styles.control}>
             {props.control === "select" ? (
               <Select
+                aria-label={label}
                 value={draftValue}
                 options={props.options}
-                onChange={(event) =>
-                  setDraftValue(event.target.value)
-                }
+                onChange={(event) => setDraftValue(event.target.value)}
               />
             ) : (
               <Input
+                aria-label={label}
                 type={props.control ?? "text"}
                 value={draftValue}
-                onChange={(event) =>
-                  setDraftValue(event.target.value)
-                }
+                onChange={(event) => setDraftValue(event.target.value)}
               />
             )}
           </div>
@@ -127,10 +120,7 @@ export function EditableField({
               aria-label={`Guardar ${label}`}
               title="Guardar"
             >
-              <Check
-                size={16}
-                aria-hidden="true"
-              />
+              <Check size={16} aria-hidden="true" />
             </Button>
 
             <Button
@@ -141,19 +131,14 @@ export function EditableField({
               aria-label={`Cancelar edición de ${label}`}
               title="Cancelar"
             >
-              <X
-                size={16}
-                aria-hidden="true"
-              />
+              <X size={16} aria-hidden="true" />
             </Button>
           </div>
         </div>
       ) : (
         <div className={styles.valueRow}>
           <span
-            className={`${styles.value} ${
-              !stringValue ? styles.empty : ""
-            }`}
+            className={`${styles.value} ${!stringValue ? styles.empty : ""}`}
           >
             {getDisplayValue()}
           </span>
@@ -168,10 +153,7 @@ export function EditableField({
               aria-label={`Editar ${label}`}
               title={`Editar ${label}`}
             >
-              <Pencil
-                size={15}
-                aria-hidden="true"
-              />
+              <Pencil size={15} aria-hidden="true" />
             </Button>
           )}
         </div>

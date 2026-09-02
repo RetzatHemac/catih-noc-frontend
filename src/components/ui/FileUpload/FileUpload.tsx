@@ -5,6 +5,7 @@ import { FileImage, Trash2, Upload } from "lucide-react";
 import styles from "./FileUpload.module.css";
 
 interface FileUploadProps {
+  inputId?: string;
   value: File[];
   onChange: (files: File[]) => void;
   accept?: string;
@@ -12,9 +13,12 @@ interface FileUploadProps {
   maxFiles?: number;
   maxSize?: number;
   disabled?: boolean;
+  label?: string;
+  helperText?: string;
 }
 
 export function FileUpload({
+  inputId,
   value,
   onChange,
   accept = "image/png,image/jpeg,image/webp",
@@ -22,6 +26,8 @@ export function FileUpload({
   maxFiles = 1,
   maxSize = 5 * 1024 * 1024,
   disabled = false,
+  label,
+  helperText,
 }: FileUploadProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -53,6 +59,7 @@ export function FileUpload({
     <div className={styles.container}>
       <input
         ref={inputRef}
+        id={inputId}
         type="file"
         accept={accept}
         multiple={multiple}
@@ -69,9 +76,11 @@ export function FileUpload({
       >
         <Upload size={20} aria-hidden="true" />
 
-        <span>{multiple ? "Seleccionar archivos" : "Seleccionar imagen"}</span>
+        <span>
+          {label ?? (multiple ? "Seleccionar archivos" : "Seleccionar imagen")}
+        </span>
 
-        <small>PNG, JPG o WEBP · Máximo 5 MB</small>
+        <small>{helperText ?? "PNG, JPG o WEBP · Máximo 5 MB"}</small>
       </button>
 
       {value.length > 0 && (

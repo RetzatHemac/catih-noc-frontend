@@ -164,6 +164,7 @@ export function CreateTicketForm({
                 value={formData.projectId}
                 options={projectOptions}
                 aria-invalid={!!errors.projectId}
+                aria-describedby={errors.projectId ? "ticket-project-message" : undefined}
                 onChange={(event) => handleProjectChange(event.target.value)}
               />
             </FormField>
@@ -181,6 +182,7 @@ export function CreateTicketForm({
                   options={availableSites}
                   disabled={!formData.projectId}
                   aria-invalid={!!errors.siteId}
+                  aria-describedby={errors.siteId ? "ticket-site-message" : undefined}
                   onChange={(event) =>
                     updateField("siteId", event.target.value)
                   }
@@ -209,6 +211,7 @@ export function CreateTicketForm({
                 value={formData.categoryId}
                 options={categoryOptions}
                 aria-invalid={!!errors.categoryId}
+                aria-describedby={errors.categoryId ? "ticket-category-message" : undefined}
                 onChange={(event) =>
                   updateField("categoryId", event.target.value)
                 }
@@ -226,6 +229,7 @@ export function CreateTicketForm({
                 value={formData.ticketTypeId}
                 options={ticketTypeOptions}
                 aria-invalid={!!errors.ticketTypeId}
+                aria-describedby={errors.ticketTypeId ? "ticket-type-message" : undefined}
                 onChange={(event) =>
                   updateField("ticketTypeId", event.target.value)
                 }
@@ -243,6 +247,7 @@ export function CreateTicketForm({
                 value={formData.classificationId}
                 options={classificationOptions}
                 aria-invalid={!!errors.classificationId}
+                aria-describedby={errors.classificationId ? "ticket-classification-message" : undefined}
                 onChange={(event) =>
                   updateField("classificationId", event.target.value)
                 }
@@ -263,6 +268,7 @@ export function CreateTicketForm({
                     value={formData.description}
                     placeholder="Describe el problema..."
                     aria-invalid={!!errors.description}
+                    aria-describedby="ticket-description-message"
                     onChange={(event) =>
                       updateField("description", event.target.value)
                     }

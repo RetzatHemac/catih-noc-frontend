@@ -19,6 +19,8 @@ export function FormField({
   helperText,
   children,
 }: FormFieldProps) {
+  const messageId = htmlFor ? `${htmlFor}-message` : undefined;
+
   return (
     <div className={styles.field}>
       <label htmlFor={htmlFor} className={styles.label}>
@@ -34,11 +36,11 @@ export function FormField({
       {children}
 
       {error ? (
-        <span className={styles.error} role="alert">
+        <span id={messageId} className={styles.error} role="alert">
           {error}
         </span>
       ) : helperText ? (
-        <span className={styles.helper}>{helperText}</span>
+        <span id={messageId} className={styles.helper}>{helperText}</span>
       ) : null}
     </div>
   );

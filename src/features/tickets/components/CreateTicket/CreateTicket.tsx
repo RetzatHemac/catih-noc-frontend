@@ -1,4 +1,7 @@
-import { useNavigation } from "../../../../app/providers/NavigationProvider";
+import { useState } from "react";
+
+import { useNavigation } from "../../../../app/hooks/useNavigation";
+import { StatusMessage } from "../../../../components/ui/StatusMessage/StatusMessage";
 
 import { CreateTicketForm } from "./CreateTicketForm";
 
@@ -10,13 +13,15 @@ import styles from "./CreateTicket.module.css";
 
 export function CreateTicket() {
   const { goToPreviousView } = useNavigation();
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   function handleSubmit(data: CreateTicketFormData) {
-    console.log("Ticket listo para enviar:", data);
+    setSuccessMessage(
+      `El ticket mock para el sitio ${data.siteId} quedó listo para enviarse.`,
+    );
   }
 
   function handleCancel() {
-    console.log("Creación cancelada");
     goToPreviousView();
   }
 
@@ -26,6 +31,10 @@ export function CreateTicket() {
         title="Datos del ticket"
         description="Completa la información necesaria para registrar el ticket."
       />
+
+      {successMessage && (
+        <StatusMessage tone="success">{successMessage}</StatusMessage>
+      )}
 
       <CreateTicketForm onSubmit={handleSubmit} onCancel={handleCancel} />
     </section>

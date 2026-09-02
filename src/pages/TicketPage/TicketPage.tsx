@@ -1,6 +1,6 @@
 import styles from "./TicketPage.module.css";
 
-import { useTheme } from "../../app/providers/ThemeProvider";
+import { useTheme } from "../../app/hooks/useTheme";
 
 export function TicketPage() {
   const { theme, toggleTheme } = useTheme();

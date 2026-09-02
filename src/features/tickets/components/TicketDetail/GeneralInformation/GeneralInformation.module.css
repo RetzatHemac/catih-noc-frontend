@@ -1,17 +1,95 @@
-.grid {
+.groups {
   display: grid;
-  grid-template-columns: 1fr;
   gap: var(--space-4);
 }
 
+.group {
+  min-width: 0;
+  padding: var(--space-4);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-xs);
+}
+
+.groupTitle {
+  margin: 0 0 var(--space-4);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.02em;
+}
+
+.groupGrid {
+  display: grid;
+  min-width: 0;
+  gap: var(--space-3) var(--space-4);
+}
+
+.wideField {
+  min-width: 0;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  padding: 3px var(--space-2);
+  border-radius: var(--radius-full);
+  background: var(--status-default-soft);
+  color: var(--status-default);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.status[data-status="CREADO"] {
+  background: var(--status-created-soft);
+  color: var(--status-created);
+}
+
+.status[data-status="ASIGNADO"] {
+  background: var(--status-assigned-soft);
+  color: var(--status-assigned);
+}
+
+.status[data-status="EN_PROCESO"] {
+  background: var(--status-in-progress-soft);
+  color: var(--status-in-progress);
+}
+
+.status[data-status="PAUSADO"] {
+  background: var(--status-paused-soft);
+  color: var(--status-paused);
+}
+
+.status[data-status="CERRADO"] {
+  background: var(--status-closed-soft);
+  color: var(--status-closed);
+}
+
+.status[data-status="COTIZACION"] {
+  background: var(--status-quotation-soft);
+  color: var(--status-quotation);
+}
+
+.status[data-status="RESUELTO"] {
+  background: var(--status-resolved-soft);
+  color: var(--status-resolved);
+}
+
 @media (min-width: 640px) {
-  .grid {
+  .groupGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .wideField {
+    grid-column: 1 / -1;
   }
 }
 
-@media (min-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+@media (min-width: 1280px) {
+  .groups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

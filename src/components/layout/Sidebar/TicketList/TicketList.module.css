@@ -41,6 +41,11 @@
   font-size: var(--font-size-xs);
 }
 
+.total {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
+
 .cards {
   display: flex;
   width: 100%;
@@ -53,4 +58,25 @@
   overflow-x: hidden;
   padding: var(--space-3);
   scrollbar-gutter: stable;
+}
+
+.empty {
+  display: grid;
+  min-height: 160px;
+  place-content: center;
+  gap: var(--space-1);
+  padding: var(--space-6);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.empty strong {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.empty span {
+  max-width: 240px;
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-normal);
 }

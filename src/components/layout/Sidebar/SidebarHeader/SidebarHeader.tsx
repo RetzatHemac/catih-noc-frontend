@@ -4,7 +4,15 @@ import styles from "./SidebarHeader.module.css";
 
 import { useNavigate } from "react-router-dom";
 
-export function SidebarHeader() {
+interface SidebarHeaderProps {
+  searchQuery: string;
+  onSearchQueryChange: (query: string) => void;
+}
+
+export function SidebarHeader({
+  searchQuery,
+  onSearchQueryChange,
+}: SidebarHeaderProps) {
   const navigate = useNavigate();
 
   function handleCreateTicket() {
@@ -27,6 +35,8 @@ export function SidebarHeader() {
 
           <input
             type="search"
+            value={searchQuery}
+            onChange={(event) => onSearchQueryChange(event.target.value)}
             placeholder="Buscar ticket..."
             aria-label="Buscar ticket"
           />

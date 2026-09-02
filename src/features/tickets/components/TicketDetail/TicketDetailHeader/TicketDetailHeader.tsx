@@ -9,6 +9,8 @@ import styles from "./TicketDetailHeader.module.css";
 export interface TicketDetailHeaderProps {
   ticket: TicketDetail;
   onCopyAuxiliaryText: () => void;
+  canStartTicket?: boolean;
+  canDeleteTicket?: boolean;
   onStartTicket?: () => void;
   onDeleteTicket?: () => void;
 }
@@ -16,11 +18,11 @@ export interface TicketDetailHeaderProps {
 export function TicketDetailHeader({
   ticket,
   onCopyAuxiliaryText,
+  canStartTicket = false,
+  canDeleteTicket = false,
   onStartTicket,
   onDeleteTicket,
 }: TicketDetailHeaderProps) {
-  const canStartTicket = ticket.status === "ASIGNADO";
-
   return (
     <header className={styles.header}>
       <div className={styles.main}>
@@ -40,7 +42,6 @@ export function TicketDetailHeader({
 
             <span>{ticket.category}</span>
           </h2>
-
           <Button
             type="button"
             variant="ghost"
@@ -55,24 +56,27 @@ export function TicketDetailHeader({
         </div>
 
         <div className={styles.actions}>
-          <Button
-            type="button"
-            variant="secondary"
-            size="sm"
-            className={styles.ticketTypeButton}
-            onClick={onDeleteTicket}
-            aria-label={`${ticket.ticketType} - Eliminar ticket`}
-            title="Eliminar ticket"
-          >
-            <span>{ticket.ticketType}</span>
-            <Trash2 size={16} aria-hidden="true" />
-          </Button>
+          {canDeleteTicket && onDeleteTicket && (
+            <Button
+              type="button"
+              variant="secondary"
+              size="sm"
+              className={styles.ticketTypeButton}
+              onClick={onDeleteTicket}
+              aria-label={`${ticket.ticketType} - Eliminar ticket`}
+              title="Eliminar ticket"
+            >
+              <span>{ticket.ticketType}</span>
+              <Trash2 size={16} aria-hidden="true" />
+            </Button>
+          )}
 
-          {canStartTicket && (
+          {canStartTicket && onStartTicket && (
             <Button
               type="button"
               variant="primary"
               size="sm"
+              className={styles.startButton}
               onClick={onStartTicket}
             >
               <Play size={16} aria-hidden="true" />

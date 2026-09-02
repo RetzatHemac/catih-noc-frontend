@@ -13,7 +13,7 @@ import styles from "./IntervenedEquipmentTable.module.css";
 
 interface IntervenedEquipmentTableProps {
   equipment: IntervenedEquipment[];
-  onDelete: (equipmentId: string) => void;
+  onDelete?: (equipmentId: string) => void;
 }
 
 const columns: DataTableColumn<IntervenedEquipment>[] = [
@@ -52,19 +52,23 @@ export function IntervenedEquipmentTable({
       columns={columns}
       getRowId={(item) => item.id}
       emptyLabel="Sin equipos intervenidos"
-      actions={(item) => (
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          className={styles.deleteButton}
-          onClick={() => onDelete(item.id)}
-          aria-label="Eliminar equipo intervenido"
-          title="Eliminar"
-        >
-          <Trash2 size={16} aria-hidden="true" />
-        </Button>
-      )}
+      actions={
+        onDelete
+          ? (item) => (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className={styles.deleteButton}
+                onClick={() => onDelete(item.id)}
+                aria-label="Eliminar equipo intervenido"
+                title="Eliminar"
+              >
+                <Trash2 size={16} aria-hidden="true" />
+              </Button>
+            )
+          : undefined
+      }
     />
   );
 }

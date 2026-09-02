@@ -98,18 +98,20 @@ function ActivityCard({
           )}
         </div>
 
-        {editable && !isEditing && (
+        {(editable || onDelete) && !isEditing && (
           <div className={styles.actions}>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsEditing(true)}
-              aria-label="Editar comentario"
-              title="Editar"
-            >
-              <Pencil size={15} aria-hidden="true" />
-            </Button>
+            {editable && onEdit && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsEditing(true)}
+                aria-label="Editar comentario"
+                title="Editar"
+              >
+                <Pencil size={15} aria-hidden="true" />
+              </Button>
+            )}
 
             {onDelete && (
               <Button

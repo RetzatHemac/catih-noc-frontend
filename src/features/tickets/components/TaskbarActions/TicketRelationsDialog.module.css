@@ -1,0 +1,53 @@
+.groups {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+.group {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+.group summary {
+  cursor: pointer;
+  padding: var(--space-3);
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-semibold);
+}
+.group summary:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.group summary span {
+  color: var(--color-text-muted);
+  font-weight: var(--font-weight-regular);
+}
+.group ul {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0 var(--space-3) var(--space-3);
+  list-style: none;
+}
+.group li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-hover);
+}
+.group li span,
+.group p {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+.group p {
+  margin: 0;
+  padding: 0 var(--space-3) var(--space-3);
+}
+@media (min-width: 640px) {
+  .groups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

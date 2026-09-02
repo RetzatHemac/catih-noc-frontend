@@ -1,5 +1,4 @@
 import { Inbox, Wifi } from "lucide-react";
-import { useState } from "react";
 import { Boxes } from "lucide-react";
 
 import type { TicketQueue } from "../../../../features/tickets/types/tickets.types";
@@ -28,9 +27,15 @@ const queues: {
   },
 ];
 
-export function TicketQueues() {
-  const [selectedQueue, setSelectedQueue] = useState<TicketQueue>("general");
+interface TicketQueuesProps {
+  selectedQueue: TicketQueue;
+  onSelectQueue: (queue: TicketQueue) => void;
+}
 
+export function TicketQueues({
+  selectedQueue,
+  onSelectQueue,
+}: TicketQueuesProps) {
   return (
     <nav className={styles.queues} aria-label="Bandejas de tickets">
       {queues.map(({ id, label, icon: Icon }) => (
@@ -40,7 +45,7 @@ export function TicketQueues() {
           className={`${styles.queue} ${
             selectedQueue === id ? styles.active : ""
           }`}
-          onClick={() => setSelectedQueue(id)}
+          onClick={() => onSelectQueue(id)}
           aria-current={selectedQueue === id ? "page" : undefined}
         >
           <Icon size={17} aria-hidden="true" />

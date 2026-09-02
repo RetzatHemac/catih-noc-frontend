@@ -1,13 +1,18 @@
-import type { UserRole } from "./roles";
+import { ROLES } from "./roles";
 
-export interface MockUser {
-  id: string;
-  name: string;
-  role: UserRole;
-}
+import type { AuthUser } from "./user.types";
 
-export const mockUser: MockUser = {
-  id: "1",
-  name: "Administrador",
-  role: "admin",
+export const mockUser: AuthUser = {
+  id: "user-001",
+
+  name: "Usuario Demo",
+
+  email: "usuario.demo@hemac.com.mx",
+
+  role: ROLES.SUPER_ADMIN,
+
+  permissionOverrides: {
+    grant: [],
+    deny: [],
+  },
 };

@@ -5,13 +5,18 @@ import {
   UserRoundCheck,
 } from "lucide-react";
 
-import type { UserRole } from "../../../../auth/roles";
+import {
+  can,
+  PERMISSIONS,
+  type AuthUser,
+  type Permission,
+} from "../../../../auth";
 
 export interface FooterAction {
   id: string;
   label: string;
   icon: typeof ShieldCheck;
-  roles: UserRole[];
+  permission: Permission;
 }
 
 export const FOOTER_ACTIONS: FooterAction[] = [
@@ -19,22 +24,22 @@ export const FOOTER_ACTIONS: FooterAction[] = [
     id: "release-provider",
     label: "Liberar proveedor",
     icon: UserRoundCheck,
-    roles: ["admin", "supervisor"],
+    permission: PERMISSIONS.TICKET_PROVIDER_ASSIGN,
   },
   {
     id: "pending",
     label: "Pendientes",
     icon: PanelTop,
-    roles: ["admin", "supervisor", "agent"],
+    permission: PERMISSIONS.TICKET_TABLE_VIEW,
   },
   {
     id: "reports",
     label: "Reportes",
     icon: FileText,
-    roles: ["admin", "supervisor"],
+    permission: PERMISSIONS.DASHBOARD_GRAPH_VIEW,
   },
 ];
 
-export function canViewFooterAction(action: FooterAction, role: UserRole) {
-  return action.roles.includes(role);
+export function canViewFooterAction(action: FooterAction, user: AuthUser) {
+  return can(user, action.permission);
 }

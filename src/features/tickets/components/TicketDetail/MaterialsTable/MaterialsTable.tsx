@@ -9,6 +9,7 @@ import styles from "./MaterialsTable.module.css";
 
 interface MaterialsTableProps {
   materials: Material[];
+  canValidate?: boolean;
   onReviewChange: (materialId: string, reviewed: boolean) => void;
 }
 
@@ -57,6 +58,7 @@ const columns: DataTableColumn<Material>[] = [
 
 export function MaterialsTable({
   materials,
+  canValidate = false,
   onReviewChange,
 }: MaterialsTableProps) {
   const materialColumns: DataTableColumn<Material>[] = columns.map((column) => {
@@ -72,6 +74,7 @@ export function MaterialsTable({
           <input
             type="checkbox"
             checked={item.reviewed}
+            disabled={!canValidate}
             onChange={(event) => onReviewChange(item.id, event.target.checked)}
             aria-label={`Revisar ${item.material}`}
           />

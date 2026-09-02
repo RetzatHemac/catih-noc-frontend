@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { AuthProvider } from "../../auth";
 import { ThemeProvider } from "./ThemeProvider";
 
 interface AppProvidersProps {
@@ -7,5 +8,9 @@ interface AppProvidersProps {
 }
 
 export function AppProviders({ children }: AppProvidersProps) {
-  return <ThemeProvider>{children}</ThemeProvider>;
+  return (
+    <AuthProvider>
+      <ThemeProvider>{children}</ThemeProvider>
+    </AuthProvider>
+  );
 }

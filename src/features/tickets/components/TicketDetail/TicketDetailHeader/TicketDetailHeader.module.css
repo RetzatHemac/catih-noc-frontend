@@ -61,6 +61,10 @@
   color: var(--color-danger);
 }
 
+.startButton {
+  margin-left: auto;
+}
+
 @media (min-width: 640px) {
   .main {
     padding: var(--space-5) var(--space-5);

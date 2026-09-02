@@ -2,7 +2,7 @@ import { ArrowLeft, Ticket } from "lucide-react";
 
 import { useMatches } from "react-router-dom";
 
-import { useNavigation } from "../../../app/providers/NavigationProvider";
+import { useNavigation } from "../../../app/hooks/useNavigation";
 
 import type { DetailRouteHandle } from "../../../app/types/route.types";
 

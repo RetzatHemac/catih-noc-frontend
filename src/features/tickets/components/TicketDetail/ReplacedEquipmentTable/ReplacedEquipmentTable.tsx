@@ -13,8 +13,8 @@ import styles from "./ReplacedEquipmentTable.module.css";
 
 interface ReplacedEquipmentTableProps {
   equipment: ReplacedEquipment[];
-  onEdit: (equipment: ReplacedEquipment) => void;
-  onDelete: (equipmentId: string) => void;
+  onEdit?: (equipment: ReplacedEquipment) => void;
+  onDelete?: (equipmentId: string) => void;
 }
 
 const columns: DataTableColumn<ReplacedEquipment>[] = [
@@ -72,32 +72,40 @@ export function ReplacedEquipmentTable({
       columns={columns}
       getRowId={(item) => item.id}
       emptyLabel="Sin equipos reemplazados"
-      actions={(item) => (
-        <div className={styles.actions}>
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            onClick={() => onEdit(item)}
-            aria-label="Editar equipo reemplazado"
-            title="Editar"
-          >
-            <Pencil size={16} aria-hidden="true" />
-          </Button>
+      actions={
+        onEdit || onDelete
+          ? (item) => (
+              <div className={styles.actions}>
+                {onEdit && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => onEdit(item)}
+                    aria-label="Editar equipo reemplazado"
+                    title="Editar"
+                  >
+                    <Pencil size={16} aria-hidden="true" />
+                  </Button>
+                )}
 
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            className={styles.deleteButton}
-            onClick={() => onDelete(item.id)}
-            aria-label="Eliminar equipo reemplazado"
-            title="Eliminar"
-          >
-            <Trash2 size={16} aria-hidden="true" />
-          </Button>
-        </div>
-      )}
+                {onDelete && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className={styles.deleteButton}
+                    onClick={() => onDelete(item.id)}
+                    aria-label="Eliminar equipo reemplazado"
+                    title="Eliminar"
+                  >
+                    <Trash2 size={16} aria-hidden="true" />
+                  </Button>
+                )}
+              </div>
+            )
+          : undefined
+      }
     />
   );
 }

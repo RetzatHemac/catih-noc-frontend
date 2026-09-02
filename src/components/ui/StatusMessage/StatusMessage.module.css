@@ -1,0 +1,21 @@
+.message {
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width-thin) solid currentColor;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+}
+
+.success {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+
+.error {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+.info {
+  background: var(--color-info-soft);
+  color: var(--color-info);
+}

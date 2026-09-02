@@ -1,4 +1,23 @@
-import type { TicketDetail } from "../types/ticketDetail.types";
+import { MOCK_TICKETS } from "../config/mockTickets";
+
+import type { TicketStatus as TicketListStatus } from "../types/tickets.types";
+import type {
+  TicketDetail,
+  TicketStatus as TicketDetailStatus,
+} from "../types/ticketDetail.types";
+
+const DETAIL_STATUS_BY_LIST_STATUS: Record<
+  TicketListStatus,
+  TicketDetailStatus
+> = {
+  created: "CREADO",
+  assigned: "ASIGNADO",
+  "in-progress": "EN_PROCESO",
+  paused: "PAUSADO",
+  closed: "CERRADO",
+  quotation: "COTIZACION",
+  resolved: "RESUELTO",
+};
 
 export const mockTicketDetail: TicketDetail = {
   id: "ticket-001",
@@ -119,16 +138,65 @@ export const mockTicketDetail: TicketDetail = {
     },
   ],
 
+  onsiteActivities: [
+    {
+      id: "onsite-001",
+      date: "2026-08-26",
+      time: "13:20",
+      person: "Carlos Ramírez",
+      message: "Se realiza inspección física del equipo y sus conexiones.",
+    },
+    {
+      id: "onsite-002",
+      date: "2026-08-26",
+      time: "14:05",
+      person: "José Martínez",
+      message: "Se valida alimentación eléctrica y estado de los indicadores.",
+    },
+  ],
+
+  chatMessages: [
+    {
+      id: "message-001",
+      author: "Juan Pérez",
+      createdAt: "2026-08-26 10:40",
+      message: "Se inició la revisión remota del servicio.",
+      attachments: [],
+    },
+    {
+      id: "message-002",
+      author: "María Torres",
+      createdAt: "2026-08-26 11:05",
+      message: "El proveedor ya fue notificado para acudir al sitio.",
+      attachments: [],
+    },
+  ],
+
+  notes: [
+    {
+      id: "note-001",
+      author: "Usuario Demo",
+      createdAt: "2026-08-26 11:10",
+      comment: "Dar seguimiento antes del vencimiento del segundo SLA.",
+    },
+  ],
+
+  scheduledVisit: {
+    userId: "provider-user-1",
+    userName: "Carlos Ramírez",
+    scheduledAt: "2026-08-27T09:00",
+  },
+
   imageGroups: {
     beforeReplacement: [
       {
         id: "img-before-replacement-001",
-        url: "https://picsum.photos/800/500?random=1",
+        url: "/mocks/tickets/img-before-replacement-001.jpeg",
         description: "Estado del equipo antes del reemplazo.",
       },
       {
         id: "img-before-replacement-002",
-        url: "https://picsum.photos/800/500?random=2",
+        url: "/mocks/tickets/img-before-replacement-002.jpg",
         description: "Detalle de conexiones antes del reemplazo.",
       },
     ],
@@ -136,7 +204,7 @@ export const mockTicketDetail: TicketDetail = {
     afterReplacement: [
       {
         id: "img-after-replacement-001",
-        url: "https://picsum.photos/800/500?random=3",
+        url: "/mocks/tickets/img-after-replacement-001.webp",
         description: "Equipo instalado después del reemplazo.",
       },
     ],
@@ -144,7 +212,7 @@ export const mockTicketDetail: TicketDetail = {
     beforeCurrent: [
       {
         id: "img-before-current-001",
-        url: "https://picsum.photos/800/500?random=4",
+        url: "/mocks/tickets/img-before-current-001.png",
         description: "Condición previa a la intervención actual.",
       },
     ],
@@ -152,7 +220,7 @@ export const mockTicketDetail: TicketDetail = {
     afterCurrent: [
       {
         id: "img-after-current-001",
-        url: "https://picsum.photos/800/500?random=5",
+        url: "/mocks/tickets/img-after-current-001.jpg",
         description: "Condición posterior a la intervención.",
       },
     ],
@@ -160,7 +228,7 @@ export const mockTicketDetail: TicketDetail = {
     generalFinding: [
       {
         id: "img-general-finding-001",
-        url: "https://picsum.photos/800/500?random=6",
+        url: "/mocks/tickets/img-general-finding-001.webp",
         description: "Vista general del hallazgo.",
       },
     ],
@@ -168,7 +236,7 @@ export const mockTicketDetail: TicketDetail = {
     closeFinding: [
       {
         id: "img-close-finding-001",
-        url: "https://picsum.photos/800/500?random=7",
+        url: "/mocks/tickets/img-close-finding-001.avif",
         description: "Acercamiento del hallazgo detectado.",
       },
     ],
@@ -180,12 +248,14 @@ export const mockTicketDetail: TicketDetail = {
       identifier: "CAT-10243",
       problemType: "Sin servicio",
       category: "Red LAN",
+      relationType: "parent",
     },
     {
       id: "ticket-related-002",
       identifier: "CAT-10240",
       problemType: "Intermitencia",
       category: "Proveedor",
+      relationType: "child",
     },
   ],
 
@@ -282,3 +352,30 @@ export const mockTicketDetail: TicketDetail = {
     },
   ],
 };
+
+export function getMockTicketDetail(
+  ticketId: string,
+): TicketDetail | undefined {
+  const ticketSummary = MOCK_TICKETS.find((ticket) => ticket.id === ticketId);
+
+  if (!ticketSummary) {
+    return undefined;
+  }
+
+  return {
+    ...mockTicketDetail,
+    id: ticketSummary.id,
+    identifier: ticketSummary.id,
+    helixId: ticketSummary.helixId,
+    status: DETAIL_STATUS_BY_LIST_STATUS[ticketSummary.status],
+    category: ticketSummary.category,
+    assignedTo:
+      ticketSummary.attendedBy === "Sin asignar"
+        ? undefined
+        : ticketSummary.attendedBy,
+    site: {
+      ...mockTicketDetail.site,
+      name: ticketSummary.site,
+    },
+  };
+}

@@ -71,6 +71,36 @@ export interface TicketActivity {
   time: string;
   person?: string;
   message: string;
+  dependency?: "CLIENTE" | "HEMAC" | "EQUIPO" | "PGH";
+  reasonType?: string;
+}
+
+export interface TicketAttachment {
+  id: string;
+  type: "image" | "video";
+  name: string;
+  url: string;
+}
+
+export interface TicketMessage {
+  id: string;
+  author: string;
+  createdAt: string;
+  message: string;
+  attachments: TicketAttachment[];
+}
+
+export interface TicketNote {
+  id: string;
+  author: string;
+  createdAt: string;
+  comment: string;
+}
+
+export interface ScheduledVisit {
+  userId: string;
+  userName: string;
+  scheduledAt: string;
 }
 
 export interface RelatedTicket {
@@ -78,6 +108,7 @@ export interface RelatedTicket {
   identifier: string;
   problemType: string;
   category: string;
+  relationType: "parent" | "child";
 }
 
 export interface ReplacedEquipment {
@@ -153,6 +184,11 @@ export interface TicketDetail {
   pauseReasons: TicketActivity[];
   reassignmentReasons: TicketActivity[];
   remoteActivities: TicketActivity[];
+  onsiteActivities: TicketActivity[];
+
+  chatMessages: TicketMessage[];
+  notes: TicketNote[];
+  scheduledVisit?: ScheduledVisit;
 
   imageGroups: TicketImageGroups;
 

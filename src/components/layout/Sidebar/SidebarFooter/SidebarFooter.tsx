@@ -11,8 +11,8 @@ import {
 import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 
-import { mockUser } from "../../../../auth/mockUser";
-import { useTheme } from "../../../../app/providers/ThemeProvider";
+import { useAuth } from "../../../../auth";
+import { useTheme } from "../../../../app/hooks/useTheme";
 
 import { FOOTER_ACTIONS, canViewFooterAction } from "./footerActions";
 import { TableMenu } from "./TablaMenu/TablaMenu";
@@ -26,6 +26,7 @@ interface FooterButtonProps {
 }
 
 export function SidebarFooter() {
+  const { user } = useAuth();
   const { theme, toggleTheme } = useTheme();
 
   const [moreOpen, setMoreOpen] = useState(false);
@@ -33,7 +34,7 @@ export function SidebarFooter() {
   const moreWrapperRef = useRef<HTMLDivElement>(null);
 
   const visibleActions = FOOTER_ACTIONS.filter((action) =>
-    canViewFooterAction(action, mockUser.role),
+    canViewFooterAction(action, user),
   );
 
   useEffect(() => {

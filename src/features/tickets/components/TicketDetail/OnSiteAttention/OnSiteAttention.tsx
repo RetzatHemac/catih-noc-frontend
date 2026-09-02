@@ -1,4 +1,4 @@
-import { Building2, UserRound, UsersRound, X } from "lucide-react";
+import { Building2, UserRound, X } from "lucide-react";
 
 import { EditableField } from "../../../../../components/patterns/EditableField/EditableField";
 import { Button } from "../../../../../components/ui/Button/Button";
@@ -9,6 +9,7 @@ import styles from "./OnSiteAttention.module.css";
 
 interface OnsiteAttentionProps {
   data: OnsiteAttentionType;
+  canAssignProvider?: boolean;
   onUpdateProvider: (value: string) => void;
   onUnassignProvider: () => void;
 }
@@ -30,6 +31,7 @@ const PROVIDER_OPTIONS = [
 
 export function OnsiteAttention({
   data,
+  canAssignProvider = false,
   onUpdateProvider,
   onUnassignProvider,
 }: OnsiteAttentionProps) {
@@ -59,13 +61,13 @@ export function OnsiteAttention({
             <EditableField
               label=""
               value={data.provider}
-              editable
+              editable={canAssignProvider}
               control="select"
               options={PROVIDER_OPTIONS}
               onSave={onUpdateProvider}
             />
 
-            {data.provider && (
+            {canAssignProvider && data.provider && (
               <Button
                 type="button"
                 variant="ghost"
@@ -82,7 +84,7 @@ export function OnsiteAttention({
         </div>
       </div>
 
-      <div className={styles.personnelSection}>
+      {/* <div className={styles.personnelSection}>
         <div className={styles.personnelHeading}>
           <UsersRound size={18} aria-hidden="true" />
 
@@ -107,7 +109,7 @@ export function OnsiteAttention({
         ) : (
           <div className={styles.empty}>Sin personal en sitio</div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 }

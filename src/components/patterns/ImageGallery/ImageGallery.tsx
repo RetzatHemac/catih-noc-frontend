@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight, Trash2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, ImageOff, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "../../ui/Button/Button";
@@ -25,6 +25,9 @@ export function ImageGallery({
   onDelete,
 }: ImageGalleryProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [failedImageIds, setFailedImageIds] = useState<Set<string>>(
+    () => new Set(),
+  );
 
   if (images.length === 0) {
     return <div className={styles.empty}>{emptyLabel}</div>;
@@ -32,7 +35,20 @@ export function ImageGallery({
 
   const safeIndex = Math.min(currentIndex, images.length - 1);
 
-  const currentImage = images[safeIndex];
+  const currentImage = images[safeIndex]!;
+  const hasCurrentImageError = failedImageIds.has(currentImage.id);
+
+  function handleImageError(imageId: string) {
+    setFailedImageIds((current) => {
+      if (current.has(imageId)) {
+        return current;
+      }
+
+      const next = new Set(current);
+      next.add(imageId);
+      return next;
+    });
+  }
 
   function handlePrevious() {
     setCurrentIndex((current) =>
@@ -56,11 +72,19 @@ export function ImageGallery({
     <div className={styles.gallery}>
       <div className={styles.mainColumn}>
         <div className={styles.preview}>
-          <img
-            src={currentImage.url}
-            alt={currentImage.description || `Imagen ${safeIndex + 1}`}
-            className={styles.image}
-          />
+          {hasCurrentImageError ? (
+            <div className={styles.imageError} role="status">
+              <ImageOff size={28} aria-hidden="true" />
+              <span>No se pudo cargar esta imagen.</span>
+            </div>
+          ) : (
+            <img
+              src={currentImage.url}
+              alt={currentImage.description || `Imagen ${safeIndex + 1}`}
+              className={styles.image}
+              onError={() => handleImageError(currentImage.id)}
+            />
+          )}
 
           {images.length > 1 && (
             <>
@@ -133,7 +157,20 @@ export function ImageGallery({
               aria-label={`Mostrar imagen ${index + 1}`}
               aria-current={index === safeIndex ? "true" : undefined}
             >
-              <img src={image.url} alt="" aria-hidden="true" />
+              {failedImageIds.has(image.id) ? (
+                <ImageOff
+                  className={styles.thumbnailError}
+                  size={20}
+                  aria-hidden="true"
+                />
+              ) : (
+                <img
+                  src={image.url}
+                  alt=""
+                  aria-hidden="true"
+                  onError={() => handleImageError(image.id)}
+                />
+              )}
             </button>
           ))}
         </div>
