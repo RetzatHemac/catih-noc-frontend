@@ -38,7 +38,12 @@ export function Modal({
 }: ModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
+  const onCloseRef = useRef(onClose);
   const titleId = useId();
+
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
 
   useEffect(() => {
     if (!open) {
@@ -65,7 +70,7 @@ export function Modal({
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
         event.preventDefault();
-        onClose();
+        onCloseRef.current();
         return;
       }
 
@@ -107,7 +112,7 @@ export function Modal({
       document.body.style.overflow = previousOverflow;
       triggerRef.current?.focus();
     };
-  }, [initialFocusId, open, onClose]);
+  }, [initialFocusId, open]);
 
   if (!open) {
     return null;

@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 import {
   ClipboardPlus,
+  BellRing,
   FolderKanban,
   LayoutList,
   MapPin,
@@ -17,6 +18,11 @@ import { TicketPage } from "../pages/TicketPage/TicketPage";
 import { TicketDetailPage } from "../pages/TicketDetailPage/TicketDetailPage";
 
 import { CreateTicket } from "../features/tickets/components/CreateTicket/CreateTicket";
+import { PendingTickets } from "../features/tickets/components/PendingTickets/PendingTickets";
+import { ProfilePage } from "../features/users/components/Profile/ProfilePage";
+import { ProjectsPage } from "../features/projects/components/ProjectsPage/ProjectsPage";
+import { SitesPage } from "../features/sites/components/SitesPage/SitesPage";
+import { TaggingPage } from "../features/tagging/components/TaggingPage/TaggingPage";
 
 import type { DetailRouteHandle } from "./types/route.types";
 
@@ -51,6 +57,16 @@ export const router = createBrowserRouter([
       },
 
       {
+        path: "pending-tickets",
+        element: <PendingTickets />,
+        handle: {
+          title: "Tickets pendientes",
+          description: "Atenciones asignadas que todavía no han iniciado.",
+          icon: BellRing,
+        } satisfies DetailRouteHandle,
+      },
+
+      {
         path: "tickets/:ticketId",
         element: <TicketDetailPage />,
         handle: {
@@ -62,7 +78,7 @@ export const router = createBrowserRouter([
 
       {
         path: "profile",
-        element: <div>Profile</div>,
+        element: <ProfilePage />,
         handle: {
           title: "Perfil",
           description: "Consulta y administra tu información.",
@@ -72,7 +88,7 @@ export const router = createBrowserRouter([
 
       {
         path: "tables/sites",
-        element: <div>Sites</div>,
+        element: <SitesPage />,
         handle: {
           title: "Sitios",
           description: "Consulta y administra los sitios registrados.",
@@ -82,18 +98,20 @@ export const router = createBrowserRouter([
 
       {
         path: "tables/tagged",
-        element: <div>Tagged</div>,
+        element: <TaggingPage />,
         handle: {
           title: "Etiquetados",
+          description: "Consulta y administra los equipos en etiquetado.",
           icon: Tags,
         } satisfies DetailRouteHandle,
       },
 
       {
         path: "tables/projects",
-        element: <div>Projects</div>,
+        element: <ProjectsPage />,
         handle: {
           title: "Proyectos",
+          description: "Consulta y administra proyectos e implementaciones.",
           icon: FolderKanban,
         } satisfies DetailRouteHandle,
       },

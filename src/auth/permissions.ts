@@ -6,6 +6,7 @@ export const PERMISSIONS = {
   TICKET_VIEW_INFO: "ticket.view.info",
   TICKET_SUPPORT_VIEW: "ticket.support.view",
   TICKET_TABLE_VIEW: "ticket.table.view",
+  TICKET_PENDING_VIEW: "ticket.pending.view",
   TICKET_EDIT: "ticket.edit",
   TICKET_MANAGE: "ticket.manage",
   TICKET_DELETE: "ticket.delete",
@@ -36,6 +37,7 @@ export const PERMISSIONS = {
   // Responsables
   TICKET_PROVIDER_ASSIGN: "ticket.provider.assign",
   TICKET_CREW_ASSIGN: "ticket.crew.assign",
+  TICKET_CREW_RELEASE: "ticket.crew.release",
   TICKET_SUPERVISOR_ASSIGN: "ticket.supervisor.assign",
   TICKET_LEADER_CHANGE: "ticket.leader.change",
 

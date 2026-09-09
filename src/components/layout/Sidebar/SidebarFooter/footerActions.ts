@@ -1,9 +1,4 @@
-import {
-  FileText,
-  PanelTop,
-  ShieldCheck,
-  UserRoundCheck,
-} from "lucide-react";
+import { FileText, ShieldCheck } from "lucide-react";
 
 import {
   can,
@@ -20,18 +15,6 @@ export interface FooterAction {
 }
 
 export const FOOTER_ACTIONS: FooterAction[] = [
-  {
-    id: "release-provider",
-    label: "Liberar proveedor",
-    icon: UserRoundCheck,
-    permission: PERMISSIONS.TICKET_PROVIDER_ASSIGN,
-  },
-  {
-    id: "pending",
-    label: "Pendientes",
-    icon: PanelTop,
-    permission: PERMISSIONS.TICKET_TABLE_VIEW,
-  },
   {
     id: "reports",
     label: "Reportes",

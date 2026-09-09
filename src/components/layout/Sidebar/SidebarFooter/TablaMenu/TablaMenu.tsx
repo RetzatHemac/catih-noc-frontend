@@ -6,6 +6,7 @@ import {
   Tags,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import styles from "./TablaMenu.module.css";
 
@@ -38,6 +39,7 @@ const tables = [
 ];
 
 export function TableMenu() {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -59,10 +61,7 @@ export function TableMenu() {
   }, []);
 
   return (
-    <div
-      ref={wrapperRef}
-      className={styles.wrapper}
-    >
+    <div ref={wrapperRef} className={styles.wrapper}>
       <button
         type="button"
         className={styles.button}
@@ -72,20 +71,12 @@ export function TableMenu() {
         aria-haspopup="menu"
         title="Tablas"
       >
-        <ListChecks
-          size={18}
-          aria-hidden="true"
-        />
+        <ListChecks size={18} aria-hidden="true" />
       </button>
 
       {open && (
-        <div
-          className={styles.menu}
-          role="menu"
-        >
-          <span className={styles.title}>
-            Tablas
-          </span>
+        <div className={styles.menu} role="menu">
+          <span className={styles.title}>Tablas</span>
 
           {tables.map(({ id, label, icon: Icon }) => (
             <button
@@ -94,18 +85,13 @@ export function TableMenu() {
               className={styles.item}
               role="menuitem"
               onClick={() => {
-                // Por ahora solo cerramos.
-                // Después aquí irá la navegación/acción.
+                navigate(`/tables/${id}`);
                 setOpen(false);
               }}
             >
-              <Icon
-                size={16}
-                aria-hidden="true"
-              />
+              <Icon size={16} aria-hidden="true" />
 
               <span>{label}</span>
-
             </button>
           ))}
         </div>

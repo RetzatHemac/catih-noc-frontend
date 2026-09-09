@@ -1,0 +1,72 @@
+.content,
+.tableSection,
+.images {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.actions {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.actionForm,
+.images,
+.notes section,
+.tableSection {
+  padding: var(--space-4);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+}
+
+.actionForm {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.formActions,
+.imagesHeader {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+
+.imagesHeader {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.imagesHeader h3,
+.notes h3,
+.tableSection h3 {
+  margin: 0;
+  font-size: var(--font-size-md);
+}
+
+.notes {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.notes section {
+  min-height: 100px;
+}
+
+.notes p {
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  white-space: pre-wrap;
+}
+
+@media (min-width: 768px) {
+  .actions {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .notes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

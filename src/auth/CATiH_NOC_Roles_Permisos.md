@@ -16,22 +16,22 @@ Se tomó como base:
 
 # 1. Roles existentes
 
-| Código sugerido | Rol | Área / contexto | Alcance general |
-|---|---|---|---|
-| `SUPER_ADMIN` | Super administrador | Ingeniería de software | Acceso total al sistema, configuración, usuarios, permisos, catálogos y eliminación de elementos críticos. |
-| `NOC_SUPERVISOR` | NOC Supervisor | NOC | Creación y gestión completa de tickets, documentación y sitios. |
-| `AGENTE_RJ` | Agente RJ | NOC | Creación y gestión de tickets relacionados con RED Jalisco, sitios y consulta de proyectos. |
-| `AGENTE_PGH` | Agente PGH | NOC | Creación y gestión de tickets PGH, asignación de empresa, sitios y consulta de proyectos. |
-| `COORDINADOR_OPERATIVO` | Coordinador operativo | Operaciones | Visualización amplia de tickets operativos, asignación de supervisores y cambio de líder operativo. |
-| `LIDER_OPERATIVO` | Líder operativo | Operaciones | Visualización de tickets asignados a su operación. |
-| `SUPERVISOR` | Supervisor | Operaciones | Visualización de tickets asignados y asignación de empresas proveedoras. |
-| `ANALISTA` | Analista | Análisis de operaciones | Creación de tickets, documentación, sitios, formatos y etiquetado. |
-| `AGENTE_SERVICIOS` | Agente de servicios | Servicios | Visualización de tickets, gestión de proyectos/implementaciones y documentación. |
-| `VISOR` | Visor | Operaciones | Visualización de tickets y descarga de documentación. |
-| `SOPORTE` | Soporte | Ingeniería de software | Creación y gestión de tickets de soporte RENATA y métricas. |
-| `CLIENTE` | Cliente | Clientes | Creación y visualización de tickets de sus proyectos. |
-| `LIDER_CUADRILLA` | Líder de cuadrilla | Campo / móvil | Asignación de cuadrilla para tickets asignados a proveedor. |
-| `USUARIO_CUADRILLA` | Usuario de cuadrilla | Campo / móvil | Actividades, imágenes, materiales, reemplazos y etiquetado desde campo. |
+| Código sugerido         | Rol                   | Área / contexto         | Alcance general                                                                                            |
+| ----------------------- | --------------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `SUPER_ADMIN`           | Super administrador   | Ingeniería de software  | Acceso total al sistema, configuración, usuarios, permisos, catálogos y eliminación de elementos críticos. |
+| `NOC_SUPERVISOR`        | NOC Supervisor        | NOC                     | Creación y gestión completa de tickets, documentación y sitios.                                            |
+| `AGENTE_RJ`             | Agente RJ             | NOC                     | Creación y gestión de tickets relacionados con RED Jalisco, sitios y consulta de proyectos.                |
+| `AGENTE_PGH`            | Agente PGH            | NOC                     | Creación y gestión de tickets PGH, asignación de empresa, sitios y consulta de proyectos.                  |
+| `COORDINADOR_OPERATIVO` | Coordinador operativo | Operaciones             | Visualización amplia de tickets operativos, asignación de supervisores y cambio de líder operativo.        |
+| `LIDER_OPERATIVO`       | Líder operativo       | Operaciones             | Visualización de tickets asignados a su operación.                                                         |
+| `SUPERVISOR`            | Supervisor            | Operaciones             | Visualización de tickets asignados y asignación de empresas proveedoras.                                   |
+| `ANALISTA`              | Analista              | Análisis de operaciones | Creación de tickets, documentación, sitios, formatos y etiquetado.                                         |
+| `AGENTE_SERVICIOS`      | Agente de servicios   | Servicios               | Visualización de tickets, gestión de proyectos/implementaciones y documentación.                           |
+| `VISOR`                 | Visor                 | Operaciones             | Visualización de tickets y descarga de documentación.                                                      |
+| `SOPORTE`               | Soporte               | Ingeniería de software  | Creación y gestión de tickets de soporte RENATA y métricas.                                                |
+| `CLIENTE`               | Cliente               | Clientes                | Creación y visualización de tickets de sus proyectos.                                                      |
+| `LIDER_CUADRILLA`       | Líder de cuadrilla    | Campo / móvil           | Asignación de cuadrilla para tickets asignados a proveedor.                                                |
+| `USUARIO_CUADRILLA`     | Usuario de cuadrilla  | Campo / móvil           | Actividades, imágenes, materiales, reemplazos y etiquetado desde campo.                                    |
 
 > **Usuarios NOC:** `NOC_SUPERVISOR`, `AGENTE_RJ` y `AGENTE_PGH`.
 
@@ -56,7 +56,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.create
+ticket.create;
 ```
 
 ### Dashboard de visualización de tickets
@@ -78,7 +78,22 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.dashboard.view
+ticket.dashboard.view;
+```
+
+### Tickets pendientes por iniciar atención
+
+Roles:
+
+- `SUPER_ADMIN`
+- `NOC_SUPERVISOR`
+- `AGENTE_RJ`
+- `AGENTE_PGH`
+
+Permiso sugerido:
+
+```ts
+ticket.pending.view;
 ```
 
 ### Consultar tickets NOC completos
@@ -99,7 +114,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.view.all
+ticket.view.all;
 ```
 
 ### Consultar información limitada de ticket
@@ -115,7 +130,7 @@ Restricción:
 Permiso sugerido:
 
 ```ts
-ticket.view.info
+ticket.view.info;
 ```
 
 ### Consultar tickets de soporte
@@ -127,7 +142,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.support.view
+ticket.support.view;
 ```
 
 ### Tabla de tickets
@@ -152,7 +167,7 @@ Restricción para cliente:
 Permiso sugerido:
 
 ```ts
-ticket.table.view
+ticket.table.view;
 ```
 
 ### Editar información del ticket
@@ -167,7 +182,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.edit
+ticket.edit;
 ```
 
 ### Gestión general del ticket
@@ -183,7 +198,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.manage
+ticket.manage;
 ```
 
 ### Gestionar notas
@@ -203,7 +218,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.notes.manage
+ticket.notes.manage;
 ```
 
 ### Eliminar objetos / documentación del ticket
@@ -218,7 +233,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.objects.delete
+ticket.objects.delete;
 ```
 
 ### Eliminar ticket
@@ -231,7 +246,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.delete
+ticket.delete;
 ```
 
 ### Descargar documentación del ticket
@@ -249,7 +264,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.documents.download
+ticket.documents.download;
 ```
 
 ---
@@ -272,7 +287,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.site.edit
+ticket.site.edit;
 ```
 
 ### Cambio de domicilio del sitio
@@ -287,7 +302,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.site.address.change
+ticket.site.address.change;
 ```
 
 ---
@@ -317,7 +332,7 @@ Restricción para cliente:
 Permiso sugerido:
 
 ```ts
-ticket.images.view
+ticket.images.view;
 ```
 
 ### Subir imágenes desde web
@@ -335,7 +350,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.images.upload
+ticket.images.upload;
 ```
 
 ### Subir imágenes desde campo / app
@@ -351,7 +366,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.images.upload
+ticket.images.upload;
 ```
 
 ### Eliminar imágenes
@@ -364,7 +379,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.objects.delete
+ticket.objects.delete;
 ```
 
 ---
@@ -386,7 +401,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.activities.report
+ticket.activities.report;
 ```
 
 ### Reportar actividades desde app / campo
@@ -399,7 +414,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.activities.report.app
+ticket.activities.report.app;
 ```
 
 ### Eliminar actividades
@@ -412,7 +427,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.objects.delete
+ticket.objects.delete;
 ```
 
 ---
@@ -432,7 +447,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.replacements.report
+ticket.replacements.report;
 ```
 
 ### Reportar reemplazos desde campo / app
@@ -448,7 +463,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.replacements.report
+ticket.replacements.report;
 ```
 
 ### Eliminar reemplazos
@@ -461,7 +476,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.objects.delete
+ticket.objects.delete;
 ```
 
 ### Eliminar intervenciones
@@ -474,7 +489,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.objects.delete
+ticket.objects.delete;
 ```
 
 > La matriz no presenta una columna específica para reportar intervenciones. El SRS sí contiene un requisito funcional de reporte de intervenciones para usuarios NOC. Este punto debe mantenerse separado si se desea un permiso específico.
@@ -494,7 +509,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.materials.view
+ticket.materials.view;
 ```
 
 ### Reportar materiales
@@ -507,7 +522,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.materials.report
+ticket.materials.report;
 ```
 
 ### Validar materiales
@@ -520,7 +535,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.materials.validate
+ticket.materials.validate;
 ```
 
 ---
@@ -540,7 +555,7 @@ Roles consolidados:
 Permiso sugerido:
 
 ```ts
-ticket.provider.assign
+ticket.provider.assign;
 ```
 
 > `SUPERVISOR` se incluye porque la descripción formal del rol indica explícitamente que puede asignar empresas proveedoras.
@@ -554,7 +569,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.provider.assign
+ticket.provider.assign;
 ```
 
 ### Asignar cuadrilla
@@ -567,7 +582,20 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.crew.assign
+ticket.crew.assign;
+```
+
+### Liberar cuadrilla
+
+Roles:
+
+- `SUPER_ADMIN`
+- `ANALISTA`
+
+Permiso sugerido:
+
+```ts
+ticket.crew.release;
 ```
 
 ### Asignar supervisor
@@ -579,7 +607,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.supervisor.assign
+ticket.supervisor.assign;
 ```
 
 ### Cambiar líder operativo
@@ -591,7 +619,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-ticket.leader.change
+ticket.leader.change;
 ```
 
 ---
@@ -621,7 +649,7 @@ Restricción para cliente:
 Permiso sugerido:
 
 ```ts
-sites.view
+sites.view;
 ```
 
 ### Crear / dar de alta sitios
@@ -638,7 +666,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-sites.create
+sites.create;
 ```
 
 ### Editar sitios
@@ -658,7 +686,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-sites.edit
+sites.edit;
 ```
 
 ### Eliminar sitios
@@ -671,7 +699,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-sites.delete
+sites.delete;
 ```
 
 ### Etiquetar sitios desde campo
@@ -684,7 +712,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-sites.tag
+sites.tag;
 ```
 
 ---
@@ -701,7 +729,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-tagging.view
+tagging.view;
 ```
 
 ### Editar tabla de etiquetado
@@ -714,7 +742,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-tagging.edit
+tagging.edit;
 ```
 
 ### Validar etiquetado
@@ -727,7 +755,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-tagging.validate
+tagging.validate;
 ```
 
 ### Eliminar etiquetado
@@ -739,7 +767,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-tagging.delete
+tagging.delete;
 ```
 
 ### Etiquetar desde campo
@@ -752,7 +780,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-sites.tag
+sites.tag;
 ```
 
 ---
@@ -774,7 +802,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-projects.view
+projects.view;
 ```
 
 ### Crear proyectos
@@ -788,7 +816,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-projects.create
+projects.create;
 ```
 
 ### Crear implementaciones
@@ -803,7 +831,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-implementations.create
+implementations.create;
 ```
 
 ### Eliminar proyectos
@@ -816,7 +844,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-projects.delete
+projects.delete;
 ```
 
 ### Gestión de proyectos / implementaciones
@@ -829,7 +857,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-projects.manage
+projects.manage;
 ```
 
 ---
@@ -845,7 +873,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-users.create
+users.create;
 ```
 
 ### Desactivar usuarios
@@ -858,7 +886,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-users.deactivate
+users.deactivate;
 ```
 
 ### Ver usuarios NOC
@@ -871,7 +899,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-nocUsers.view
+nocUsers.view;
 ```
 
 ### Administrar usuarios
@@ -883,7 +911,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-users.manage
+users.manage;
 ```
 
 ### Administrar permisos
@@ -895,7 +923,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-permissions.manage
+permissions.manage;
 ```
 
 ### Administrar catálogos
@@ -907,7 +935,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-catalogs.manage
+catalogs.manage;
 ```
 
 ---
@@ -934,7 +962,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-profile.view
+profile.view;
 ```
 
 ### Dashboard gráfico
@@ -951,7 +979,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-dashboard.graph.view
+dashboard.graph.view;
 ```
 
 ### Métricas de soporte
@@ -963,7 +991,7 @@ Roles:
 Permiso sugerido:
 
 ```ts
-support.metrics.view
+support.metrics.view;
 ```
 
 ---
@@ -974,29 +1002,29 @@ Los permisos anteriores indican **qué acción puede ejecutar un usuario**, pero
 
 Estas restricciones deben manejarse por separado.
 
-| Rol | Restricción de alcance |
-|---|---|
-| `CLIENTE` | Solo tickets, imágenes, sitios y proyectos relacionados con su empresa / proyectos. |
-| `AGENTE_RJ` | Gestión de tickets relacionados con RED Jalisco. |
-| `AGENTE_PGH` | Gestión de tickets relacionados con proyectos generales PGH. |
-| `COORDINADOR_OPERATIVO` | Tickets bajo los líderes operativos de las áreas a su cargo. |
-| `LIDER_OPERATIVO` | Tickets asignados a él como líder operativo. |
-| `SUPERVISOR` | Tickets asignados a él. |
-| `VISOR` | Visualización general, sin gestión operativa. |
-| `SOPORTE` | Tickets de soporte / RENATA. |
-| `LIDER_CUADRILLA` | Tickets asignados al proveedor / cuadrillas que tenga bajo su responsabilidad. |
-| `USUARIO_CUADRILLA` | Tickets asignados a su cuadrilla. |
+| Rol                     | Restricción de alcance                                                              |
+| ----------------------- | ----------------------------------------------------------------------------------- |
+| `CLIENTE`               | Solo tickets, imágenes, sitios y proyectos relacionados con su empresa / proyectos. |
+| `AGENTE_RJ`             | Gestión de tickets relacionados con RED Jalisco.                                    |
+| `AGENTE_PGH`            | Gestión de tickets relacionados con proyectos generales PGH.                        |
+| `COORDINADOR_OPERATIVO` | Tickets bajo los líderes operativos de las áreas a su cargo.                        |
+| `LIDER_OPERATIVO`       | Tickets asignados a él como líder operativo.                                        |
+| `SUPERVISOR`            | Tickets asignados a él.                                                             |
+| `VISOR`                 | Visualización general, sin gestión operativa.                                       |
+| `SOPORTE`               | Tickets de soporte / RENATA.                                                        |
+| `LIDER_CUADRILLA`       | Tickets asignados al proveedor / cuadrillas que tenga bajo su responsabilidad.      |
+| `USUARIO_CUADRILLA`     | Tickets asignados a su cuadrilla.                                                   |
 
 Por lo tanto, en frontend/backend deben distinguirse conceptos como:
 
 ```ts
-can(user, PERMISSIONS.TICKET_EDIT)
+can(user, PERMISSIONS.TICKET_EDIT);
 ```
 
 de:
 
 ```ts
-canAccessTicket(user, ticket)
+canAccessTicket(user, ticket);
 ```
 
 El primero valida la **capacidad funcional**.
@@ -1016,6 +1044,7 @@ export type Permission =
   | "ticket.view.info"
   | "ticket.support.view"
   | "ticket.table.view"
+  | "ticket.pending.view"
   | "ticket.edit"
   | "ticket.manage"
   | "ticket.delete"
@@ -1046,6 +1075,7 @@ export type Permission =
   // Responsables
   | "ticket.provider.assign"
   | "ticket.crew.assign"
+  | "ticket.crew.release"
   | "ticket.supervisor.assign"
   | "ticket.leader.change"
 
@@ -1092,7 +1122,7 @@ Los roles anteriores representan **perfiles predeterminados**.
 La autorización no debe quedar implementada mediante comprobaciones rígidas como:
 
 ```ts
-user.role === "SUPER_ADMIN"
+user.role === "SUPER_ADMIN";
 ```
 
 La arquitectura debe permitir:
@@ -1112,7 +1142,7 @@ Permisos efectivos
 Ejemplo:
 
 ```ts
-can(user, PERMISSIONS.TICKET_OBJECTS_DELETE)
+can(user, PERMISSIONS.TICKET_OBJECTS_DELETE);
 ```
 
 Esto permite mantener la matriz predeterminada del SRS y, al mismo tiempo, soportar usuarios de un área con permisos especiales sin crear roles nuevos artificialmente.

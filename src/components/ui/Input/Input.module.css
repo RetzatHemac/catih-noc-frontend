@@ -41,3 +41,29 @@
 .input[aria-invalid="true"]:focus {
   box-shadow: var(--focus-ring-danger);
 }
+
+/* Override the browser's yellow autofill while preserving each theme. */
+.input:autofill {
+  background: var(--color-primary-soft);
+  color: var(--color-text-primary);
+  caret-color: var(--color-text-primary);
+}
+
+.input:-webkit-autofill,
+.input:-webkit-autofill:hover {
+  box-shadow: 0 0 0 1000px var(--color-primary-soft) inset;
+  -webkit-text-fill-color: var(--color-text-primary);
+  caret-color: var(--color-text-primary);
+}
+
+.input:-webkit-autofill:focus {
+  box-shadow:
+    0 0 0 1000px var(--color-primary-soft) inset,
+    var(--focus-ring);
+}
+
+.input[aria-invalid="true"]:-webkit-autofill:focus {
+  box-shadow:
+    0 0 0 1000px var(--color-primary-soft) inset,
+    var(--focus-ring-danger);
+}

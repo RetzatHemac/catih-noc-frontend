@@ -26,6 +26,41 @@ function ModalExample() {
   );
 }
 
+function ModalFormExample() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentValue, setCurrentValue] = useState("");
+  const [newValue, setNewValue] = useState("");
+
+  return (
+    <>
+      <button type="button" onClick={() => setIsOpen(true)}>
+        Abrir formulario
+      </button>
+
+      <Modal
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        title="Formulario"
+        initialFocusId="current-value"
+      >
+        <label htmlFor="current-value">Valor actual</label>
+        <input
+          id="current-value"
+          value={currentValue}
+          onChange={(event) => setCurrentValue(event.target.value)}
+        />
+
+        <label htmlFor="new-value">Valor nuevo</label>
+        <input
+          id="new-value"
+          value={newValue}
+          onChange={(event) => setNewValue(event.target.value)}
+        />
+      </Modal>
+    </>
+  );
+}
+
 describe("Modal", () => {
   it("moves focus inside and returns it to the trigger when closed", async () => {
     const user = userEvent.setup();
@@ -56,5 +91,23 @@ describe("Modal", () => {
     await user.keyboard("{Shift>}{Tab}{/Shift}");
 
     expect(lastButton).toHaveFocus();
+  });
+
+  it("does not restore initial focus while editing a controlled field", async () => {
+    const user = userEvent.setup();
+    render(<ModalFormExample />);
+
+    await user.click(screen.getByRole("button", { name: "Abrir formulario" }));
+
+    const currentInput = screen.getByLabelText("Valor actual");
+    const newInput = screen.getByLabelText("Valor nuevo");
+    await waitFor(() => expect(currentInput).toHaveFocus());
+
+    await user.click(newInput);
+    await user.type(newInput, "Nuevo valor");
+
+    expect(newInput).toHaveFocus();
+    expect(newInput).toHaveValue("Nuevo valor");
+    expect(currentInput).toHaveValue("");
   });
 });

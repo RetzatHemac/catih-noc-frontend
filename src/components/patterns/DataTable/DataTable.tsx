@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 import styles from "./DataTable.module.css";
 
@@ -15,6 +15,7 @@ interface DataTableProps<T> {
   getRowId: (item: T) => string;
   emptyLabel?: string;
   actions?: (item: T) => ReactNode;
+  actionsWidth?: number;
 }
 
 export function DataTable<T>({
@@ -23,6 +24,7 @@ export function DataTable<T>({
   getRowId,
   emptyLabel = "Sin registros",
   actions,
+  actionsWidth = 96,
 }: DataTableProps<T>) {
   if (data.length === 0) {
     return <div className={styles.empty}>{emptyLabel}</div>;
@@ -30,7 +32,14 @@ export function DataTable<T>({
 
   return (
     <>
-      <div className={styles.desktopWrapper}>
+      <div
+        className={styles.desktopWrapper}
+        style={
+          {
+            "--data-table-actions-width": `${actionsWidth}px`,
+          } as CSSProperties
+        }
+      >
         <table className={styles.table}>
           <thead>
             <tr>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Outlet, useMatch } from "react-router-dom";
 
 import { useAuth } from "../../../auth";
@@ -10,6 +10,7 @@ import { TicketWorkspaceProvider } from "../../../features/tickets/context/Ticke
 import { useTicketWorkspace } from "../../../features/tickets/context/useTicketWorkspace";
 import { getMockTicketDetail } from "../../../features/tickets/mocks/ticketDetail.mock";
 import { getVisibleTaskbarActions } from "../../../features/tickets/policies/taskbarAccess";
+import type { TicketStatusOverrides } from "../../../features/tickets/utils/ticketStatus";
 
 import { Sidebar } from "../Sidebar/Sidebar";
 import { TaskBar } from "../TaskBar/TaskBar";
@@ -28,19 +29,46 @@ export function AppShell() {
 function TicketWorkspaceBoundary() {
   const ticketMatch = useMatch("/tickets/:ticketId");
   const ticketId = ticketMatch?.params.ticketId;
-  const initialTicket = ticketId ? getMockTicketDetail(ticketId) : null;
+  const [ticketStatusOverrides, setTicketStatusOverrides] =
+    useState<TicketStatusOverrides>({});
+  const mockTicket = ticketId ? getMockTicketDetail(ticketId) : null;
+  const overriddenStatus = ticketId
+    ? ticketStatusOverrides[ticketId]
+    : undefined;
+  const initialTicket =
+    mockTicket && overriddenStatus
+      ? { ...mockTicket, status: overriddenStatus }
+      : mockTicket;
+  const handleTicketStatusChange = useCallback(
+    (
+      changedTicketId: string,
+      status: NonNullable<typeof initialTicket>["status"],
+    ) => {
+      setTicketStatusOverrides((current) =>
+        current[changedTicketId] === status
+          ? current
+          : { ...current, [changedTicketId]: status },
+      );
+    },
+    [],
+  );
 
   return (
     <TicketWorkspaceProvider
       key={ticketId ?? "without-active-ticket"}
       initialTicket={initialTicket ?? null}
+      onTicketStatusChange={handleTicketStatusChange}
     >
-      <AppShellContent />
+      <AppShellContent ticketStatusOverrides={ticketStatusOverrides} />
     </TicketWorkspaceProvider>
   );
 }
 
-function AppShellContent() {
+interface AppShellContentProps {
+  ticketStatusOverrides: TicketStatusOverrides;
+}
+
+function AppShellContent({ ticketStatusOverrides }: AppShellContentProps) {
   const { showDetail, showSidebar } = useNavigation();
   const { user } = useAuth();
   const { ticket } = useTicketWorkspace();
@@ -66,7 +94,7 @@ function AppShellContent() {
         className={styles.sidebar}
         style={{ display: showSidebar ? "block" : "none" }}
       >
-        <Sidebar />
+        <Sidebar ticketStatusOverrides={ticketStatusOverrides} />
       </aside>
 
       {showTaskbar && (

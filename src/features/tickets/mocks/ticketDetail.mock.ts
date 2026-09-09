@@ -1,23 +1,6 @@
 import { MOCK_TICKETS } from "../config/mockTickets";
-
-import type { TicketStatus as TicketListStatus } from "../types/tickets.types";
-import type {
-  TicketDetail,
-  TicketStatus as TicketDetailStatus,
-} from "../types/ticketDetail.types";
-
-const DETAIL_STATUS_BY_LIST_STATUS: Record<
-  TicketListStatus,
-  TicketDetailStatus
-> = {
-  created: "CREADO",
-  assigned: "ASIGNADO",
-  "in-progress": "EN_PROCESO",
-  paused: "PAUSADO",
-  closed: "CERRADO",
-  quotation: "COTIZACION",
-  resolved: "RESUELTO",
-};
+import type { TicketDetail } from "../types/ticketDetail.types";
+import { toTicketDetailStatus } from "../utils/ticketStatus";
 
 export const mockTicketDetail: TicketDetail = {
   id: "ticket-001",
@@ -367,7 +350,7 @@ export function getMockTicketDetail(
     id: ticketSummary.id,
     identifier: ticketSummary.id,
     helixId: ticketSummary.helixId,
-    status: DETAIL_STATUS_BY_LIST_STATUS[ticketSummary.status],
+    status: toTicketDetailStatus(ticketSummary.status),
     category: ticketSummary.category,
     assignedTo:
       ticketSummary.attendedBy === "Sin asignar"

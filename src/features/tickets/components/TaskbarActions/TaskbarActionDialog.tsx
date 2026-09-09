@@ -176,6 +176,25 @@ export function TaskbarActionDialog({
         />
       );
 
+    case "quote-ticket":
+      return (
+        <ConfirmActionDialog
+          title="Cambiar a cotización"
+          description={`Esta acción cambiará ${ticket.identifier} al estado de cotización. ¿Deseas continuar?`}
+          confirmLabel="Cambiar a cotización"
+          onClose={onClose}
+          onConfirm={() => {
+            updateTicket((current) => ({
+              ...current,
+              status: "COTIZACION",
+            }));
+            complete(
+              `El ticket ${ticket.identifier} cambió a cotización correctamente en el mock.`,
+            );
+          }}
+        />
+      );
+
     case "schedule-visit":
       return (
         <ScheduleVisitDialog

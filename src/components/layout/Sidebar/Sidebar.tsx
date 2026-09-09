@@ -6,6 +6,10 @@ import {
   createInitialTicketFilters,
   filterTickets,
 } from "../../../features/tickets/utils/ticketFilters";
+import {
+  applyTicketStatusOverrides,
+  type TicketStatusOverrides,
+} from "../../../features/tickets/utils/ticketStatus";
 
 import { SidebarFilters } from "./SidebarFilters/SidebarFilters";
 import { SidebarFooter } from "./SidebarFooter/SidebarFooter";
@@ -16,13 +20,21 @@ import { TicketQueues } from "./TicketQueues/TicketQueues";
 
 import styles from "./Sidebar.module.css";
 
-export function Sidebar() {
+interface SidebarProps {
+  ticketStatusOverrides?: TicketStatusOverrides;
+}
+
+export function Sidebar({ ticketStatusOverrides = {} }: SidebarProps) {
   const [filters, setFilters] = useState<TicketFilters>(
     createInitialTicketFilters,
   );
+  const tickets = useMemo(
+    () => applyTicketStatusOverrides(MOCK_TICKETS, ticketStatusOverrides),
+    [ticketStatusOverrides],
+  );
   const filteredTickets = useMemo(
-    () => filterTickets(MOCK_TICKETS, filters),
-    [filters],
+    () => filterTickets(tickets, filters),
+    [filters, tickets],
   );
 
   function updateFilters(patch: Partial<TicketFilters>) {
@@ -57,10 +69,7 @@ export function Sidebar() {
           selectedQueue={filters.queue}
           onSelectQueue={(queue) => updateFilters({ queue })}
         />
-        <TicketList
-          tickets={filteredTickets}
-          totalCount={MOCK_TICKETS.length}
-        />
+        <TicketList tickets={filteredTickets} totalCount={tickets.length} />
       </section>
 
       <SidebarFooter />

@@ -1,5 +1,5 @@
 import { Clock3, Timer } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import { TICKET_STATUS_CONFIG } from "../../../../../features/tickets/config/ticketStatus";
 import type { Ticket } from "../../../../../features/tickets/types/tickets.types";
@@ -8,30 +8,24 @@ import styles from "./TicketCard.module.css";
 
 interface TicketCardProps {
   ticket: Ticket;
-  selected: boolean;
-  onSelect: (ticket: Ticket) => void;
 }
 
-export function TicketCard({ ticket, selected, onSelect }: TicketCardProps) {
-  const navigate = useNavigate();
+export function TicketCard({ ticket }: TicketCardProps) {
   const status = TICKET_STATUS_CONFIG[ticket.status];
 
-  const handleClick = () => {
-    onSelect(ticket);
-    navigate(`/tickets/${ticket.id}`);
-  };
-
   return (
-    <button
-      type="button"
-      className={`${styles.card} ${selected ? styles.selected : ""}`}
+    <NavLink
+      to={`/tickets/${ticket.id}`}
+      end
+      className={({ isActive }) =>
+        `${styles.card} ${isActive ? styles.selected : ""}`
+      }
       style={
         {
           "--ticket-status": status.color,
           "--ticket-status-soft": status.softColor,
         } as React.CSSProperties
       }
-      onClick={handleClick}
     >
       <div className={styles.topRow}>
         <div className={styles.identifier}>
@@ -69,7 +63,7 @@ export function TicketCard({ ticket, selected, onSelect }: TicketCardProps) {
           {ticket.attendedBy}
         </span>
       </div>
-    </button>
+    </NavLink>
   );
 }
 

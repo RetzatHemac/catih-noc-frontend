@@ -5,6 +5,8 @@ import type { AuthUser } from "./user.types";
 export const mockUser: AuthUser = {
   id: "user-001",
 
+  username: "usuario.demo",
+
   name: "Usuario Demo",
 
   email: "usuario.demo@hemac.com.mx",

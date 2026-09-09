@@ -127,8 +127,8 @@
     right: 0;
     z-index: 2;
 
-    width: 96px;
-    min-width: 96px;
+    width: var(--data-table-actions-width);
+    min-width: var(--data-table-actions-width);
 
     background: var(--color-bg-secondary);
 
@@ -140,8 +140,8 @@
     right: 0;
     z-index: 1;
 
-    width: 96px;
-    min-width: 96px;
+    width: var(--data-table-actions-width);
+    min-width: var(--data-table-actions-width);
 
     background: var(--color-surface);
 

@@ -98,6 +98,34 @@ describe("TaskbarActionDialog", () => {
     expect(onClose).toHaveBeenCalledOnce();
   });
 
+  it("changes the shared ticket to quotation after confirmation", () => {
+    const onClose = vi.fn();
+
+    render(
+      <AuthProvider>
+        <TicketWorkspaceProvider
+          initialTicket={{ ...mockTicketDetail, status: "EN_PROCESO" }}
+        >
+          <TaskbarActionDialog actionId="quote-ticket" onClose={onClose} />
+          <WorkspaceSnapshot />
+        </TicketWorkspaceProvider>
+      </AuthProvider>,
+    );
+
+    expect(
+      screen.getByRole("dialog", { name: "Cambiar a cotización" }),
+    ).toBeInTheDocument();
+
+    fireEvent.click(
+      screen.getByRole("button", { name: "Cambiar a cotización" }),
+    );
+
+    expect(screen.getByTestId("workspace-status")).toHaveTextContent(
+      "COTIZACION",
+    );
+    expect(onClose).toHaveBeenCalledOnce();
+  });
+
   it("reports an activity in the selected onsite section", () => {
     render(
       <AuthProvider>

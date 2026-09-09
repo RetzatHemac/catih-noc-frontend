@@ -4,6 +4,7 @@ import {
   Camera,
   CircleCheckBig,
   Copy,
+  BadgeDollarSign,
   FileDown,
   GitFork,
   MessageCircle,
@@ -27,6 +28,7 @@ export type TaskbarActionId =
   | "manage-inventory"
   | "report-intervention"
   | "pause-ticket"
+  | "quote-ticket"
   | "schedule-visit"
   | "manage-related-tickets"
   | "duplicate-ticket"
@@ -101,6 +103,14 @@ export const TASKBAR_ACTIONS: TaskbarActionConfig[] = [
     icon: Pause,
     permission: PERMISSIONS.TICKET_PAUSE,
     allowedStatuses: ["EN_PROCESO"],
+  },
+  {
+    id: "quote-ticket",
+    label: "Cotización",
+    title: "Cotización",
+    icon: BadgeDollarSign,
+    permission: PERMISSIONS.TICKET_STATUS_CHANGE,
+    hiddenStatuses: CLOSED_STATUS,
   },
   {
     id: "schedule-visit",

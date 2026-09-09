@@ -30,7 +30,7 @@ describe("getVisibleTaskbarActions", () => {
       "EN_PROCESO",
     );
 
-    expect(actions).toHaveLength(12);
+    expect(actions).toHaveLength(13);
   });
 
   it("hides the complete taskbar while a ticket is assigned", () => {
