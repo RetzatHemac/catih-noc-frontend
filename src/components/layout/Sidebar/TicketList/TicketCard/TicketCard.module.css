@@ -13,6 +13,7 @@
   background: var(--color-surface);
   color: var(--color-text-primary);
   text-align: left;
+  text-decoration: none;
   box-shadow: var(--shadow-xs);
 }
 

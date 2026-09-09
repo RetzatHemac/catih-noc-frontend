@@ -1,0 +1,120 @@
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* Backgrounds */
+  --color-bg: var(--color-neutral-50);
+  --color-bg-secondary: var(--color-neutral-100);
+  --color-surface: var(--color-neutral-0);
+  --color-surface-raised: var(--color-neutral-0);
+  --color-surface-hover: var(--color-neutral-100);
+  --color-surface-active: var(--color-primary-50);
+
+  /* Text */
+  --color-text-primary: var(--color-neutral-900);
+  --color-text-secondary: var(--color-neutral-600);
+  --color-text-muted: var(--color-neutral-500);
+  --color-text-disabled: var(--color-neutral-400);
+  --color-text-on-primary: var(--color-neutral-0);
+
+  /* Borders */
+  --color-border: var(--color-neutral-200);
+  --color-border-strong: var(--color-neutral-300);
+  --color-border-focus: var(--color-primary-500);
+
+  /* Brand */
+  --color-primary: var(--color-primary-500);
+  --color-primary-hover: var(--color-primary-600);
+  --color-primary-active: var(--color-primary-700);
+  --color-primary-soft: var(--color-primary-50);
+
+  /* Overlay */
+  --color-overlay: rgb(13 22 39 / 0.48);
+
+  /* Focus */
+  --focus-ring: 0 0 0 3px rgb(66 107 172 / 0.2);
+  --focus-ring-danger: 0 0 0 3px rgb(217 75 84 / 0.2);
+
+  /* Shadows */
+  --shadow-surface: var(--shadow-sm);
+  --shadow-elevated: var(--shadow-md);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Backgrounds */
+  --color-bg: var(--color-neutral-950);
+  --color-bg-secondary: var(--color-neutral-900);
+  --color-surface: var(--color-neutral-900);
+  --color-surface-raised: var(--color-neutral-800);
+  --color-surface-hover: var(--color-neutral-800);
+  --color-surface-active: var(--color-primary-900);
+
+  /* Text */
+  --color-text-primary: var(--color-neutral-50);
+  --color-text-secondary: var(--color-neutral-300);
+  --color-text-muted: var(--color-neutral-400);
+  --color-text-disabled: var(--color-neutral-600);
+  --color-text-on-primary: var(--color-neutral-0);
+
+  /* Borders */
+  --color-border: var(--color-neutral-700);
+  --color-border-strong: var(--color-neutral-600);
+  --color-border-focus: var(--color-primary-300);
+
+  /* Brand */
+  --color-primary: var(--color-primary-300);
+  --color-primary-hover: var(--color-primary-200);
+  --color-primary-active: var(--color-primary-100);
+  --color-primary-soft: var(--color-primary-900);
+
+  /* Overlay */
+  --color-overlay: rgb(0 0 0 / 0.68);
+
+  /* Focus */
+  --focus-ring: 0 0 0 3px rgb(140 170 221 / 0.25);
+  --focus-ring-danger: 0 0 0 3px rgb(217 75 84 / 0.3);
+
+  /* Shadows */
+  --shadow-surface: 0 1px 2px rgb(0 0 0 / 0.2);
+  --shadow-elevated: 0 8px 24px rgb(0 0 0 / 0.35);
+
+  /* Feedback */
+  --color-success: #65bd8d;
+  --color-success-soft: #18372a;
+
+  --color-warning: #e5b34d;
+  --color-warning-soft: #41351c;
+
+  --color-danger: #eb7077;
+  --color-danger-soft: #44252a;
+
+  --color-info: #67a7d8;
+  --color-info-soft: #19334a;
+
+  /* Ticket Status */
+  --status-created: #70a8d5;
+  --status-created-soft: #1b354d;
+
+  --status-assigned: #a790ce;
+  --status-assigned-soft: #332c48;
+
+  --status-in-progress: #eda167;
+  --status-in-progress-soft: #472e1f;
+
+  --status-paused: #899ec3;
+  --status-paused-soft: #293650;
+
+  --status-closed: #96a1b0;
+  --status-closed-soft: #293444;
+
+  --status-quotation: #55b4af;
+  --status-quotation-soft: #173a3a;
+
+  --status-resolved: #70bd91;
+  --status-resolved-soft: #1c392b;
+
+  --status-default: #929eaf;
+  --status-default-soft: #293444;
+}

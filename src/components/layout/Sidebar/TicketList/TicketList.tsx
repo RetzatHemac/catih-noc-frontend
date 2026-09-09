@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import type { Ticket } from "../../../../features/tickets/types/tickets.types";
 
 import { TicketCard } from "./TicketCard/TicketCard";
@@ -12,12 +10,6 @@ interface TicketListProps {
 }
 
 export function TicketList({ tickets, totalCount }: TicketListProps) {
-  const [selectedTicket, setSelectedTicket] = useState<string | null>(null);
-
-  const handleSelectTicket = (ticket: Ticket) => {
-    setSelectedTicket(ticket.id);
-  };
-
   return (
     <section className={styles.list} aria-label="Tickets">
       <div className={styles.heading}>
@@ -38,12 +30,7 @@ export function TicketList({ tickets, totalCount }: TicketListProps) {
       <div className={styles.cards}>
         {tickets.length > 0 ? (
           tickets.map((ticket) => (
-            <TicketCard
-              key={ticket.id}
-              ticket={ticket}
-              selected={ticket.id === selectedTicket}
-              onSelect={handleSelectTicket}
-            />
+            <TicketCard key={ticket.id} ticket={ticket} />
           ))
         ) : (
           <div className={styles.empty}>
