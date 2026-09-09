@@ -21,17 +21,6 @@ Interfaz web para la consulta, creación y operación de tickets del NOC. El pro
 
 > El proyecto todavía no consume una API. Las operaciones modifican estado en memoria y se reinician al recargar o cambiar el ticket.
 
-## ¿Usamos frameworks?
-
-No se utiliza un framework full-stack o meta-framework como Next.js, Angular o Nuxt.
-
-- **React** es la librería principal para construir la interfaz.
-- **React Router** administra rutas y navegación de la SPA.
-- **Vite** proporciona el servidor de desarrollo y el proceso de compilación.
-- **CSS Modules** y tokens CSS forman el sistema visual; no se usa Bootstrap, Material UI ni otro framework de componentes.
-- **TypeScript** aporta tipado estático.
-
-En conversación informal puede llamarse “stack React”, pero técnicamente la aplicación es una SPA de React construida con Vite.
 
 ## Requisitos
 
