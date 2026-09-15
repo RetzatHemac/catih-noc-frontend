@@ -8,7 +8,7 @@ import {
   type Role,
 } from "../../../auth";
 
-import { getVisibleTaskbarActions } from "./taskbarAccess";
+import { canUseTaskbarAction, getVisibleTaskbarActions } from "./taskbarAccess";
 
 function createUser(
   role: Role,
@@ -24,6 +24,29 @@ function createUser(
 }
 
 describe("getVisibleTaskbarActions", () => {
+  it("uses session permissions instead of the role to expose and authorize actions", () => {
+    const user: AuthUser = {
+      ...createUser(ROLES.SUPER_ADMIN),
+      effectivePermissions: [PERMISSIONS.TICKET_REPORT_DOWNLOAD],
+    };
+    expect(
+      getVisibleTaskbarActions(user, "EN_PROCESO").map((action) => action.id),
+    ).toEqual(["download-reports"]);
+    expect(canUseTaskbarAction(user, "close-ticket", "EN_PROCESO")).toBe(false);
+    expect(canUseTaskbarAction(user, "download-reports", "CERRADO")).toBe(true);
+    expect(canUseTaskbarAction(user, "download-reports", "ASIGNADO")).toBe(
+      false,
+    );
+  });
+  it("still restricts actions by state when the session grants the permission", () => {
+    const user: AuthUser = {
+      ...createUser(ROLES.VISOR),
+      effectivePermissions: [PERMISSIONS.TICKET_PAUSE],
+    };
+    expect(canUseTaskbarAction(user, "pause-ticket", "EN_PROCESO")).toBe(true);
+    expect(canUseTaskbarAction(user, "pause-ticket", "CERRADO")).toBe(false);
+    expect(canUseTaskbarAction(user, "pause-ticket", "CREADO")).toBe(false);
+  });
   it("shows every configured action to a super administrator in progress", () => {
     const actions = getVisibleTaskbarActions(
       createUser(ROLES.SUPER_ADMIN),

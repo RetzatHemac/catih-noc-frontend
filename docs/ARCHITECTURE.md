@@ -1,6 +1,6 @@
 # Arquitectura del frontend
 
-Última actualización: 8 de septiembre de 2026.
+Última actualización: 15 de septiembre de 2026.
 
 ## Objetivo
 
@@ -47,7 +47,8 @@ La selección del Sidebar se deriva de la URL mediante `NavLink`. No debe manten
 - `ThemeProvider`: administra tema claro/oscuro.
 - `NavigationProvider`: decide qué paneles se muestran según ruta y viewport.
 - `TicketWorkspaceProvider`: mantiene el ticket activo y el mensaje de retroalimentación.
-- `PendingNotificationsProvider`: comparte el estado leído/no leído entre el Sidebar y la vista de pendientes.
+- `PendingNotificationsProvider`: comparte el estado leído/no leído entre el contador del Sidebar y el detalle del ticket. `TicketDetailPage` marca las notificaciones del ticket abierto como leídas cuando el usuario tiene permiso para consultar pendientes.
+- El botón Pendientes desplaza y enfoca el inicio de la lista del Sidebar, conservando filtros y ruta actual. No abre una pantalla en el panel de detalle.
 - Estado local: borradores de formularios, filtros, pestañas y apertura de modales.
 - `Pagination` y `DataTable` son patrones compartidos para las vistas tabulares.
 - Las galerías del inventario de sitio se despliegan dentro del mismo modal para conservar el contexto y evitar navegación adicional.
@@ -71,6 +72,16 @@ Políticas actuales:
 - Iniciar ticket requiere `ticket.start` y estado `ASIGNADO`.
 
 Los componentes no deben comparar nombres de roles directamente. Deben consultar permisos o capacidades derivadas.
+
+## Menú del Sidebar
+
+- `Sidebar` conserva búsqueda, filtros y desplazamiento mientras muestra un panel del mismo ancho sobre su área de contenido. El footer permanece visible y el panel no modifica el ancho del detalle.
+- `SidebarFooter` contiene como máximo seis accesos de 44 px, en una sola fila: desplegar/ocultar menú, pendientes, conexión, perfil, tema y salir. Pendientes y Perfil respetan sus permisos.
+- `SidebarMenu` agrupa NOC Online y liberación de cuadrillas en Operación, y Tablas en Administración. El panel tiene desplazamiento propio para admitir más opciones sin aumentar la altura del footer.
+- `TableMenu` usa un desplegable dentro del panel y enlaces `NavLink`. `sidebarMenu.config.ts` centraliza rutas, etiquetas, iconos y permisos; sitios, etiquetados y proyectos usan sus permisos de consulta. Los catálogos provisionales de diagnósticos y marcas/modelos usan `catalogs.manage`.
+- Abrir el panel enfoca su botón de cierre y vuelve inerte el contenido cubierto. Escape, el cierre y el botón del footer permiten ocultarlo y restaurar el foco. Navegar a una tabla o al perfil cierra el panel; Pendientes lo cierra y enfoca el inicio de la lista.
+- NOC Online y liberar cuadrilla reutilizan sus modales. Cerrar un modal regresa al panel; Escape dentro del modal no cierra el panel que queda debajo.
+- El acceso genérico a Reportes se retiró del footer; los reportes del ticket permanecen en el Taskbar. Conexión y Salir conservan su lugar como accesos deshabilitados hasta implementar sus flujos.
 
 ## Taskbar
 
@@ -97,9 +108,14 @@ Los componentes no deben comparar nombres de roles directamente. Deben consultar
 - CSS Modules para aislamiento por componente.
 - Tokens semánticos para color, espacio, tipografía, radios y sombras.
 - Tema mediante `data-theme="light|dark"`.
-- El archivo global activo importa actualmente `tokens7.css` y `themes7.css`.
+- Los archivos definitivos importados por `globals.css` son `tokens.css` y `themes.css`.
+- El tema claro usa fondos grisáceos: fondo general `#E4E6EC`, superficies `#ECEEF3` y superficies elevadas `#F2F3F6`. El blanco se reserva para texto sobre fondos de color.
+- El tema oscuro usa azul pizarra: fondo `#111A27`, superficies `#192536` y superficies elevadas `#223247`, para distinguir capas sin recurrir a negro casi puro.
+- La identidad visual se concentra en encabezados, navegación activa y títulos de sección. Usar `--color-surface-accent`, `--color-border-accent` y `--color-text-accent` para estos acentos; las áreas de lectura mantienen superficies neutras. El icono principal del encabezado usa fondo de marca y `--color-text-on-primary`.
+- Los textos y enlaces de acento usan `--color-text-accent`, separado del color de relleno `--color-primary`. Los textos sobre botones usan `--color-text-on-primary` o `--color-text-on-danger`, con valores específicos para cada tema.
+- Los estados conservan las asociaciones históricas: creado celeste, asignado naranja, en proceso azul, pausado amarillo, cerrado gris, cotización verde claro y resuelto verde. Cada estado tiene variables para indicador (`--status-*`), fondo (`--status-*-soft`) y texto (`--status-*-text`), adaptadas a claro y oscuro.
 
-Los archivos `tokens.css`, `tokens1.css` a `tokens6.css` y sus equivalentes de tema no están activos. Antes de producción conviene consolidar la variante aprobada y retirar o archivar las demás para evitar ediciones en el archivo equivocado.
+Los archivos `tokens1.css` a `tokens7.css` y sus equivalentes de tema son variantes anteriores y no están activos. Las modificaciones visuales deben realizarse en los archivos definitivos.
 
 ## Accesibilidad
 

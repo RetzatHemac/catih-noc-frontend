@@ -1,8 +1,8 @@
 .header {
   flex-shrink: 0;
   padding: var(--space-4);
-  border-bottom: var(--border-width-thin) solid var(--color-border);
-  background: var(--color-surface);
+  border-bottom: var(--border-width-thin) solid var(--color-border-accent);
+  background: var(--color-surface-accent);
 }
 
 .brand {

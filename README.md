@@ -11,7 +11,9 @@ Interfaz web para la consulta, creación y operación de tickets del NOC. El pro
 - Galerías, materiales, reemplazos, intervenciones, SLA y atención en sitio.
 - Taskbar contextual con chat, notas, imágenes, actividades, inventario, pausa, agenda, relaciones, duplicado, cierre y reportes.
 - Roles y permisos simulados en frontend.
-- Utilidades del Sidebar para consultar usuarios NOC y liberar cuadrillas.
+- Menú desplegable del ancho del Sidebar para NOC Online, liberar cuadrillas y navegar a Tablas según permisos.
+- Footer en una sola fila con menú, pendientes, conexión, perfil, tema y salir; conexión y salir aún están deshabilitados.
+- Botón Pendientes con contador de notificaciones no leídas y acceso al inicio de la lista del Sidebar, sin pantalla adicional.
 - Perfil de usuario y cambio de contraseña mock.
 - Administración mock de proyectos e implementaciones con búsqueda, filtros y paginación.
 - Administración mock de sitios por proyecto, direccionamientos e inventario.
@@ -91,7 +93,6 @@ Los lineamientos internos del equipo permanecen en `documents/`. Esa carpeta est
 | `/tickets`            | Presentación general de tickets.                      |
 | `/tickets/new`        | Formulario mock de creación.                          |
 | `/tickets/:ticketId`  | Detalle operativo del ticket.                         |
-| `/pending-tickets`    | Tickets asignados con notificación pendiente de leer. |
 | `/profile`            | Perfil de usuario y cambio de contraseña mock.        |
 | `/tables/sites`       | Administración mock de sitios por proyecto.           |
 | `/tables/tagged`      | Administración mock de equipos en etiquetado.         |

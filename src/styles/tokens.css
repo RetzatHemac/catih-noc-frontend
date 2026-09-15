@@ -51,29 +51,45 @@
      Ticket Status
      ======================================== */
 
-  --status-created: #3b82c4;
-  --status-created-soft: #e8f2fa;
+  /* Legacy hues, toned for light surfaces. Text has its own contrast color. */
+  /* Created: #ADD8E6 */
+  --status-created: #8fc4d6;
+  --status-created-soft: #d5e5eb;
+  --status-created-text: #285b6b;
 
-  --status-assigned: #8b5cc7;
-  --status-assigned-soft: #f0eafa;
+  /* Assigned: #FFA500 */
+  --status-assigned: #e99a18;
+  --status-assigned-soft: #eadfc9;
+  --status-assigned-text: #805000;
 
-  --status-in-progress: #e8792f;
-  --status-in-progress-soft: #fdf0e6;
+  /* In progress: #0000FF */
+  --status-in-progress: #4141d9;
+  --status-in-progress-soft: #dedff0;
+  --status-in-progress-text: #3030a0;
 
-  --status-paused: #536fa6;
-  --status-paused-soft: #e9eef7;
+  /* Paused: #FFFF00 */
+  --status-paused: #d6cf32;
+  --status-paused-soft: #e8e5be;
+  --status-paused-text: #625d0b;
 
-  --status-closed: #64748b;
-  --status-closed-soft: #eef1f4;
+  /* Closed: #808080 */
+  --status-closed: #808080;
+  --status-closed-soft: #dcdde0;
+  --status-closed-text: #505050;
 
-  --status-quotation: #0f9d92;
-  --status-quotation-soft: #e7f5f3;
+  /* Quotation: #90EE90 */
+  --status-quotation: #90cf90;
+  --status-quotation-soft: #d4e6d4;
+  --status-quotation-text: #315f31;
 
-  --status-resolved: #45a873;
-  --status-resolved-soft: #e8f6ee;
+  /* Resolved: #008000 */
+  --status-resolved: #238023;
+  --status-resolved-soft: #cedfce;
+  --status-resolved-text: #205c20;
 
   --status-default: #94a3b8;
-  --status-default-soft: #f1f5f9;
+  --status-default-soft: #dcdde0;
+  --status-default-text: #505050;
 
   /* ========================================
      Spacing

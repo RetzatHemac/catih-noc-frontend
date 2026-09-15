@@ -39,7 +39,7 @@ export interface TaskbarActionConfig {
   id: TaskbarActionId;
   label: string;
   icon: LucideIcon;
-  permission?: Permission;
+  permission: Permission;
   allowedStatuses?: TicketStatus[];
   hiddenStatuses?: TicketStatus[];
   title?: string;

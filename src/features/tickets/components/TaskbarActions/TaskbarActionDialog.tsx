@@ -1,9 +1,11 @@
+import { useEffect } from "react";
 import { useAuth } from "../../../../auth";
 
 import type { TaskbarActionId } from "../../config/taskbarActions";
 import type { TicketAttachment } from "../../types/ticketDetail.types";
 import { useTicketWorkspace } from "../../context/useTicketWorkspace";
 import { downloadTicketReport } from "../../utils/downloadTicketReport";
+import { canUseTaskbarAction } from "../../policies/taskbarAccess";
 
 import { ActivityActionModal } from "./ActivityActionModal";
 import { ChatDialog, type ChatMessageFormValue } from "./ChatDialog";
@@ -37,8 +39,15 @@ export function TaskbarActionDialog({
 }: TaskbarActionDialogProps) {
   const { user } = useAuth();
   const { ticket, updateTicket, setFeedback } = useTicketWorkspace();
+  const allowed = Boolean(
+    actionId && ticket && canUseTaskbarAction(user, actionId, ticket.status),
+  );
 
-  if (!actionId || !ticket) return null;
+  useEffect(() => {
+    if (actionId && !allowed) onClose();
+  }, [actionId, allowed, onClose]);
+
+  if (!actionId || !ticket || !allowed) return null;
 
   function complete(message: string) {
     setFeedback({ message, tone: "success" });

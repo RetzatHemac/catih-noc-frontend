@@ -1,10 +1,11 @@
 # Estado del proyecto y siguiente fase
 
-Última actualización: 8 de septiembre de 2026.
+Última actualización: 15 de septiembre de 2026.
 
 ## Listo actualmente
 
 - Base responsive Sidebar–Taskbar–Detalle.
+- Footer en una fila y panel desplegable del ancho del Sidebar, con NOC Online, liberación de cuadrillas y Tablas agrupadas por permisos.
 - Selección de ticket sincronizada con la URL.
 - Filtros funcionales sobre la colección mock.
 - Formularios y modales reutilizables.
@@ -12,7 +13,7 @@
 - Taskbar contextual completamente modelado en frontend.
 - Modal NOC Online con usuarios activos, limitado por permiso.
 - Liberación mock de cuadrillas para Analista y Superadministrador.
-- Badge y vista responsive de tickets asignados pendientes por iniciar.
+- Contador de tickets asignados pendientes por iniciar y botón que lleva al inicio de la lista del Sidebar, sin abrir una pantalla adicional.
 - Usuario, roles, permisos base y overrides mock.
 - Pruebas automatizadas para los flujos críticos implementados.
 - Tabla de proyectos con búsqueda, filtros, paginación y acciones por permiso.
@@ -34,6 +35,7 @@
 - La alerta sonora sigue pendiente de implementación.
 - El frontend oculta acciones, pero aún no hay autorización de servidor.
 - Las tablas de diagnósticos y marcas/modelos siguen como placeholders.
+- Herramientas conexión y Salir siguen deshabilitados hasta implementar sus flujos y la sesión real.
 - Concluir reemplazos, marcar accesible y ver el detalle de una fila de inventario permanecen deshabilitados hasta definir su flujo.
 
 ## Antes o durante la fase de roles
@@ -47,7 +49,7 @@
 
 ## Puntos técnicos a vigilar
 
-- Consolidar `tokens7.css`/`themes7.css` como nombres definitivos cuando se apruebe el tema; actualmente son los archivos realmente importados.
+- `tokens.css` y `themes.css` son los archivos definitivos del tema. Las variantes numeradas no están activas; queda pendiente retirarlas o archivarlas antes de producción.
 - Unificar estados y formatos de fecha antes del contrato API.
 - Evitar que `TicketWorkspaceProvider` se convierta en caché global de datos remotos.
 - Revocar object URLs cuando se retire un archivo o se desmonte su flujo.

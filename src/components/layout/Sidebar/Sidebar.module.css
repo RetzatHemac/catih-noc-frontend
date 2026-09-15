@@ -1,6 +1,6 @@
 .sidebar {
   display: grid;
-  grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+  grid-template-rows: minmax(0, 1fr) auto;
   width: 100%;
   height: 100%;
   min-width: 0;
@@ -8,6 +8,26 @@
   overflow: hidden;
   background: var(--color-surface);
   color: var(--color-text-primary);
+}
+
+.workspace {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.content {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.covered {
+  visibility: hidden;
 }
 
 .ticketArea {

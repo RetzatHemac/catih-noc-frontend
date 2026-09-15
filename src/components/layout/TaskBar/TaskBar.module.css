@@ -2,7 +2,7 @@
   width: 100%;
   min-width: 0;
   border-bottom: var(--border-width-thin) solid var(--color-border);
-  background: var(--color-surface);
+  background: var(--color-surface-accent);
 }
 
 .actions {
@@ -15,19 +15,19 @@
   scrollbar-width: thin;
 }
 
-.action {
+.taskbar .action {
   width: 44px;
   min-width: 44px;
   height: 44px;
   min-height: 44px;
   flex: 0 0 44px;
   padding: 0;
-  color: var(--color-text-secondary);
+  color: var(--color-text-accent);
 }
 
-.action:hover {
+.taskbar .action:hover:not(:disabled) {
   background: var(--color-primary-soft);
-  color: var(--color-primary);
+  color: var(--color-text-accent);
 }
 
 @media (min-width: 768px) {

@@ -139,7 +139,7 @@
   padding: 3px var(--space-2);
   border-radius: var(--radius-full);
   background: var(--ticket-status-soft);
-  color: var(--ticket-status);
+  color: var(--ticket-status-text);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
   text-overflow: ellipsis;

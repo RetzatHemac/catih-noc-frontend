@@ -22,7 +22,7 @@
 
 .coordinates svg {
   flex-shrink: 0;
-  color: var(--color-primary);
+  color: var(--color-text-accent);
 }
 
 .actions {
@@ -42,7 +42,7 @@
 
   border-radius: var(--radius-md);
 
-  color: var(--color-primary);
+  color: var(--color-text-accent);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   text-decoration: none;

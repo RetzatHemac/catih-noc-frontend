@@ -47,7 +47,7 @@
 }
 
 .actions button:first-child {
-  color: var(--color-primary);
+  color: var(--color-text-accent);
 }
 
 .actions button:last-child {

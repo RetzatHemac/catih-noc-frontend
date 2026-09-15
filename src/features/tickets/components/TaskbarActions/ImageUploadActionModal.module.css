@@ -32,7 +32,7 @@
 .tab:hover,
 .tab.active {
   border-color: var(--color-primary);
-  color: var(--color-primary);
+  color: var(--color-text-accent);
 }
 
 .tab:focus-visible {

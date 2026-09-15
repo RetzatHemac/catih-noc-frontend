@@ -49,7 +49,7 @@
   place-items: center;
   border-radius: var(--radius-full);
   background: var(--color-primary-soft);
-  color: var(--color-primary);
+  color: var(--color-text-accent);
   font-size: var(--font-size-xs);
 }
 
@@ -128,7 +128,7 @@
 .statusButton.selected {
   border-color: var(--color-status);
   background: var(--color-status-soft);
-  color: var(--color-status);
+  color: var(--color-status-text);
 }
 
 .statusDot {
@@ -142,36 +142,43 @@
 .statusButton[data-status="created"] {
   --color-status: var(--status-created);
   --color-status-soft: var(--status-created-soft);
+  --color-status-text: var(--status-created-text);
 }
 
 .statusButton[data-status="assigned"] {
   --color-status: var(--status-assigned);
   --color-status-soft: var(--status-assigned-soft);
+  --color-status-text: var(--status-assigned-text);
 }
 
 .statusButton[data-status="in-progress"] {
   --color-status: var(--status-in-progress);
   --color-status-soft: var(--status-in-progress-soft);
+  --color-status-text: var(--status-in-progress-text);
 }
 
 .statusButton[data-status="paused"] {
   --color-status: var(--status-paused);
   --color-status-soft: var(--status-paused-soft);
+  --color-status-text: var(--status-paused-text);
 }
 
 .statusButton[data-status="closed"] {
   --color-status: var(--status-closed);
   --color-status-soft: var(--status-closed-soft);
+  --color-status-text: var(--status-closed-text);
 }
 
 .statusButton[data-status="quotation"] {
   --color-status: var(--status-quotation);
   --color-status-soft: var(--status-quotation-soft);
+  --color-status-text: var(--status-quotation-text);
 }
 
 .statusButton[data-status="resolved"] {
   --color-status: var(--status-resolved);
   --color-status-soft: var(--status-resolved-soft);
+  --color-status-text: var(--status-resolved-text);
 }
 
 .selectGrid {

@@ -20,8 +20,10 @@
 
 .title {
   margin: 0;
+  padding-inline-start: var(--space-3);
+  border-inline-start: 3px solid var(--color-border-accent);
 
-  color: var(--color-text-primary);
+  color: var(--color-text-accent);
 
   font-size: var(--font-size-lg);
   font-weight: 600;
@@ -49,7 +51,7 @@
 }
 
 .toggle:hover .title {
-  color: var(--color-primary);
+  color: var(--color-text-accent);
 }
 
 .toggle:focus-visible {
@@ -73,7 +75,7 @@
 }
 
 .toggle:hover .chevron {
-  color: var(--color-primary);
+  color: var(--color-text-accent);
 }
 
 .actions {

@@ -9,7 +9,10 @@ import type { TaskbarActionId } from "../../../features/tickets/config/taskbarAc
 import { TicketWorkspaceProvider } from "../../../features/tickets/context/TicketWorkspaceProvider";
 import { useTicketWorkspace } from "../../../features/tickets/context/useTicketWorkspace";
 import { getMockTicketDetail } from "../../../features/tickets/mocks/ticketDetail.mock";
-import { getVisibleTaskbarActions } from "../../../features/tickets/policies/taskbarAccess";
+import {
+  canUseTaskbarAction,
+  getVisibleTaskbarActions,
+} from "../../../features/tickets/policies/taskbarAccess";
 import type { TicketStatusOverrides } from "../../../features/tickets/utils/ticketStatus";
 
 import { Sidebar } from "../Sidebar/Sidebar";
@@ -81,7 +84,7 @@ function AppShellContent({ ticketStatusOverrides }: AppShellContentProps) {
   const showTaskbar = Boolean(ticket && taskbarActions.length > 0);
 
   function handleTaskbarAction(actionId: TaskbarActionId) {
-    if (!ticket) {
+    if (!ticket || !canUseTaskbarAction(user, actionId, ticket.status)) {
       return;
     }
 

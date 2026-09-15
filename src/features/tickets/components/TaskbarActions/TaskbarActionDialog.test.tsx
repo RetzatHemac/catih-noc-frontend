@@ -1,7 +1,9 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
+import { useState } from "react";
 
-import { AuthProvider } from "../../../../auth";
+import { AuthProvider, ROLES, type AuthUser } from "../../../../auth";
+import type { TaskbarActionId } from "../../config/taskbarActions";
 import { mockTicketDetail } from "../../mocks/ticketDetail.mock";
 import { TicketWorkspaceProvider } from "../../context/TicketWorkspaceProvider";
 import { useTicketWorkspace } from "../../context/useTicketWorkspace";
@@ -9,6 +11,67 @@ import { useTicketWorkspace } from "../../context/useTicketWorkspace";
 import { TaskbarActionDialog } from "./TaskbarActionDialog";
 
 describe("TaskbarActionDialog", () => {
+  it("rejects a direct action request without the required effective permission", () => {
+    const onClose = vi.fn();
+    render(
+      <AuthProvider
+        user={{
+          id: "user",
+          name: "Usuario",
+          email: "user@test.mx",
+          role: ROLES.SUPER_ADMIN,
+          effectivePermissions: [],
+        }}
+      >
+        <TicketWorkspaceProvider initialTicket={mockTicketDetail}>
+          <TaskbarActionDialog actionId="open-chat" onClose={onClose} />
+        </TicketWorkspaceProvider>
+      </AuthProvider>,
+    );
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(onClose).toHaveBeenCalledOnce();
+  });
+
+  it("dismisses an open dialog when its session permission is revoked", () => {
+    const onClose = vi.fn();
+    const user: AuthUser = {
+      id: "user",
+      name: "Usuario",
+      email: "user@test.mx",
+      role: ROLES.SUPER_ADMIN,
+      effectivePermissions: ["ticket.notes.manage"],
+    };
+    function content(activeUser: AuthUser) {
+      return (
+        <AuthProvider user={activeUser}>
+          <TicketWorkspaceProvider initialTicket={mockTicketDetail}>
+            <TaskbarActionDialog actionId="open-chat" onClose={onClose} />
+          </TicketWorkspaceProvider>
+        </AuthProvider>
+      );
+    }
+    const { rerender } = render(content(user));
+    expect(
+      screen.getByRole("dialog", { name: "Chat del ticket" }),
+    ).toBeInTheDocument();
+    rerender(content({ ...user, effectivePermissions: [] }));
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(onClose).toHaveBeenCalledOnce();
+  });
+
+  it("rejects actions which the current ticket status does not allow", () => {
+    render(
+      <AuthProvider>
+        <TicketWorkspaceProvider
+          initialTicket={{ ...mockTicketDetail, status: "CERRADO" }}
+        >
+          <TaskbarActionDialog actionId="pause-ticket" onClose={vi.fn()} />
+        </TicketWorkspaceProvider>
+      </AuthProvider>,
+    );
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
   it("sends a chat message with Enter and keeps the dialog open", () => {
     const onClose = vi.fn();
 
@@ -71,7 +134,7 @@ describe("TaskbarActionDialog", () => {
         <TicketWorkspaceProvider
           initialTicket={{ ...mockTicketDetail, status: "EN_PROCESO" }}
         >
-          <TaskbarActionDialog actionId="pause-ticket" onClose={onClose} />
+          <DismissibleAction actionId="pause-ticket" onClose={onClose} />
           <WorkspaceSnapshot />
         </TicketWorkspaceProvider>
       </AuthProvider>,
@@ -158,6 +221,27 @@ describe("TaskbarActionDialog", () => {
     );
   });
 });
+
+function DismissibleAction({
+  actionId,
+  onClose,
+}: {
+  actionId: TaskbarActionId;
+  onClose: () => void;
+}) {
+  const [activeAction, setActiveAction] = useState<TaskbarActionId | null>(
+    actionId,
+  );
+  return (
+    <TaskbarActionDialog
+      actionId={activeAction}
+      onClose={() => {
+        setActiveAction(null);
+        onClose();
+      }}
+    />
+  );
+}
 
 function WorkspaceSnapshot() {
   const { ticket } = useTicketWorkspace();

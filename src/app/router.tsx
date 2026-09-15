@@ -1,8 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
+import { PERMISSIONS } from "../auth";
+import { PermissionGate } from "./components/PermissionGate";
 
 import {
   ClipboardPlus,
-  BellRing,
   FolderKanban,
   LayoutList,
   MapPin,
@@ -18,7 +19,6 @@ import { TicketPage } from "../pages/TicketPage/TicketPage";
 import { TicketDetailPage } from "../pages/TicketDetailPage/TicketDetailPage";
 
 import { CreateTicket } from "../features/tickets/components/CreateTicket/CreateTicket";
-import { PendingTickets } from "../features/tickets/components/PendingTickets/PendingTickets";
 import { ProfilePage } from "../features/users/components/Profile/ProfilePage";
 import { ProjectsPage } from "../features/projects/components/ProjectsPage/ProjectsPage";
 import { SitesPage } from "../features/sites/components/SitesPage/SitesPage";
@@ -53,16 +53,6 @@ export const router = createBrowserRouter([
           title: "Crear ticket",
           description: "Registra un nuevo ticket para su atención.",
           icon: ClipboardPlus,
-        } satisfies DetailRouteHandle,
-      },
-
-      {
-        path: "pending-tickets",
-        element: <PendingTickets />,
-        handle: {
-          title: "Tickets pendientes",
-          description: "Atenciones asignadas que todavía no han iniciado.",
-          icon: BellRing,
         } satisfies DetailRouteHandle,
       },
 
@@ -118,7 +108,11 @@ export const router = createBrowserRouter([
 
       {
         path: "tables/diagnostics",
-        element: <div>Diagnostics</div>,
+        element: (
+          <PermissionGate permission={PERMISSIONS.CATALOGS_MANAGE}>
+            <div>Diagnostics</div>
+          </PermissionGate>
+        ),
         handle: {
           title: "Diagnósticos",
           icon: MonitorCog,
@@ -127,7 +121,11 @@ export const router = createBrowserRouter([
 
       {
         path: "tables/models",
-        element: <div>Models</div>,
+        element: (
+          <PermissionGate permission={PERMISSIONS.CATALOGS_MANAGE}>
+            <div>Models</div>
+          </PermissionGate>
+        ),
         handle: {
           title: "Marcas y modelos",
           icon: LayoutList,

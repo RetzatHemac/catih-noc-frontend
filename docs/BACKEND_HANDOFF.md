@@ -84,7 +84,7 @@ Los paths son propuestas para alinear conversaciones; backend debe confirmarlos 
 - Agendar visita.
 - Crear mensajes y notas.
 - Liberar una cuadrilla mediante su identificador estable.
-- Marcar una notificación de ticket como leída al abrir el ticket desde la vista de pendientes.
+- Marcar una notificación de ticket como leída al abrir su detalle, para usuarios con permiso de consulta de pendientes. El botón Pendientes conserva el contador y solo desplaza al inicio de la lista del Sidebar.
 - Solicitar cada tipo de reporte.
 
 ## Contratos que deben conservarse o mapearse

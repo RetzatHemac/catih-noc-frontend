@@ -101,9 +101,9 @@
   }
 
   .table th {
-    background: var(--color-bg-secondary);
+    background: var(--color-surface-accent);
 
-    color: var(--color-text-secondary);
+    color: var(--color-text-accent);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-semibold);
 
@@ -130,7 +130,7 @@
     width: var(--data-table-actions-width);
     min-width: var(--data-table-actions-width);
 
-    background: var(--color-bg-secondary);
+    background: var(--color-surface-accent);
 
     text-align: center !important;
   }

@@ -99,7 +99,7 @@
 .rowActions button {
   width: 32px;
   padding: 0;
-  color: var(--color-primary);
+  color: var(--color-text-accent);
 }
 
 @media (min-width: 768px) {

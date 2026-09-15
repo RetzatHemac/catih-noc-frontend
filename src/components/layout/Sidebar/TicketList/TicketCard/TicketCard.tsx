@@ -24,6 +24,7 @@ export function TicketCard({ ticket }: TicketCardProps) {
         {
           "--ticket-status": status.color,
           "--ticket-status-soft": status.softColor,
+          "--ticket-status-text": status.textColor,
         } as React.CSSProperties
       }
     >
