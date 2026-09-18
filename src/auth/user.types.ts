@@ -1,5 +1,6 @@
 import type { Permission } from "./permissions";
 import type { Role } from "./roles";
+import type { CompanyBranding } from "../features/companies/types/company.types";
 
 export interface PermissionOverrides {
   grant?: Permission[];
@@ -12,6 +13,7 @@ export interface AuthUser {
   name: string;
   email: string;
   role: Role;
+  company?: CompanyBranding;
 
   /** Authoritative permissions from the session adapter; [] grants nothing. */
   effectivePermissions?: Permission[];

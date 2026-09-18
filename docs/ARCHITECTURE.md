@@ -1,6 +1,20 @@
 # Arquitectura del frontend
 
-Última actualización: 15 de septiembre de 2026.
+Última actualización: 18 de septiembre de 2026.
+
+## Bienvenida por empresa
+
+`DashboardPage` compone la bienvenida del detalle inicial (`/`). La ruta `/welcome`, accesible desde Inicio en el menú, muestra la misma pantalla en móvil con regreso a la lista. La entrada móvil conserva el Sidebar.
+
+`AuthUser.company` contiene `CompanyBranding` (identificador, nombre, logo y variante oscura opcional). `CompanyLogo`, en `features/companies`, resuelve la imagen por tema, mantiene su proporción y ofrece un respaldo si falta o falla. Un cambio de empresa o URL reinicia el estado de error. Una sola pantalla sirve para todas las empresas, sin condiciones por rol ni inferencias desde el correo.
+
+El usuario mock Hemac utiliza temporalmente una imagen de prueba existente, indicada mediante `isDemoImage`. Los logos oficiales están pendientes. Los estilos son CSS Modules con tokens compartidos y enfoque mobile first.
+
+## Preparación de herramientas y permisos efectivos
+
+Las herramientas de la lista viven en `TicketListTools`, dentro del menú. Reciben una instantánea de los mismos filtros e identificadores que alimentan la lista. Las cuatro herramientas permanecen deshabilitadas; sus permisos pendientes (`null`) sólo permiten previsualización con la sesión mock, sin permisos efectivos recibidos.
+
+Cuando existe `AuthUser.effectivePermissions`, esa lista es la autoridad para la UI (incluido `[]`); si no existe, se conserva el cálculo mock por rol y overrides. El Taskbar comparte la política entre visibilidad, ejecución y diálogos. Los catálogos provisionales también validan su permiso al entrar por URL. La matriz definitiva y la autorización del servidor siguen pendientes.
 
 ## Objetivo
 

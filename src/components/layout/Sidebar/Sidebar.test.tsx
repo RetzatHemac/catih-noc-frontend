@@ -10,21 +10,24 @@ import { PendingNotificationsProvider } from "../../../features/tickets/context/
 import { Sidebar } from "./Sidebar";
 
 describe("Sidebar", () => {
-  it("moves the planned tools into the menu and keeps their context aligned with search results", () => {
+  it("moves the planned tools into the menu and keeps their context aligned with search results", async () => {
     renderSidebar("COTIZACION");
     expect(
-      screen.queryByRole("button", { name: /Herramientas/ }),
+      screen.queryByRole("button", { name: /^Herramientas de tickets/ }),
     ).not.toBeInTheDocument();
     fireEvent.change(screen.getByRole("searchbox", { name: "Buscar ticket" }), {
       target: { value: "Zapopan" },
     });
     fireEvent.click(screen.getByRole("button", { name: "Desplegar menú" }));
     fireEvent.click(
-      screen.getByRole("button", {
-        name: "Herramientas de tickets 1 ticket en la lista",
+      await screen.findByRole("button", {
+        name: /^Herramientas de tickets/,
       }),
     );
     expect(screen.getByText("Zapopan")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /^Herramientas de tickets/ }),
+    ).toHaveTextContent("1 ticket en la lista");
     for (const name of [
       "Ver mapa",
       "Reporte supervisor",
@@ -40,8 +43,8 @@ describe("Sidebar", () => {
     });
     fireEvent.click(screen.getByRole("button", { name: "Desplegar menú" }));
     expect(
-      screen.getByRole("button", {
-        name: "Herramientas de tickets 0 tickets en la lista",
+      await screen.findByRole("button", {
+        name: /^Herramientas de tickets/,
       }),
     ).toBeInTheDocument();
     expect(

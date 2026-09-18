@@ -4,6 +4,18 @@ Esta guía identifica los puntos que el equipo backend deberá sustituir o conec
 
 ## Principio de integración
 
+### Empresa de la sesión
+
+El adaptador de sesión puede proporcionar `AuthUser.company` con `{ id, name, logoUrl?, darkLogoUrl? }`. La empresa debe proceder de la asignación autenticada; no se deduce del correo ni del rol. Las URLs deben apuntar a imágenes oficiales autorizadas. La variante oscura es opcional: sin ella se muestra el logo normal sobre un fondo gris. Si no hay imagen o falla, se muestra un símbolo neutro.
+
+Actualmente Hemac usa una imagen local de prueba con `isDemoImage: true`. Al sustituirla por el logo oficial se retira esa marca. No hay un catálogo ficticio de 30 empresas ni conexión remota; la misma vista consume cualquier empresa suministrada por la sesión.
+
+### Permisos y herramientas sobre la lista
+
+`effectivePermissions` presente sustituye los permisos mock por rol/overrides; una lista vacía no concede permisos. El adaptador real deberá proporcionar siempre la lista efectiva, incluso vacía. La ausencia del campo conserva únicamente el comportamiento de desarrollo.
+
+Las herramientas pendientes del menú reciben `TicketListToolsContext` con filtros e IDs de resultados locales. Al incorporar paginación remota, backend deberá resolver el conjunto completo según filtros y alcance autorizado; los IDs de la página no representan necesariamente todos los resultados. No hay endpoints ni permisos definitivos para estas herramientas y continúan deshabilitadas. La visibilidad frontend no sustituye la autorización backend.
+
 Los tipos actuales describen las necesidades de la interfaz, pero no son todavía un contrato oficial de API. Antes de conectar servicios se debe acordar OpenAPI o un contrato equivalente para requests, respuestas, errores y permisos.
 
 El frontend puede validar para mejorar la experiencia. El backend debe validar nuevamente todos los datos y permisos.

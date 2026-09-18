@@ -23,7 +23,9 @@ describe("TaskbarActionDialog", () => {
           effectivePermissions: [],
         }}
       >
-        <TicketWorkspaceProvider initialTicket={mockTicketDetail}>
+        <TicketWorkspaceProvider
+          initialTicket={{ ...mockTicketDetail, status: "EN_PROCESO" }}
+        >
           <TaskbarActionDialog actionId="open-chat" onClose={onClose} />
         </TicketWorkspaceProvider>
       </AuthProvider>,
@@ -44,7 +46,9 @@ describe("TaskbarActionDialog", () => {
     function content(activeUser: AuthUser) {
       return (
         <AuthProvider user={activeUser}>
-          <TicketWorkspaceProvider initialTicket={mockTicketDetail}>
+          <TicketWorkspaceProvider
+            initialTicket={{ ...mockTicketDetail, status: "EN_PROCESO" }}
+          >
             <TaskbarActionDialog actionId="open-chat" onClose={onClose} />
           </TicketWorkspaceProvider>
         </AuthProvider>
@@ -77,7 +81,9 @@ describe("TaskbarActionDialog", () => {
 
     render(
       <AuthProvider>
-        <TicketWorkspaceProvider initialTicket={mockTicketDetail}>
+        <TicketWorkspaceProvider
+          initialTicket={{ ...mockTicketDetail, status: "EN_PROCESO" }}
+        >
           <TaskbarActionDialog actionId="open-chat" onClose={onClose} />
           <WorkspaceSnapshot />
         </TicketWorkspaceProvider>
@@ -105,7 +111,9 @@ describe("TaskbarActionDialog", () => {
 
     render(
       <AuthProvider>
-        <TicketWorkspaceProvider initialTicket={mockTicketDetail}>
+        <TicketWorkspaceProvider
+          initialTicket={{ ...mockTicketDetail, status: "EN_PROCESO" }}
+        >
           <TaskbarActionDialog actionId="manage-notes" onClose={onClose} />
           <WorkspaceSnapshot />
         </TicketWorkspaceProvider>

@@ -1,8 +1,12 @@
 # Estado del proyecto y siguiente fase
 
-Última actualización: 15 de septiembre de 2026.
+Última actualización: 18 de septiembre de 2026.
 
 ## Listo actualmente
+
+- Bienvenida personalizada por empresa en el detalle inicial y acceso Inicio en el menú móvil. Imagen de prueba temporal, logo oscuro opcional y respaldo ante imágenes ausentes o fallidas; pendientes los logos oficiales.
+- Herramientas de lista trasladadas al menú y sincronizadas con filtros/resultados; siguen como próximas funcionalidades deshabilitadas.
+- Soporte para permisos efectivos de sesión y validación compartida de acciones/diálogos del Taskbar. Matriz final de roles e integración backend pendientes.
 
 - Base responsive Sidebar–Taskbar–Detalle.
 - Footer en una fila y panel desplegable del ancho del Sidebar, con NOC Online, liberación de cuadrillas y Tablas agrupadas por permisos.

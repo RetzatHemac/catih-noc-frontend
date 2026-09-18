@@ -1,4 +1,11 @@
-import { ChevronRight, ShieldCheck, UserRoundCheck, X } from "lucide-react";
+import {
+  ChevronRight,
+  House,
+  ShieldCheck,
+  UserRoundCheck,
+  X,
+} from "lucide-react";
+import { NavLink } from "react-router-dom";
 import { useEffect, useId, useRef, useState } from "react";
 import { can, PERMISSIONS, useAuth } from "../../../../auth";
 import { ReleaseCrewDialog } from "../../../../features/crews/components/ReleaseCrewDialog/ReleaseCrewDialog";
@@ -83,6 +90,15 @@ export function SidebarMenu({
         </button>
       </header>
       <div className={styles.content}>
+        <NavLink to="/welcome" className={styles.item} onClick={onNavigate}>
+          <span className={styles.icon}>
+            <House size={21} aria-hidden="true" />
+          </span>
+          <span className={styles.label}>
+            Inicio<small>Bienvenida a tu espacio de trabajo</small>
+          </span>
+          <ChevronRight size={18} aria-hidden="true" />
+        </NavLink>
         {(canViewNoc || canRelease) && (
           <section className={styles.group} aria-label="Operación">
             <h3>Operación</h3>
