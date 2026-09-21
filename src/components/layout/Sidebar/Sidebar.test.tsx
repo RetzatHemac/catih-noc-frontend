@@ -1,4 +1,10 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, useLocation } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
@@ -10,6 +16,39 @@ import { PendingNotificationsProvider } from "../../../features/tickets/context/
 import { Sidebar } from "./Sidebar";
 
 describe("Sidebar", () => {
+  it("keeps filters applied when closing the panel and restores focus", () => {
+    renderSidebar("COTIZACION");
+    const trigger = screen.getByRole("button", { name: "Filtros" });
+    fireEvent.click(trigger);
+    const panel = screen.getByRole("region", { name: "Filtros de tickets" });
+    expect(trigger).toHaveAttribute("aria-controls", panel.id);
+    fireEvent.click(within(panel).getByRole("button", { name: "Cotización" }));
+    expect(screen.getByRole("link", { name: /CAT-10245/ })).toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", { name: /CAT-10244/ }),
+    ).not.toBeInTheDocument();
+    fireEvent.keyDown(panel, { key: "Escape" });
+    expect(
+      screen.queryByRole("region", { name: "Filtros de tickets" }),
+    ).not.toBeInTheDocument();
+    expect(trigger).toHaveFocus();
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+    expect(
+      screen.queryByRole("link", { name: /CAT-10244/ }),
+    ).not.toBeInTheDocument();
+    fireEvent.click(trigger);
+    expect(screen.getByRole("button", { name: "Cotización" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    fireEvent.click(
+      screen.getByRole("button", { name: "Restablecer filtros" }),
+    );
+    expect(screen.getByRole("link", { name: /CAT-10244/ })).toBeInTheDocument();
+    expect(
+      screen.getByRole("region", { name: "Filtros de tickets" }),
+    ).toBeInTheDocument();
+  });
   it("moves the planned tools into the menu and keeps their context aligned with search results", async () => {
     renderSidebar("COTIZACION");
     expect(

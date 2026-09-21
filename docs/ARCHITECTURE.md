@@ -1,6 +1,6 @@
 # Arquitectura del frontend
 
-Última actualización: 18 de septiembre de 2026.
+Última actualización: 21 de septiembre de 2026.
 
 ## Visibilidad del Sidebar en escritorio
 
@@ -10,9 +10,9 @@ Los encabezados del Sidebar, detalle y menú comparten `--workspace-header-heigh
 
 La preferencia sólo afecta a escritorio (desde 768 px); en móvil la ruta determina el panel visible. Al volver a escritorio se recupera la elección. Recargar restablece el Sidebar visible. Ocultar el panel no modifica rutas, permisos ni el ticket activo.
 
-## Galerías de imágenes
-
 ## Panel de filtros
+
+El Sidebar vive fuera del `TicketWorkspaceProvider` identificado por ticket: cambiar de ticket reinicia únicamente el workspace del detalle, conservando búsqueda, filtros, panel abierto y desplazamiento del Sidebar.
 
 Desde 768 px, `SidebarFilters` abre un panel no modal de 300 px a la derecha de la lista, con desplazamiento independiente, cierre explícito y Escape desde sus controles. El botón conserva su altura y muestra la cantidad de filtros activos; los valores siguen en `Sidebar` y cerrar el panel no los elimina. No se bloquea el foco ni la interacción con los tickets.
 

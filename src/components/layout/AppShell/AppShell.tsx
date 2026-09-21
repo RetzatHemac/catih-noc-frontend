@@ -30,6 +30,9 @@ export function AppShell() {
 }
 
 function TicketWorkspaceBoundary() {
+  const { showSidebar } = useNavigation();
+  const { user } = useAuth();
+  const sidebarId = useId();
   const ticketMatch = useMatch("/tickets/:ticketId");
   const ticketId = ticketMatch?.params.ticketId;
   const [ticketStatusOverrides, setTicketStatusOverrides] =
@@ -42,6 +45,10 @@ function TicketWorkspaceBoundary() {
     mockTicket && overriddenStatus
       ? { ...mockTicket, status: overriddenStatus }
       : mockTicket;
+  const showTaskbar = Boolean(
+    initialTicket &&
+    getVisibleTaskbarActions(user, initialTicket.status).length,
+  );
   const handleTicketStatusChange = useCallback(
     (
       changedTicketId: string,
@@ -57,23 +64,33 @@ function TicketWorkspaceBoundary() {
   );
 
   return (
-    <TicketWorkspaceProvider
-      key={ticketId ?? "without-active-ticket"}
-      initialTicket={initialTicket ?? null}
-      onTicketStatusChange={handleTicketStatusChange}
+    <div
+      className={`${styles.shell} ${showTaskbar ? styles.hasTaskbar : ""} ${!showSidebar ? styles.sidebarHidden : ""}`}
     >
-      <AppShellContent ticketStatusOverrides={ticketStatusOverrides} />
-    </TicketWorkspaceProvider>
+      <aside
+        id={sidebarId}
+        className={styles.sidebar}
+        style={{ display: showSidebar ? "block" : "none" }}
+      >
+        <Sidebar ticketStatusOverrides={ticketStatusOverrides} />
+      </aside>
+      <TicketWorkspaceProvider
+        key={ticketId ?? "without-active-ticket"}
+        initialTicket={initialTicket ?? null}
+        onTicketStatusChange={handleTicketStatusChange}
+      >
+        <AppShellContent sidebarId={sidebarId} />
+      </TicketWorkspaceProvider>
+    </div>
   );
 }
 
 interface AppShellContentProps {
-  ticketStatusOverrides: TicketStatusOverrides;
+  sidebarId: string;
 }
 
-function AppShellContent({ ticketStatusOverrides }: AppShellContentProps) {
-  const { showDetail, showSidebar } = useNavigation();
-  const sidebarId = useId();
+function AppShellContent({ sidebarId }: AppShellContentProps) {
+  const { showDetail } = useNavigation();
   const { user } = useAuth();
   const { ticket } = useTicketWorkspace();
   const [activeAction, setActiveAction] = useState<TaskbarActionId | null>(
@@ -93,17 +110,7 @@ function AppShellContent({ ticketStatusOverrides }: AppShellContentProps) {
   }
 
   return (
-    <div
-      className={`${styles.shell} ${showTaskbar ? styles.hasTaskbar : ""} ${!showSidebar ? styles.sidebarHidden : ""}`}
-    >
-      <aside
-        id={sidebarId}
-        className={styles.sidebar}
-        style={{ display: showSidebar ? "block" : "none" }}
-      >
-        <Sidebar ticketStatusOverrides={ticketStatusOverrides} />
-      </aside>
-
+    <>
       {showTaskbar && (
         <div className={styles.taskbar}>
           <TaskBar actions={taskbarActions} onAction={handleTaskbarAction} />
@@ -125,6 +132,6 @@ function AppShellContent({ ticketStatusOverrides }: AppShellContentProps) {
         actionId={activeAction}
         onClose={() => setActiveAction(null)}
       />
-    </div>
+    </>
   );
 }

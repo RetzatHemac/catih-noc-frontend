@@ -1,8 +1,10 @@
 # Estado del proyecto y siguiente fase
 
-Última actualización: 18 de septiembre de 2026.
+Última actualización: 21 de septiembre de 2026.
 
 ## Listo actualmente
+
+- Filtros laterales en escritorio: columna reservada desde 1280 px y panel superpuesto al detalle entre 768 y 1279 px, sin desplazar la lista. Acordeón en móvil; filtros conservados al cerrar.
 
 - Visor ampliado desde el carrusel, también en inventario, y edición local de descripciones en imágenes del ticket según permisos. Cancelación de borradores y soporte de teclado/foco entre modales anidados.
 

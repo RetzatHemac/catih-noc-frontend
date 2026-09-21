@@ -52,6 +52,27 @@ function setup() {
 }
 
 describe("AppShell sidebar visibility", () => {
+  it("preserves the open filters and selection when changing tickets", async () => {
+    const { router } = setup();
+    fireEvent.click(screen.getByRole("button", { name: "Filtros" }));
+    fireEvent.click(screen.getByRole("button", { name: "Creado" }));
+    await act(() => router.navigate("/tickets/CAT-10245"));
+    expect(
+      screen.getByRole("region", { name: "Filtros de tickets" }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Creado" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    expect(
+      screen.queryByRole("link", { name: /CAT-10244/ }),
+    ).not.toBeInTheDocument();
+    await act(() => router.navigate("/tickets/CAT-10243"));
+    expect(screen.getByRole("button", { name: "Creado" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+  });
   it("preserves the mounted list, filters and scroll when hiding and restoring", () => {
     setup();
     const search = screen.getByRole("searchbox", { name: "Buscar ticket" });

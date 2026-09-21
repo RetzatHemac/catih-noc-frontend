@@ -1,9 +1,11 @@
 .groups {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
   gap: var(--space-4);
 }
 
 .group {
+  container-type: inline-size;
   min-width: 0;
   padding: var(--space-4);
   border: var(--border-width-thin) solid var(--color-border);
@@ -78,7 +80,7 @@
   color: var(--status-resolved-text);
 }
 
-@media (min-width: 640px) {
+@container (min-width: 380px) {
   .groupGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -88,8 +90,3 @@
   }
 }
 
-@media (min-width: 1280px) {
-  .groups {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
