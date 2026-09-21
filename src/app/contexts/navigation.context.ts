@@ -1,6 +1,8 @@
 import { createContext } from "react";
 
 export interface NavigationContextValue {
+  isDesktop: boolean;
+  toggleDesktopSidebar: () => void;
   showDetail: boolean;
   showSidebar: boolean;
   goToSidebar: () => void;

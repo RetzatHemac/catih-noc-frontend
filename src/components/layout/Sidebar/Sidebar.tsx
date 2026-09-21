@@ -86,6 +86,7 @@ export function Sidebar({ ticketStatusOverrides = {} }: SidebarProps) {
         <div
           className={`${styles.content} ${menuOpen ? styles.covered : ""}`}
           inert={menuOpen}
+          data-sidebar-content
           aria-hidden={menuOpen || undefined}
         >
           <SidebarHeader

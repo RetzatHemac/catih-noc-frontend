@@ -1,9 +1,18 @@
-import { ChevronLeft, ChevronRight, ImageOff, Trash2 } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ImageOff,
+  Pencil,
+  Expand,
+  Trash2,
+} from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "../../ui/Button/Button";
 
 import styles from "./ImageGallery.module.css";
+import { ImageViewerDialog } from "./ImageViewerDialog";
+import { ImageDescriptionDialog } from "./ImageDescriptionDialog";
 
 export interface GalleryImage {
   id: string;
@@ -16,6 +25,7 @@ interface ImageGalleryProps {
   emptyLabel?: string;
   editable?: boolean;
   onDelete?: (imageId: string) => void;
+  onEditDescription?: (imageId: string, description: string) => void;
 }
 
 export function ImageGallery({
@@ -23,7 +33,12 @@ export function ImageGallery({
   emptyLabel = "Sin imágenes",
   editable = false,
   onDelete,
+  onEditDescription,
 }: ImageGalleryProps) {
+  const [dialog, setDialog] = useState<{
+    id: string;
+    mode: "view" | "edit";
+  } | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [failedImageIds, setFailedImageIds] = useState<Set<string>>(
     () => new Set(),
@@ -37,6 +52,7 @@ export function ImageGallery({
 
   const currentImage = images[safeIndex]!;
   const hasCurrentImageError = failedImageIds.has(currentImage.id);
+  const selectedImage = images.find((image) => image.id === dialog?.id);
 
   function handleImageError(imageId: string) {
     setFailedImageIds((current) => {
@@ -78,12 +94,24 @@ export function ImageGallery({
               <span>No se pudo cargar esta imagen.</span>
             </div>
           ) : (
-            <img
-              src={currentImage.url}
-              alt={currentImage.description || `Imagen ${safeIndex + 1}`}
-              className={styles.image}
-              onError={() => handleImageError(currentImage.id)}
-            />
+            <button
+              type="button"
+              className={styles.openImage}
+              onClick={() => setDialog({ id: currentImage.id, mode: "view" })}
+              aria-label="Ampliar imagen"
+              aria-haspopup="dialog"
+              title="Ampliar imagen"
+            >
+              <img
+                src={currentImage.url}
+                alt={currentImage.description || `Imagen ${safeIndex + 1}`}
+                className={styles.image}
+                onError={() => handleImageError(currentImage.id)}
+              />
+              <span className={styles.expandHint}>
+                <Expand size={16} aria-hidden="true" /> Ampliar
+              </span>
+            </button>
           )}
 
           {images.length > 1 && (
@@ -128,19 +156,35 @@ export function ImageGallery({
             )}
           </div>
 
-          {editable && onDelete && (
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              className={styles.deleteButton}
-              onClick={handleDelete}
-              aria-label="Eliminar imagen"
-              title="Eliminar imagen"
-            >
-              <Trash2 size={17} aria-hidden="true" />
-            </Button>
-          )}
+          <div className={styles.actions}>
+            {onEditDescription && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className={styles.editButton}
+                onClick={() => setDialog({ id: currentImage.id, mode: "edit" })}
+                aria-label="Editar descripción de imagen"
+                title="Editar descripción"
+                aria-haspopup="dialog"
+              >
+                <Pencil size={17} aria-hidden="true" />
+              </Button>
+            )}
+            {editable && onDelete && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className={styles.deleteButton}
+                onClick={handleDelete}
+                aria-label="Eliminar imagen"
+                title="Eliminar imagen"
+              >
+                <Trash2 size={17} aria-hidden="true" />
+              </Button>
+            )}
+          </div>
         </div>
       </div>
 
@@ -174,6 +218,21 @@ export function ImageGallery({
             </button>
           ))}
         </div>
+      )}
+      {selectedImage && dialog?.mode === "view" && (
+        <ImageViewerDialog
+          key={`${selectedImage.id}:${selectedImage.url}`}
+          image={selectedImage}
+          onClose={() => setDialog(null)}
+        />
+      )}
+      {selectedImage && dialog?.mode === "edit" && onEditDescription && (
+        <ImageDescriptionDialog
+          key={selectedImage.id}
+          image={selectedImage}
+          onClose={() => setDialog(null)}
+          onSave={onEditDescription}
+        />
       )}
     </div>
   );

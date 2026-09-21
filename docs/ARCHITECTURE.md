@@ -2,6 +2,32 @@
 
 Última actualización: 18 de septiembre de 2026.
 
+## Visibilidad del Sidebar en escritorio
+
+Los encabezados del Sidebar, detalle y menú comparten `--workspace-header-height` (77 px). Las opciones principales del menú usan `--sidebar-menu-item-height` (56 px mínimo), iconos de 32 px y separación compacta; los controles táctiles mantienen al menos 44 px. Los textos del encabezado del detalle ocupan una línea por nivel y se abrevian visualmente con puntos suspensivos cuando falta espacio, conservando el texto completo en el DOM y en `title`.
+
+`NavigationProvider` conserva en memoria la elección de ocultar/mostrar el Sidebar durante la navegación. `SidebarToggle` ofrece un control de 44 px en el encabezado del detalle, con etiqueta accesible, `aria-expanded` y `aria-controls`. El Sidebar se oculta con `display: none` sin desmontarse por esta acción, conservando filtros, menú y desplazamiento. La cuadrícula de `AppShell` libera su columna y mantiene la del Taskbar cuando corresponde. La visibilidad de los paneles se resuelve en el provider, sin sobrescrituras `!important` en desktop.
+
+La preferencia sólo afecta a escritorio (desde 768 px); en móvil la ruta determina el panel visible. Al volver a escritorio se recupera la elección. Recargar restablece el Sidebar visible. Ocultar el panel no modifica rutas, permisos ni el ticket activo.
+
+## Galerías de imágenes
+
+## Panel de filtros
+
+Desde 768 px, `SidebarFilters` abre un panel no modal de 300 px a la derecha de la lista, con desplazamiento independiente, cierre explícito y Escape desde sus controles. El botón conserva su altura y muestra la cantidad de filtros activos; los valores siguen en `Sidebar` y cerrar el panel no los elimina. No se bloquea el foco ni la interacción con los tickets.
+
+Desde 1280 px, la cuadrícula de `AppShell` reserva el espacio del panel para mantener visibles filtros, lista y detalle. Entre 768 y 1279 px se superpone sólo al área derecha, preservando la lista. En móvil conserva el acordeón. Abrir el menú u ocultar el Sidebar oculta también sus filtros y libera la columna adicional; al regresar se mantiene la selección. No hay duplicación de controles ni cambios de permisos o consulta.
+
+## Galerías de imágenes
+
+`ImageGallery` conserva el carrusel y abre `ImageViewerDialog` al activar la imagen principal (clic, Enter o Espacio). El visor reutiliza `Modal`, contiene la imagen sin deformarla y muestra su descripción. El patrón también funciona dentro del inventario: sólo el modal superior procesa Escape y la navegación de foco.
+
+El callback opcional `onEditDescription` habilita un lápiz junto a eliminar. `ImageDescriptionDialog` mantiene un borrador independiente, permite cancelar y entrega el ID y la descripción al propietario de los datos. Editar y eliminar son capacidades independientes. En tickets, `canEditImageDescriptions` requiere `ticket.images.view` y `ticket.edit`; el handler también valida la capacidad. La actualización inmutable ocurre en `TicketWorkspaceProvider`, tanto en imágenes del problema como en los seis grupos. El inventario mantiene sus imágenes de sólo lectura, con acceso al visor.
+
+## Encabezado interno del ticket
+
+El encabezado interno del ticket usa espaciado compacto y una consulta de contenedor: desde 640 px de ancho disponible reúne título, copiado y acciones en una fila; en espacios menores se distribuye en varias filas. Esto permite adaptarse al Sidebar ocultable sin fijar alturas ni recortar el nombre del sitio. Sus botones mantienen un mínimo de 44 px.
+
 ## Bienvenida por empresa
 
 `DashboardPage` compone la bienvenida del detalle inicial (`/`). La ruta `/welcome`, accesible desde Inicio en el menú, muestra la misma pantalla en móvil con regreso a la lista. La entrada móvil conserva el Sidebar.

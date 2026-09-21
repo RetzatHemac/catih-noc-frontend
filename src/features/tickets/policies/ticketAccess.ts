@@ -11,6 +11,7 @@ export interface TicketDetailCapabilities {
   canReportActivities: boolean;
   canDeleteObjects: boolean;
   canViewImages: boolean;
+  canEditImageDescriptions: boolean;
   canAssignProvider: boolean;
   canReportReplacements: boolean;
   canViewMaterials: boolean;
@@ -37,6 +38,9 @@ export function getTicketDetailCapabilities(
     canReportActivities: can(user, PERMISSIONS.TICKET_ACTIVITIES_REPORT),
     canDeleteObjects: can(user, PERMISSIONS.TICKET_OBJECTS_DELETE),
     canViewImages: can(user, PERMISSIONS.TICKET_IMAGES_VIEW),
+    canEditImageDescriptions:
+      can(user, PERMISSIONS.TICKET_IMAGES_VIEW) &&
+      can(user, PERMISSIONS.TICKET_EDIT),
     canAssignProvider: can(user, PERMISSIONS.TICKET_PROVIDER_ASSIGN),
     canReportReplacements: can(user, PERMISSIONS.TICKET_REPLACEMENTS_REPORT),
     canViewMaterials: can(user, PERMISSIONS.TICKET_MATERIALS_VIEW),

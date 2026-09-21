@@ -4,6 +4,10 @@
 
 ## Listo actualmente
 
+- Visor ampliado desde el carrusel, también en inventario, y edición local de descripciones en imágenes del ticket según permisos. Cancelación de borradores y soporte de teclado/foco entre modales anidados.
+
+- Sidebar ocultable en escritorio mediante el control del encabezado; libera espacio para el detalle, conserva su estado al ocultarse y mantiene la navegación móvil. La elección dura hasta recargar.
+
 - Bienvenida personalizada por empresa en el detalle inicial y acceso Inicio en el menú móvil. Imagen de prueba temporal, logo oscuro opcional y respaldo ante imágenes ausentes o fallidas; pendientes los logos oficiales.
 - Herramientas de lista trasladadas al menú y sincronizadas con filtros/resultados; siguen como próximas funcionalidades deshabilitadas.
 - Soporte para permisos efectivos de sesión y validación compartida de acciones/diálogos del Taskbar. Matriz final de roles e integración backend pendientes.

@@ -9,10 +9,10 @@
 .header {
   display: flex;
   width: 100%;
-  min-height: 72px;
+  min-height: calc(var(--sidebar-menu-item-height) - 2 * var(--border-width-thin));
   align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-3);
+  gap: var(--space-2);
+  padding: var(--space-2);
   background: transparent;
   color: var(--color-text-primary);
   text-align: left;
@@ -20,9 +20,9 @@
 
 .icon {
   display: grid;
-  width: 40px;
-  height: 40px;
-  flex: 0 0 40px;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
   place-items: center;
   border-radius: var(--radius-md);
   background: var(--color-primary-soft);
@@ -33,7 +33,7 @@
   display: grid;
   min-width: 0;
   flex: 1;
-  gap: var(--space-1);
+  gap: 0;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
 }

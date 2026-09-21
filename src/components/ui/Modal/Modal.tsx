@@ -68,6 +68,10 @@ export function Modal({
     });
 
     function handleKeyDown(event: KeyboardEvent) {
+      const dialogs = document.querySelectorAll(
+        '[role="dialog"][aria-modal="true"]',
+      );
+      if (dialogs[dialogs.length - 1] !== modalRef.current) return;
       if (event.key === "Escape") {
         event.preventDefault();
         onCloseRef.current();

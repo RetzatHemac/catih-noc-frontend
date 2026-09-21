@@ -7,8 +7,9 @@ import { useNavigation } from "../../../app/hooks/useNavigation";
 import type { DetailRouteHandle } from "../../../app/types/route.types";
 
 import styles from "./DetailHeader.module.css";
+import { SidebarToggle } from "../Sidebar/SidebarToggle/SidebarToggle";
 
-export function DetailHeader() {
+export function DetailHeader({ sidebarId }: { sidebarId: string }) {
   const matches = useMatches();
   const { goToSidebar } = useNavigation();
 
@@ -29,6 +30,7 @@ export function DetailHeader() {
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
+        <SidebarToggle sidebarId={sidebarId} />
         {isDetailView && (
           <button
             type="button"
@@ -45,9 +47,9 @@ export function DetailHeader() {
         </div>
 
         <div className={styles.titleGroup}>
-          <h1>{title}</h1>
+          <h1 title={title}>{title}</h1>
 
-          {description && <p>{description}</p>}
+          {description && <p title={description}>{description}</p>}
         </div>
       </div>
     </header>

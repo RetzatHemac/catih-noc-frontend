@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useId, useState } from "react";
 import { Outlet, useMatch } from "react-router-dom";
 
 import { useAuth } from "../../../auth";
@@ -73,6 +73,7 @@ interface AppShellContentProps {
 
 function AppShellContent({ ticketStatusOverrides }: AppShellContentProps) {
   const { showDetail, showSidebar } = useNavigation();
+  const sidebarId = useId();
   const { user } = useAuth();
   const { ticket } = useTicketWorkspace();
   const [activeAction, setActiveAction] = useState<TaskbarActionId | null>(
@@ -92,8 +93,11 @@ function AppShellContent({ ticketStatusOverrides }: AppShellContentProps) {
   }
 
   return (
-    <div className={`${styles.shell} ${showTaskbar ? styles.hasTaskbar : ""}`}>
+    <div
+      className={`${styles.shell} ${showTaskbar ? styles.hasTaskbar : ""} ${!showSidebar ? styles.sidebarHidden : ""}`}
+    >
       <aside
+        id={sidebarId}
         className={styles.sidebar}
         style={{ display: showSidebar ? "block" : "none" }}
       >
@@ -110,7 +114,7 @@ function AppShellContent({ ticketStatusOverrides }: AppShellContentProps) {
         className={styles.detail}
         style={{ display: showDetail ? "flex" : "none" }}
       >
-        <DetailHeader />
+        <DetailHeader sidebarId={sidebarId} />
 
         <div className={styles.content}>
           <Outlet />

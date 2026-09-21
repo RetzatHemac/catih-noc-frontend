@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -15,9 +15,14 @@ export function NavigationProvider({ children }: NavigationProviderProps) {
 
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const isRootPath = location.pathname === "/";
+  const [desktopSidebarHidden, setDesktopSidebarHidden] = useState(false);
 
-  const showDetail = !isRootPath;
-  const showSidebar = !showDetail || isDesktop;
+  const showDetail = isDesktop || !isRootPath;
+  const showSidebar = isDesktop ? !desktopSidebarHidden : isRootPath;
+
+  const toggleDesktopSidebar = () => {
+    if (isDesktop) setDesktopSidebarHidden((hidden) => !hidden);
+  };
 
   const goToSidebar = () => {
     navigate("/");
@@ -34,6 +39,8 @@ export function NavigationProvider({ children }: NavigationProviderProps) {
   return (
     <NavigationContext.Provider
       value={{
+        isDesktop,
+        toggleDesktopSidebar,
         showDetail,
         showSidebar,
         goToSidebar,

@@ -79,6 +79,10 @@
   padding: var(--space-2) var(--space-4) var(--space-4);
 }
 
+.panelHeader {
+  display: none;
+}
+
 .fieldset {
   margin: 0;
   padding: 0;
@@ -101,6 +105,7 @@
 }
 
 .statusButton {
+  min-height: 44px;
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
@@ -200,6 +205,96 @@
   padding: var(--space-2) var(--space-4);
   border-top: var(--border-width-thin) solid var(--color-border);
   background: var(--color-surface);
+}
+
+.footer button,
+.field select {
+  min-height: 44px;
+}
+
+@media (min-width: 768px) {
+  .header {
+    height: 48px;
+  }
+
+  .summary {
+    display: none;
+  }
+
+  .header > svg {
+    transform: rotate(-90deg);
+  }
+
+  .header > svg.expanded {
+    transform: rotate(90deg);
+  }
+
+  .panel {
+    position: absolute;
+    inset: 0 auto 0 100%;
+    display: flex;
+    width: var(--sidebar-filters-width);
+    min-height: 0;
+    flex-direction: column;
+    border-inline: var(--border-width-thin) solid var(--color-border);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .panelHeader {
+    display: flex;
+    height: var(--workspace-header-height);
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: var(--border-width-thin) solid var(--color-border-accent);
+    background: var(--color-surface-accent);
+  }
+
+  .panelHeader h2 {
+    margin: 0;
+    font-size: var(--font-size-lg);
+  }
+
+  .panelHeader p {
+    margin: var(--space-1) 0 0;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-xs);
+  }
+
+  .closeButton {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    place-items: center;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--color-text-accent);
+  }
+
+  .closeButton:hover {
+    background: var(--color-primary-soft);
+  }
+
+  .content {
+    min-height: 0;
+    max-height: none;
+    padding-top: var(--space-4);
+    overscroll-behavior: contain;
+  }
+
+  .selectGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 1280px) {
+  .panel {
+    box-shadow: none;
+  }
 }
 
 @media (max-width: 340px) {

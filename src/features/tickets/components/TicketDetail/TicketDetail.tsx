@@ -272,6 +272,33 @@ export function TicketDetail() {
     });
   }
 
+  function handleEditImageDescription(
+    group: ImageGroupKey | "problemImages",
+    imageId: string,
+    description: string,
+  ) {
+    if (!capabilities.canEditImageDescriptions) return;
+    setCurrentTicket((current) => {
+      const images =
+        group === "problemImages"
+          ? current.problemImages
+          : current.imageGroups[group];
+      const updated = images.map((image) =>
+        image.id === imageId ? { ...image, description } : image,
+      );
+      return group === "problemImages"
+        ? { ...current, problemImages: updated }
+        : {
+            ...current,
+            imageGroups: { ...current.imageGroups, [group]: updated },
+          };
+    });
+    setFeedback({
+      message: "La descripción de la imagen se actualizó correctamente.",
+      tone: "success",
+    });
+  }
+
   function handleDeleteImage(group: ImageGroupKey, imageId: string) {
     if (!window.confirm("¿Deseas eliminar esta imagen?")) {
       return;
@@ -400,7 +427,19 @@ export function TicketDetail() {
 
         {capabilities.canViewImages && (
           <DetailSection title="Imagen del problema">
-            <ProblemImages images={currentTicket.problemImages} />
+            <ProblemImages
+              images={currentTicket.problemImages}
+              onEditDescription={
+                capabilities.canEditImageDescriptions
+                  ? (imageId, description) =>
+                      handleEditImageDescription(
+                        "problemImages",
+                        imageId,
+                        description,
+                      )
+                  : undefined
+              }
+            />
           </DetailSection>
         )}
 
@@ -492,6 +531,16 @@ export function TicketDetail() {
             <DetailSection title="Imágenes antes de reemplazos">
               <ImageGallery
                 images={currentTicket.imageGroups.beforeReplacement}
+                onEditDescription={
+                  capabilities.canEditImageDescriptions
+                    ? (imageId, description) =>
+                        handleEditImageDescription(
+                          "beforeReplacement",
+                          imageId,
+                          description,
+                        )
+                    : undefined
+                }
                 emptyLabel="Sin imágenes antes de reemplazos"
                 editable={capabilities.canDeleteObjects}
                 onDelete={
@@ -506,6 +555,16 @@ export function TicketDetail() {
             <DetailSection title="Imágenes después de reemplazos">
               <ImageGallery
                 images={currentTicket.imageGroups.afterReplacement}
+                onEditDescription={
+                  capabilities.canEditImageDescriptions
+                    ? (imageId, description) =>
+                        handleEditImageDescription(
+                          "afterReplacement",
+                          imageId,
+                          description,
+                        )
+                    : undefined
+                }
                 emptyLabel="Sin imágenes después de reemplazos"
                 editable={capabilities.canDeleteObjects}
                 onDelete={
@@ -520,6 +579,16 @@ export function TicketDetail() {
             <DetailSection title="Imágenes antes actual">
               <ImageGallery
                 images={currentTicket.imageGroups.beforeCurrent}
+                onEditDescription={
+                  capabilities.canEditImageDescriptions
+                    ? (imageId, description) =>
+                        handleEditImageDescription(
+                          "beforeCurrent",
+                          imageId,
+                          description,
+                        )
+                    : undefined
+                }
                 emptyLabel="Sin imágenes antes actual"
                 editable={capabilities.canDeleteObjects}
                 onDelete={
@@ -533,6 +602,16 @@ export function TicketDetail() {
             <DetailSection title="Imágenes después actual">
               <ImageGallery
                 images={currentTicket.imageGroups.afterCurrent}
+                onEditDescription={
+                  capabilities.canEditImageDescriptions
+                    ? (imageId, description) =>
+                        handleEditImageDescription(
+                          "afterCurrent",
+                          imageId,
+                          description,
+                        )
+                    : undefined
+                }
                 emptyLabel="Sin imágenes después actual"
                 editable={capabilities.canDeleteObjects}
                 onDelete={
@@ -546,6 +625,16 @@ export function TicketDetail() {
             <DetailSection title="Imágenes general hallazgo">
               <ImageGallery
                 images={currentTicket.imageGroups.generalFinding}
+                onEditDescription={
+                  capabilities.canEditImageDescriptions
+                    ? (imageId, description) =>
+                        handleEditImageDescription(
+                          "generalFinding",
+                          imageId,
+                          description,
+                        )
+                    : undefined
+                }
                 emptyLabel="Sin imágenes de hallazgo general"
                 editable={capabilities.canDeleteObjects}
                 onDelete={
@@ -559,6 +648,16 @@ export function TicketDetail() {
             <DetailSection title="Imágenes acercamiento hallazgo">
               <ImageGallery
                 images={currentTicket.imageGroups.closeFinding}
+                onEditDescription={
+                  capabilities.canEditImageDescriptions
+                    ? (imageId, description) =>
+                        handleEditImageDescription(
+                          "closeFinding",
+                          imageId,
+                          description,
+                        )
+                    : undefined
+                }
                 emptyLabel="Sin imágenes de acercamiento de hallazgo"
                 editable={capabilities.canDeleteObjects}
                 onDelete={

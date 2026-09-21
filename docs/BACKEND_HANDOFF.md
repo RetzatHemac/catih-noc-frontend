@@ -4,6 +4,10 @@ Esta guía identifica los puntos que el equipo backend deberá sustituir o conec
 
 ## Principio de integración
 
+### Descripciones de imágenes
+
+La galería entrega `onEditDescription(imageId, description)` al guardar; permite una descripción vacía y elimina espacios exteriores. El detalle actualiza el grupo correspondiente en memoria y conserva los demás datos de la imagen. La política provisional reutiliza `ticket.images.view` + `ticket.edit`, separada del permiso para eliminar. El contrato definitivo deberá acordar permiso, longitud máxima y operación remota, validar pertenencia de la imagen al ticket/empresa y devolver la descripción persistida. No hay petición remota ni persistencia implementada.
+
 ### Empresa de la sesión
 
 El adaptador de sesión puede proporcionar `AuthUser.company` con `{ id, name, logoUrl?, darkLogoUrl? }`. La empresa debe proceder de la asignación autenticada; no se deduce del correo ni del rol. Las URLs deben apuntar a imágenes oficiales autorizadas. La variante oscura es opcional: sin ella se muestra el logo normal sobre un fondo gris. Si no hay imagen o falla, se muestra un símbolo neutro.

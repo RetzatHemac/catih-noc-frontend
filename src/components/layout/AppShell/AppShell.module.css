@@ -70,7 +70,9 @@
   }
 
   .sidebar {
-    display: block !important;
+    position: relative;
+    z-index: 20;
+    overflow: visible;
     grid-row: 1;
     height: 100dvh;
     border-right: var(--border-width-thin) solid var(--color-border);
@@ -83,8 +85,33 @@
 
   .detail,
   .hasTaskbar .detail {
-    display: flex !important;
     grid-row: 1;
     height: 100dvh;
+  }
+
+  .shell.sidebarHidden {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .shell.hasTaskbar.sidebarHidden {
+    grid-template-columns: var(--taskbar-width) minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .shell:not(.sidebarHidden):has(
+      [data-sidebar-content]:not([inert]) [data-filter-panel]
+    ) {
+    grid-template-columns: calc(
+        var(--sidebar-width) + var(--sidebar-filters-width)
+      ) minmax(0, 1fr);
+  }
+
+  .shell.hasTaskbar:not(.sidebarHidden):has(
+      [data-sidebar-content]:not([inert]) [data-filter-panel]
+    ) {
+    grid-template-columns: calc(
+        var(--sidebar-width) + var(--sidebar-filters-width)
+      ) var(--taskbar-width) minmax(0, 1fr);
   }
 }

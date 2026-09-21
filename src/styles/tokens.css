@@ -169,6 +169,9 @@
      ======================================== */
 
   --sidebar-width: 360px;
+  --sidebar-filters-width: 300px;
+  --workspace-header-height: 77px;
+  --sidebar-menu-item-height: 56px;
   --taskbar-width: 64px;
 
   --content-max-width: 1600px;

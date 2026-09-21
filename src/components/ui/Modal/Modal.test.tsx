@@ -62,6 +62,42 @@ function ModalFormExample() {
 }
 
 describe("Modal", () => {
+  it("closes only the topmost modal and restores focus to its parent", async () => {
+    function Nested() {
+      const [parent, setParent] = useState(true);
+      const [child, setChild] = useState(false);
+      return (
+        <Modal
+          open={parent}
+          title="Inventario"
+          onClose={() => setParent(false)}
+        >
+          <button onClick={() => setChild(true)}>Ampliar</button>
+          <Modal open={child} title="Imagen" onClose={() => setChild(false)}>
+            <p>Imagen ampliada</p>
+          </Modal>
+        </Modal>
+      );
+    }
+    const user = userEvent.setup();
+    render(<Nested />);
+    await waitFor(() =>
+      expect(screen.getByRole("button", { name: "Cerrar" })).toHaveFocus(),
+    );
+    const trigger = screen.getByRole("button", { name: "Ampliar" });
+    await user.click(trigger);
+    await user.keyboard("{Escape}");
+    expect(
+      screen.queryByRole("dialog", { name: "Imagen" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("dialog", { name: "Inventario" }),
+    ).toBeInTheDocument();
+    expect(trigger).toHaveFocus();
+    expect(document.body.style.overflow).toBe("hidden");
+    await user.keyboard("{Escape}");
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
   it("moves focus inside and returns it to the trigger when closed", async () => {
     const user = userEvent.setup();
     render(<ModalExample />);

@@ -57,8 +57,8 @@
 
 .closeButton {
   display: grid;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   flex-shrink: 0;
   place-items: center;
   border-radius: var(--radius-md);

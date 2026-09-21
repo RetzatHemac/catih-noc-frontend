@@ -35,6 +35,49 @@
   object-fit: contain;
 }
 
+.openImage {
+  position: relative;
+  display: grid;
+  width: 100%;
+  min-height: inherit;
+  place-items: center;
+  padding: 0;
+  background: transparent;
+  cursor: zoom-in;
+}
+
+.openImage:focus-visible {
+  outline-offset: -3px;
+}
+
+.expandHint {
+  position: absolute;
+  right: var(--space-2);
+  bottom: var(--space-2);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text-accent);
+  font-size: var(--font-size-xs);
+}
+
+.actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: var(--space-1);
+}
+
+.editButton,
+.deleteButton,
+.navigation {
+  width: 44px;
+  min-height: 44px;
+  padding: var(--space-2);
+}
+
 .imageError {
   display: flex;
   min-height: 180px;

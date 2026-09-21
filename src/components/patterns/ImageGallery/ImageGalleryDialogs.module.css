@@ -1,0 +1,37 @@
+.figure {
+  margin: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: min(65dvh, 760px);
+  object-fit: contain;
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+}
+
+.caption {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  overflow-wrap: anywhere;
+}
+
+.error {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  padding: var(--space-8);
+  color: var(--color-text-muted);
+}
+
+.form {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.action {
+  min-height: 44px;
+}

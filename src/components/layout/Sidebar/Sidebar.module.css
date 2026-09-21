@@ -38,3 +38,14 @@
   flex-direction: column;
   overflow: hidden;
 }
+
+@media (min-width: 768px) {
+  .sidebar {
+    width: var(--sidebar-width);
+    overflow: visible;
+  }
+
+  .workspace {
+    overflow: visible;
+  }
+}

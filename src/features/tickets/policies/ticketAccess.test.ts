@@ -60,6 +60,33 @@ describe("canStartTicket", () => {
 });
 
 describe("getTicketDetailCapabilities", () => {
+  it("requires both image viewing and ticket editing for image descriptions", () => {
+    const user = createUser(ROLES.SUPER_ADMIN);
+    for (const effectivePermissions of [
+      [],
+      [PERMISSIONS.TICKET_IMAGES_VIEW],
+      [PERMISSIONS.TICKET_EDIT],
+    ]) {
+      expect(
+        getTicketDetailCapabilities(
+          { ...user, effectivePermissions },
+          "EN_PROCESO",
+        ).canEditImageDescriptions,
+      ).toBe(false);
+    }
+    expect(
+      getTicketDetailCapabilities(
+        {
+          ...user,
+          effectivePermissions: [
+            PERMISSIONS.TICKET_IMAGES_VIEW,
+            PERMISSIONS.TICKET_EDIT,
+          ],
+        },
+        "EN_PROCESO",
+      ).canEditImageDescriptions,
+    ).toBe(true);
+  });
   it("exposes every TicketDetail capability to a super administrator", () => {
     const capabilities = getTicketDetailCapabilities(
       createUser(ROLES.SUPER_ADMIN),
