@@ -17,6 +17,7 @@ export const ROLES = {
 
 export type Role = (typeof ROLES)[keyof typeof ROLES];
 
+
 export const NOC_ROLES: Role[] = [
   ROLES.NOC_SUPERVISOR,
   ROLES.AGENTE_RJ,

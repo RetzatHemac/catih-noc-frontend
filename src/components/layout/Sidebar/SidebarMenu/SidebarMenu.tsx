@@ -35,16 +35,16 @@ export function SidebarMenu({
   onNavigate,
   listToolsContext,
 }: SidebarMenuProps) {
-  const { user } = useAuth();
-  const titleId = useId();
+  const { user, loading } = useAuth();  const titleId = useId();
   const closeRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLElement>(null);
   const [dialog, setDialog] = useState<"noc" | "crews" | null>(null);
   const [crews, setCrews] = useState(MOCK_RELEASABLE_CREWS);
-  const canViewNoc = can(user, PERMISSIONS.NOC_USERS_VIEW);
-  const canRelease = canReleaseCrew(user);
-  const hasTables = getVisibleSidebarTables(user).length > 0;
-  const hasTools = getVisibleTicketListTools(user).length > 0;
+const canViewNoc = false;
+const canRelease = false;
+const hasTables = false;
+const hasTools = false;
+
 
   useEffect(() => {
     if (open) closeRef.current?.focus();

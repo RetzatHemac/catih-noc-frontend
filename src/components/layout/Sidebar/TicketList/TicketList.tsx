@@ -4,7 +4,7 @@ import type { Ticket } from "../../../../features/tickets/types/tickets.types";
 import { TicketCard } from "./TicketCard/TicketCard";
 
 import styles from "./TicketList.module.css";
-
+import { useAuth } from "../../../../auth";
 interface TicketListProps {
   tickets: Ticket[];
   totalCount: number;
@@ -16,8 +16,22 @@ export function TicketList({
   totalCount,
   scrollRef,
 }: TicketListProps) {
+  const { user, loading, isAuthenticated } = useAuth();
+  console.warn("🔥 AUTH USER:", user); 
+  console.warn("🔥 PERMISOS:", user?.permissions);
+  const permissions = user?.effectivePermissions ?? [];
+  if (loading) {
+    return <div>Cargando sesión...</div>;
+  }
   return (
     <section className={styles.list}>
+          <div>
+      <h1>CATIH</h1>
+      <p>Autenticado: {isAuthenticated ? "Sí" : "No"}</p>
+      <p> Usuario: {user?.name} </p>
+      <p> Rol: {user?.role} </p>
+      <pre> {JSON.stringify(permissions, null, 2)} </pre>
+    </div>
       <div className={styles.heading}>
         <div>
           <span className={styles.label}>Tickets</span>

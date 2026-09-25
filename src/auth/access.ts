@@ -9,16 +9,14 @@ export function hasRolePermission(role: Role, permission: Permission): boolean {
   return ROLE_PERMISSIONS[role]?.includes(permission) ?? false;
 }
 
+
 export function getUserPermissions(user: AuthUser): Permission[] {
-  // Local roles and overrides are only a fallback for the mock session.
   if (user.effectivePermissions !== undefined) {
     return [...new Set(user.effectivePermissions)];
   }
 
   const rolePermissions = ROLE_PERMISSIONS[user.role] ?? [];
-
   const granted = user.permissionOverrides?.grant ?? [];
-
   const denied = user.permissionOverrides?.deny ?? [];
 
   return [...new Set([...rolePermissions, ...granted])].filter(

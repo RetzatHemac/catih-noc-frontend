@@ -25,118 +25,137 @@ import { ProfilePage } from "../features/users/components/Profile/ProfilePage";
 import { ProjectsPage } from "../features/projects/components/ProjectsPage/ProjectsPage";
 import { SitesPage } from "../features/sites/components/SitesPage/SitesPage";
 import { TaggingPage } from "../features/tagging/components/TaggingPage/TaggingPage";
+import { AuthCallbackPage } from "../pages/AuthCallbackPage/AuthCallbackPage";
+
+import { ProtectedRoute } from "../components/ProtectedRoute";
 
 import type { DetailRouteHandle } from "./types/route.types";
 
 export const router = createBrowserRouter([
   {
+    path: "/auth/callback",
+    element: <AuthCallbackPage />,
+  },
+
+  {
     path: "/",
-    element: <AppShell />,
+    element: <ProtectedRoute />,
     children: [
       {
-        index: true,
-        element: <DashboardPage />,
-      },
-      {
-        path: "welcome",
-        element: <DashboardPage />,
-        handle: { title: "CATiH", icon: House } satisfies DetailRouteHandle,
-      },
+        element: <AppShell />,
+        children: [
+          {
+            index: true,
+            element: <DashboardPage />,
+          },
 
-      {
-        path: "tickets",
-        element: <TicketPage />,
-        handle: {
-          title: "Tickets",
-          description: "Consulta y administra los tickets.",
-          icon: Ticket,
-        } satisfies DetailRouteHandle,
-      },
+          {
+            path: "welcome",
+            element: <DashboardPage />,
+            handle: {
+              title: "CATiH",
+              icon: House,
+            } satisfies DetailRouteHandle,
+          },
 
-      {
-        path: "tickets/new",
-        element: <CreateTicket />,
-        handle: {
-          title: "Crear ticket",
-          description: "Registra un nuevo ticket para su atención.",
-          icon: ClipboardPlus,
-        } satisfies DetailRouteHandle,
-      },
+          {
+            path: "tickets",
+            element: <TicketPage />,
+            handle: {
+              title: "Tickets",
+              description: "Consulta y administra los tickets.",
+              icon: Ticket,
+            } satisfies DetailRouteHandle,
+          },
 
-      {
-        path: "tickets/:ticketId",
-        element: <TicketDetailPage />,
-        handle: {
-          title: "Detalle del ticket",
-          description: "Consulta y administra la información del ticket.",
-          icon: Ticket,
-        } satisfies DetailRouteHandle,
-      },
+          {
+            path: "tickets/new",
+            element: <CreateTicket />,
+            handle: {
+              title: "Crear ticket",
+              description: "Registra un nuevo ticket para su atención.",
+              icon: ClipboardPlus,
+            } satisfies DetailRouteHandle,
+          },
 
-      {
-        path: "profile",
-        element: <ProfilePage />,
-        handle: {
-          title: "Perfil",
-          description: "Consulta y administra tu información.",
-          icon: User,
-        } satisfies DetailRouteHandle,
-      },
+          {
+            path: "tickets/:ticketId",
+            element: <TicketDetailPage />,
+            handle: {
+              title: "Detalle del ticket",
+              description:
+                "Consulta y administra la información del ticket.",
+              icon: Ticket,
+            } satisfies DetailRouteHandle,
+          },
 
-      {
-        path: "tables/sites",
-        element: <SitesPage />,
-        handle: {
-          title: "Sitios",
-          description: "Consulta y administra los sitios registrados.",
-          icon: MapPin,
-        } satisfies DetailRouteHandle,
-      },
+          {
+            path: "profile",
+            element: <ProfilePage />,
+            handle: {
+              title: "Perfil",
+              description: "Consulta y administra tu información.",
+              icon: User,
+            } satisfies DetailRouteHandle,
+          },
 
-      {
-        path: "tables/tagged",
-        element: <TaggingPage />,
-        handle: {
-          title: "Etiquetados",
-          description: "Consulta y administra los equipos en etiquetado.",
-          icon: Tags,
-        } satisfies DetailRouteHandle,
-      },
+          {
+            path: "tables/sites",
+            element: <SitesPage />,
+            handle: {
+              title: "Sitios",
+              description: "Consulta y administra los sitios registrados.",
+              icon: MapPin,
+            } satisfies DetailRouteHandle,
+          },
 
-      {
-        path: "tables/projects",
-        element: <ProjectsPage />,
-        handle: {
-          title: "Proyectos",
-          description: "Consulta y administra proyectos e implementaciones.",
-          icon: FolderKanban,
-        } satisfies DetailRouteHandle,
-      },
+          {
+            path: "tables/tagged",
+            element: <TaggingPage />,
+            handle: {
+              title: "Etiquetados",
+              description:
+                "Consulta y administra los equipos en etiquetado.",
+              icon: Tags,
+            } satisfies DetailRouteHandle,
+          },
 
-      {
-        path: "tables/diagnostics",
-        element: (
-          <PermissionGate permission={PERMISSIONS.CATALOGS_MANAGE}>
-            <div>Diagnostics</div>
-          </PermissionGate>
-        ),
-        handle: {
-          title: "Diagnósticos",
-          icon: MonitorCog,
-        } satisfies DetailRouteHandle,
-      },
+          {
+            path: "tables/projects",
+            element: <ProjectsPage />,
+            handle: {
+              title: "Proyectos",
+              description: "Consulta y administra proyectos e implementaciones.",
+              icon: FolderKanban,
+            } satisfies DetailRouteHandle,
+          },
 
-      {
-        path: "tables/models",
-        element: (
-          <PermissionGate permission={PERMISSIONS.CATALOGS_MANAGE}>
-            <div>Models</div>
-          </PermissionGate>
-        ),
-        handle: {
-          title: "Marcas y modelos",
-          icon: LayoutList,
-        } satisfies DetailRouteHandle,
+          {
+            path: "tables/diagnostics",
+            element: (
+              <PermissionGate permission={PERMISSIONS.CATALOGS_MANAGE}>
+                <div>Diagnostics</div>
+              </PermissionGate>
+            ),
+            handle: {
+              title: "Diagnósticos",
+              icon: MonitorCog,
+            } satisfies DetailRouteHandle,
+          },
+
+          {
+            path: "tables/models",
+            element: (
+              <PermissionGate permission={PERMISSIONS.CATALOGS_MANAGE}>
+                <div>Models</div>
+              </PermissionGate>
+            ),
+            handle: {
+              title: "Marcas y modelos",
+              icon: LayoutList,
+            } satisfies DetailRouteHandle,
+          },
+        ],
       },
     ],
   },

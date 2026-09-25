@@ -12,8 +12,9 @@ export interface AuthUser {
   username?: string;
   name: string;
   email: string;
-  role: Role;
+  role: string;
   company?: CompanyBranding;
+  permissions: string[];
 
   /** Authoritative permissions from the session adapter; [] grants nothing. */
   effectivePermissions?: Permission[];

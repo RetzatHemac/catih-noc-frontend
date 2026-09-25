@@ -38,14 +38,25 @@ export function SidebarFooter({
   onToggleMenu,
   onNavigate,
 }: SidebarFooterProps) {
-  const { user } = useAuth();
+  const { user, loading, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const { notifications } = usePendingNotifications();
+
   const unreadPendingCount = getUnreadPendingTickets(
     MOCK_TICKETS,
     notifications,
   ).length;
+
+  const canViewPending =
+    !loading && user
+      ? canViewPendingTickets(user)
+      : false;
+
+  const canViewProfile =
+    !loading && user
+      ? can(user, PERMISSIONS.PROFILE_VIEW)
+      : false;
 
   return (
     <footer className={styles.footer} aria-label="Accesos rápidos">
@@ -65,7 +76,8 @@ export function SidebarFooter({
           aria-controls={menuId}
           onClick={onToggleMenu}
         />
-        {canViewPendingTickets(user) && (
+
+        {canViewPending && (
           <FooterIconButton
             label="Pendientes"
             icon={<PanelTop size={20} aria-hidden="true" />}
@@ -73,13 +85,15 @@ export function SidebarFooter({
             onClick={onPendingClick}
           />
         )}
+
         <FooterIconButton
           label="Herramientas conexión"
           icon={<LayoutGrid size={20} aria-hidden="true" />}
           disabled
           title="Herramientas conexión: disponible en una fase posterior"
         />
-        {can(user, PERMISSIONS.PROFILE_VIEW) && (
+
+        {canViewProfile && (
           <FooterIconButton
             label="Perfil"
             icon={<UserCircle size={20} aria-hidden="true" />}
@@ -89,6 +103,7 @@ export function SidebarFooter({
             }}
           />
         )}
+
         <FooterIconButton
           label={theme === "light" ? "Modo oscuro" : "Modo claro"}
           icon={
@@ -100,12 +115,18 @@ export function SidebarFooter({
           }
           onClick={toggleTheme}
         />
+
+
         <FooterIconButton
           label="Salir"
           icon={<LogOut size={20} aria-hidden="true" />}
-          disabled
-          title="Salir: disponible al integrar la sesión"
+          onClick={async () => {
+            await logout();
+            window.location.href = "http://localhost:5173";
+          }}
+          title="Salir"
         />
+
       </div>
     </footer>
   );
