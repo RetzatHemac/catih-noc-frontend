@@ -1,3 +1,4 @@
+﻿import { getMockTicketDocuments } from "./ticketDocuments.mock";
 import { MOCK_TICKETS } from "../config/mockTickets";
 import type { TicketDetail } from "../types/ticketDetail.types";
 import { toTicketDetailStatus } from "../utils/ticketStatus";
@@ -39,6 +40,7 @@ export const mockTicketDetail: TicketDetail = {
     "El sitio presenta pérdida de conectividad desde las primeras horas de la mañana.",
 
   problemImages: [],
+  documents: [],
 
   location: {
     latitude: 20.6763989,
@@ -348,6 +350,7 @@ export function getMockTicketDetail(
   return {
     ...mockTicketDetail,
     id: ticketSummary.id,
+    documents: getMockTicketDocuments(ticketSummary.id),
     identifier: ticketSummary.id,
     helixId: ticketSummary.helixId,
     status: toTicketDetailStatus(ticketSummary.status),

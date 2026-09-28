@@ -13,6 +13,7 @@ export interface CreateTicketFormData {
   categoryId: string;
   description: string;
   images: File[];
+  documents: File[];
   ticketTypeId: string;
   classificationId: string;
 }

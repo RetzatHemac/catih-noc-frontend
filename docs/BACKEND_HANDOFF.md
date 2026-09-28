@@ -137,6 +137,16 @@ La UI debe usar `code` para el flujo y mostrar `message` solo si está redactado
 
 ## Archivos y adjuntos
 
+La nueva documentación de creación se entrega en `CreateTicketFormData.documents: File[]`, con máximo tres archivos adicionales a `images`. Acepta cualquier extensión, sin límite de bytes definido para esta sección en la fase mock. Acordar tamaño máximo y transporte de subida; validar nuevamente cantidad, contenido y autorización en servidor.
+
+El detalle consume `TicketDetail.documents?: TicketDocument[]`, con `id`, `name`, `url`, `mimeType`, `size` en bytes (opcional). Campo ausente o vacío muestra “Sin documentación adjunta”. Debe devolver los archivos asociados al ticket creado; actualmente el submit no persiste y los detalles muestran muestras independientes. Acordar autorización de documentación: por ahora la sección comparte el acceso al detalle, incluida la ruta independiente del visor.
+
+La vista previa acepta imágenes raster y texto plano/CSV/JSON de hasta 1 MiB con tamaño conocido. PDF abre directamente en nueva pestaña; DOCX utiliza un visor local, en una ruta por ticket/documento que deberá consultar y autorizar esos IDs con backend (ahora resuelve mocks). Los `.doc` antiguos quedan solo para descarga; no se contempla conversión ni envío a visores externos. Los comprimidos y Excel siguen únicamente como descarga.
+
+Proporcionar MIME y tamaño correctos, URLs autorizadas y CORS para lectura de texto/DOCX si se usa otro origen. La URL de PDF debe responder `Content-Type: application/pdf` y `Content-Disposition: inline`, con autorización por cookie o URL temporal compatible con una pestaña nueva. El navegador puede decidir descargar según sus ajustes o soporte de PDF. Para descargas de otro origen, el servidor debe enviar `Content-Disposition: attachment` con nombre seguro; el atributo HTML `download` por sí solo no garantiza la descarga entre orígenes. Si se necesitan ambas acciones, acordar URLs/operaciones separadas para visualizar y descargar.
+
+Las imágenes pegadas se entregan como los mismos objetos `File` que las seleccionadas del disco y pasan por los mismos límites frontend. El botón usa Clipboard API (HTTPS/localhost y permisos del navegador); Ctrl+V/⌘V sobre el cargador procesa el evento local. No hay cambios al contrato de subida por el origen portapapeles.
+
 - Validar extensión, MIME y contenido real en servidor.
 - Definir límites de tamaño y cantidad por operación.
 - Usar URLs firmadas o un flujo de subida acordado si aplica.

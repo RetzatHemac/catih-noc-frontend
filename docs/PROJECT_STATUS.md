@@ -1,8 +1,12 @@
 # Estado del proyecto y siguiente fase
 
-Última actualización: 21 de septiembre de 2026.
+Última actualización: 25 de septiembre de 2026.
 
 ## Listo actualmente
+
+- Cancelar la creación vuelve a la ruta de origen en móvil y escritorio; entrada directa vuelve a la lista. Retirada la pantalla de prueba del tema.
+- Documentación del ticket: hasta tres archivos de cualquier formato en el formulario, separados de la imagen relacionada. Sección debajo de Descripción con archivos mock, visor de imágenes/texto y descarga. PDF y Word DOCX se abren en otra pestaña de solo lectura; DOC antiguo queda únicamente para descarga. Excel y comprimidos siguen únicamente como descarga. El envío sigue siendo una preparación mock, sin crear registros ni subir archivos.
+- Pegado de imágenes mediante icono compacto o Ctrl+V/⌘V con foco o puntero sobre el cargador, compartido por creación, documentación, chat y grupos de imágenes; respeta formatos, tamaño y cantidad de cada sección. Maneja ausencia de imagen, API no disponible y permiso denegado.
 
 - Filtros laterales en escritorio: columna reservada desde 1280 px y panel superpuesto al detalle entre 768 y 1279 px, sin desplazar la lista. Acordeón en móvil; filtros conservados al cerrar.
 
@@ -32,6 +36,19 @@
 - Edición y eliminación mock de sitios, administración de direccionamientos e inventario.
 - Descargas provisionales de protocolo e imágenes de inventario.
 - Tabla de etiquetado con búsqueda, paginación, edición mock y layout `.xls`.
+
+## Tickets para demostrar documentación
+
+| Ticket | Archivos |
+| --- | --- |
+| CAT-10245 | Word DOCX y PDF |
+| CAT-10244 | ZIP (solo descarga) |
+| CAT-10243 | Imagen JPG y nota TXT (visores) |
+| CAT-10242 | PDF |
+| CAT-10241 | Word DOCX |
+| CAT-10240 | Imagen JPG, nota TXT y ZIP |
+
+Las asignaciones están en `ticketDocuments.mock.ts`, son estables por ID y usan archivos locales de muestra. Cada ticket tiene como máximo tres documentos. PDF y DOCX abren otra pestaña; imágenes y texto usan el visor integrado. Los formatos sin visor, incluidos DOC antiguo y comprimidos, solo se descargan.
 
 ## Límites intencionales de la fase mock
 

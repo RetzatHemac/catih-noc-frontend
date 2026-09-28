@@ -29,11 +29,20 @@ export function NavigationProvider({ children }: NavigationProviderProps) {
   };
 
   const goToDetail = () => {
-    navigate("/tickets");
+    navigate("/welcome");
   };
 
   const goToPreviousView = () => {
-    navigate(isDesktop ? "/tickets" : "/");
+    const returnTo: unknown = location.state?.returnTo;
+    const destination =
+      typeof returnTo === "string" &&
+      returnTo.startsWith("/") &&
+      !returnTo.startsWith("//") &&
+      !returnTo.includes("\\") &&
+      returnTo.split(/[?#]/)[0] !== "/tickets/new"
+        ? returnTo
+        : "/";
+    navigate(destination, { replace: true });
   };
 
   return (

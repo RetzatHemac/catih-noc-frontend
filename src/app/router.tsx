@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import { PERMISSIONS } from "../auth";
 import { PermissionGate } from "./components/PermissionGate";
 
@@ -16,7 +16,6 @@ import {
 
 import { AppShell } from "../components/layout/AppShell/AppShell";
 
-import { TicketPage } from "../pages/TicketPage/TicketPage";
 import { DashboardPage } from "../pages/DashboardPage";
 import { TicketDetailPage } from "../pages/TicketDetailPage/TicketDetailPage";
 
@@ -58,15 +57,15 @@ export const router = createBrowserRouter([
             } satisfies DetailRouteHandle,
           },
 
-          {
-            path: "tickets",
-            element: <TicketPage />,
-            handle: {
-              title: "Tickets",
-              description: "Consulta y administra los tickets.",
-              icon: Ticket,
-            } satisfies DetailRouteHandle,
-          },
+      {
+        path: "tickets",
+        element: <Navigate to="/" replace />,
+        handle: {
+          title: "Tickets",
+          description: "Consulta y administra los tickets.",
+          icon: Ticket,
+        } satisfies DetailRouteHandle,
+      },
 
           {
             path: "tickets/new",

@@ -12,6 +12,7 @@ import { OnsiteAttention } from "./OnSiteAttention/OnSiteAttention";
 import { SLASection } from "./SLASection/SLASection";
 import { DetailSection } from "../../../../components/patterns/DetailSection/DetailSection";
 import { DescriptionSection } from "./DescriptionSection/DescriptionSection";
+import { DocumentationSection } from "./DocumentationSection/DocumentationSection";
 import { ProblemImages } from "./ProblemImages/ProblemImages";
 import { SiteLocation } from "./SiteLocation/SiteLocation";
 import { ActivityList } from "../../../../components/patterns/ActivityList/ActivityList";
@@ -422,6 +423,13 @@ export function TicketDetail() {
             description={currentTicket.description}
             editable={capabilities.canEditTicket}
             onSave={handleDescriptionUpdate}
+          />
+        </DetailSection>
+
+        <DetailSection title="Documentación del ticket">
+          <DocumentationSection
+            ticketId={currentTicket.id}
+            documents={currentTicket.documents}
           />
         </DetailSection>
 

@@ -1,0 +1,4 @@
+DOCUMENTO DE PRUEBA
+
+Se reporta intermitencia en el enlace del sitio.
+Verificar alimentacion y conexiones antes de continuar con el diagnostico.
