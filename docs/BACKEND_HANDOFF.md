@@ -137,7 +137,7 @@ La UI debe usar `code` para el flujo y mostrar `message` solo si está redactado
 
 ## Archivos y adjuntos
 
-La nueva documentación de creación se entrega en `CreateTicketFormData.documents: File[]`, con máximo tres archivos adicionales a `images`. Acepta cualquier extensión, sin límite de bytes definido para esta sección en la fase mock. Acordar tamaño máximo y transporte de subida; validar nuevamente cantidad, contenido y autorización en servidor.
+La nueva documentación de creación se entrega en `CreateTicketFormData.documents: File[]`, con máximo tres archivos adicionales a `images`. Acepta cualquier extensión con un máximo acumulado de 45 × 1024 × 1024 bytes entre los tres archivos. Acordar transporte de subida y validar nuevamente cantidad, tamaño acumulado, contenido y autorización en servidor.
 
 El detalle consume `TicketDetail.documents?: TicketDocument[]`, con `id`, `name`, `url`, `mimeType`, `size` en bytes (opcional). Campo ausente o vacío muestra “Sin documentación adjunta”. Debe devolver los archivos asociados al ticket creado; actualmente el submit no persiste y los detalles muestran muestras independientes. Acordar autorización de documentación: por ahora la sección comparte el acceso al detalle, incluida la ruta independiente del visor.
 

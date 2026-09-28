@@ -1,9 +1,18 @@
 import { useState } from "react";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { FileUpload } from "./FileUpload";
 
-afterEach(() => vi.unstubAllGlobals());
+afterEach(() => {
+  vi.unstubAllGlobals();
+  vi.restoreAllMocks();
+});
 
 function Uploader({
   disabled = false,
@@ -41,6 +50,42 @@ function paste(files: File[]) {
 }
 
 describe("FileUpload clipboard", () => {
+  it.each(["load", "error"])(
+    "shows a loader until the read ends with %s",
+    async (result) => {
+      const readers: FileReader[] = [];
+      vi.spyOn(FileReader.prototype, "readAsArrayBuffer").mockImplementation(
+        function (this: FileReader) {
+          readers.push(this);
+        },
+      );
+      render(<Uploader />);
+      paste([new File(["png"], "captura.png", { type: "image/png" })]);
+      expect(screen.getByRole("status")).toHaveTextContent(
+        "Preparando archivos",
+      );
+      expect(
+        screen.getByRole("button", { name: /Seleccionar archivos/ }),
+      ).toBeDisabled();
+      expect(screen.queryByText("captura.png")).not.toBeInTheDocument();
+      await act(async () => {
+        readers[0]!.dispatchEvent(new ProgressEvent(result));
+      });
+      expect(
+        screen.getByRole("button", { name: /Seleccionar archivos/ }),
+      ).toBeEnabled();
+      if (result === "load")
+        expect(screen.getByRole("status")).toHaveTextContent(
+          "listo para adjuntar",
+        );
+      else {
+        expect(screen.getByRole("alert")).toHaveTextContent(
+          "No se pudieron leer",
+        );
+        expect(screen.queryByText("captura.png")).not.toBeInTheDocument();
+      }
+    },
+  );
   it.each(["captura.png", ""])(
     "uses the same filename for keyboard and button paste (source name: %s)",
     async (name) => {
@@ -56,6 +101,7 @@ describe("FileUpload clipboard", () => {
       });
       render(<Uploader />);
       paste([file]);
+      await screen.findByText(name || "image.png");
       fireEvent.click(
         screen.getByRole("button", { name: "Pegar del portapapeles" }),
       );
@@ -64,7 +110,7 @@ describe("FileUpload clipboard", () => {
       );
     },
   );
-  it("pastes over the hovered box without focus, and stops on pointer leave", () => {
+  it("pastes over the hovered box without focus, and stops on pointer leave", async () => {
     const change = vi.fn();
     const { container } = render(<FileUpload value={[]} onChange={change} />);
     const area = container.querySelector("[data-file-upload]")!;
@@ -74,12 +120,12 @@ describe("FileUpload clipboard", () => {
     };
     fireEvent.pointerEnter(area);
     fireEvent.paste(document.body, { clipboardData });
-    expect(change).toHaveBeenCalledExactlyOnceWith([file]);
+    await waitFor(() => expect(change).toHaveBeenCalledExactlyOnceWith([file]));
     fireEvent.pointerLeave(area);
     fireEvent.paste(document.body, { clipboardData });
     expect(change).toHaveBeenCalledTimes(1);
   });
-  it("preserves text-field paste and gives a focused uploader priority over hover", () => {
+  it("preserves text-field paste and gives a focused uploader priority over hover", async () => {
     const first = vi.fn();
     const second = vi.fn();
     const { container } = render(
@@ -101,7 +147,7 @@ describe("FileUpload clipboard", () => {
     fireEvent.paste(screen.getByRole("button", { name: /Segundo/ }), {
       clipboardData,
     });
-    expect(second).toHaveBeenCalledExactlyOnceWith([file]);
+    await waitFor(() => expect(second).toHaveBeenCalledExactlyOnceWith([file]));
     expect(first).not.toHaveBeenCalled();
   });
   it("does not paste into an uploader behind a modal", () => {
@@ -130,7 +176,7 @@ describe("FileUpload clipboard", () => {
       screen.getByRole("button", { name: "Pegar del portapapeles" }),
     ).toHaveAttribute("title", "Pegar del portapapeles");
   });
-  it("adds pasted images to the focused uploader and preserves the combined file limit", () => {
+  it("adds pasted images to the focused uploader and preserves the combined file limit", async () => {
     render(<Uploader maxFiles={2} />);
     const images = ["uno", "dos", "tres"].map(
       (name) => new File([name], `${name}.png`, { type: "image/png" }),
@@ -139,9 +185,10 @@ describe("FileUpload clipboard", () => {
       screen.getByLabelText("Seleccionar archivos", { selector: "input" }),
       { target: { files: images.slice(0, 1) } },
     );
+    await screen.findByText("uno.png");
     paste(images.slice(1));
     expect(screen.getByText("uno.png")).toBeInTheDocument();
-    expect(screen.getByText("dos.png")).toBeInTheDocument();
+    expect(await screen.findByText("dos.png")).toBeInTheDocument();
     expect(screen.queryByText("tres.png")).not.toBeInTheDocument();
     expect(screen.getByRole("alert")).toHaveTextContent("máximo 2 archivos");
   });

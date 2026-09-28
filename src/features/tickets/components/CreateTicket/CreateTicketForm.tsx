@@ -49,6 +49,8 @@ export function CreateTicketForm({
   const [formData, setFormData] = useState<CreateTicketFormData>(INITIAL_FORM);
 
   const [errors, setErrors] = useState<CreateTicketFormErrors>({});
+  const [imagesBusy, setImagesBusy] = useState(false);
+  const [documentsBusy, setDocumentsBusy] = useState(false);
 
   const [isAddSiteOpen, setIsAddSiteOpen] = useState(false);
 
@@ -122,6 +124,7 @@ export function CreateTicketForm({
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (imagesBusy || documentsBusy) return;
 
     if (!validateForm()) {
       return;
@@ -304,6 +307,7 @@ export function CreateTicketForm({
               >
                 <FileUpload
                   value={formData.images}
+                  onBusyChange={setImagesBusy}
                   onChange={(files) => updateField("images", files)}
                 />
               </FormField>
@@ -323,13 +327,15 @@ export function CreateTicketForm({
             <FileUpload
               inputId="ticket-documents"
               value={formData.documents}
+              onBusyChange={setDocumentsBusy}
               onChange={(files) => updateField("documents", files)}
               accept=""
               multiple
               maxFiles={3}
               maxSize={Infinity}
+              maxTotalSize={45 * 1024 * 1024}
               label="Seleccionar documentación"
-              helperText={`${formData.documents.length} de 3 archivos seleccionados · Cualquier formato`}
+              helperText={`${formData.documents.length} de 3 archivos seleccionados · Máximo 45 MB en total`}
             />
           </FormField>
         </section>
@@ -339,7 +345,9 @@ export function CreateTicketForm({
             Cancelar
           </Button>
 
-          <Button type="submit">Crear ticket</Button>
+          <Button type="submit" disabled={imagesBusy || documentsBusy}>
+            Crear ticket
+          </Button>
         </footer>
       </form>
 
