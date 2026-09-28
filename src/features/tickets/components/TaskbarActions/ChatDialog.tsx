@@ -30,8 +30,9 @@ export function ChatDialog({
 }: ChatDialogProps) {
   const [message, setMessage] = useState("");
   const [files, setFiles] = useState<File[]>([]);
+  const [filesBusy, setFilesBusy] = useState(false);
   const historyRef = useRef<HTMLDivElement>(null);
-  const canSubmit = Boolean(message.trim() || files.length > 0);
+  const canSubmit = !filesBusy && Boolean(message.trim() || files.length > 0);
 
   useEffect(() => {
     const history = historyRef.current;
@@ -132,6 +133,7 @@ export function ChatDialog({
             <FileUpload
               inputId="chat-attachments"
               value={files}
+              onBusyChange={setFilesBusy}
               onChange={setFiles}
               accept="image/png,image/jpeg,image/webp,video/mp4,video/webm"
               multiple

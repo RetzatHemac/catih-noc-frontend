@@ -4,8 +4,10 @@
 
 ## Listo actualmente
 
+- Loader durante lectura local de archivos y portapapeles, confirmación de archivos listos para adjuntar y aviso de error. Creación, chat y grupos de imágenes impiden enviar mientras se preparan adjuntos. Documentación: máximo tres archivos y 45 MB acumulados, con contador de espacio utilizado.
+
 - Cancelar la creación vuelve a la ruta de origen en móvil y escritorio; entrada directa vuelve a la lista. Retirada la pantalla de prueba del tema.
-- Documentación del ticket: hasta tres archivos de cualquier formato en el formulario, separados de la imagen relacionada. Sección debajo de Descripción con archivos mock, visor de imágenes/texto y descarga. PDF y Word DOCX se abren en otra pestaña de solo lectura; DOC antiguo queda únicamente para descarga. Excel y comprimidos siguen únicamente como descarga. El envío sigue siendo una preparación mock, sin crear registros ni subir archivos.
+- Documentación del ticket: hasta tres archivos de cualquier formato y 45 MB acumulados en el formulario, separados de la imagen relacionada. Sección debajo de Descripción con archivos mock, visor de imágenes/texto y descarga. PDF y Word DOCX se abren en otra pestaña de solo lectura; DOC antiguo queda únicamente para descarga. Excel y comprimidos siguen únicamente como descarga. El envío sigue siendo una preparación mock, sin crear registros ni subir archivos.
 - Pegado de imágenes mediante icono compacto o Ctrl+V/⌘V con foco o puntero sobre el cargador, compartido por creación, documentación, chat y grupos de imágenes; respeta formatos, tamaño y cantidad de cada sección. Maneja ausencia de imagen, API no disponible y permiso denegado.
 
 - Filtros laterales en escritorio: columna reservada desde 1280 px y panel superpuesto al detalle entre 768 y 1279 px, sin desplazar la lista. Acordeón en móvil; filtros conservados al cerrar.

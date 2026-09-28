@@ -40,6 +40,7 @@ export function ImageUploadActionModal({
     useState<keyof TicketImageGroups>("beforeReplacement");
   const [description, setDescription] = useState("");
   const [files, setFiles] = useState<File[]>([]);
+  const [filesBusy, setFilesBusy] = useState(false);
 
   return (
     <Modal
@@ -56,7 +57,7 @@ export function ImageUploadActionModal({
             type="submit"
             form="image-upload-form"
             variant="primary"
-            disabled={files.length === 0}
+            disabled={files.length === 0 || filesBusy}
           >
             Agregar imágenes
           </Button>
@@ -120,7 +121,7 @@ export function ImageUploadActionModal({
         aria-labelledby={`image-tab-${activeGroup}`}
         onSubmit={(event) => {
           event.preventDefault();
-          if (files.length > 0) {
+          if (files.length > 0 && !filesBusy) {
             onSubmit({ group: activeGroup, description, files });
           }
         }}
@@ -156,6 +157,7 @@ export function ImageUploadActionModal({
             key={activeGroup}
             inputId="ticket-images"
             value={files}
+            onBusyChange={setFilesBusy}
             onChange={setFiles}
             multiple
             maxFiles={6}
