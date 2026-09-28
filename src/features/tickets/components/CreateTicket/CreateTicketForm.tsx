@@ -37,6 +37,7 @@ const INITIAL_FORM: CreateTicketFormData = {
   categoryId: "",
   description: "",
   images: [],
+  documents: [],
   ticketTypeId: "",
   classificationId: "",
 };
@@ -164,7 +165,9 @@ export function CreateTicketForm({
                 value={formData.projectId}
                 options={projectOptions}
                 aria-invalid={!!errors.projectId}
-                aria-describedby={errors.projectId ? "ticket-project-message" : undefined}
+                aria-describedby={
+                  errors.projectId ? "ticket-project-message" : undefined
+                }
                 onChange={(event) => handleProjectChange(event.target.value)}
               />
             </FormField>
@@ -182,7 +185,9 @@ export function CreateTicketForm({
                   options={availableSites}
                   disabled={!formData.projectId}
                   aria-invalid={!!errors.siteId}
-                  aria-describedby={errors.siteId ? "ticket-site-message" : undefined}
+                  aria-describedby={
+                    errors.siteId ? "ticket-site-message" : undefined
+                  }
                   onChange={(event) =>
                     updateField("siteId", event.target.value)
                   }
@@ -211,7 +216,9 @@ export function CreateTicketForm({
                 value={formData.categoryId}
                 options={categoryOptions}
                 aria-invalid={!!errors.categoryId}
-                aria-describedby={errors.categoryId ? "ticket-category-message" : undefined}
+                aria-describedby={
+                  errors.categoryId ? "ticket-category-message" : undefined
+                }
                 onChange={(event) =>
                   updateField("categoryId", event.target.value)
                 }
@@ -229,7 +236,9 @@ export function CreateTicketForm({
                 value={formData.ticketTypeId}
                 options={ticketTypeOptions}
                 aria-invalid={!!errors.ticketTypeId}
-                aria-describedby={errors.ticketTypeId ? "ticket-type-message" : undefined}
+                aria-describedby={
+                  errors.ticketTypeId ? "ticket-type-message" : undefined
+                }
                 onChange={(event) =>
                   updateField("ticketTypeId", event.target.value)
                 }
@@ -247,7 +256,11 @@ export function CreateTicketForm({
                 value={formData.classificationId}
                 options={classificationOptions}
                 aria-invalid={!!errors.classificationId}
-                aria-describedby={errors.classificationId ? "ticket-classification-message" : undefined}
+                aria-describedby={
+                  errors.classificationId
+                    ? "ticket-classification-message"
+                    : undefined
+                }
                 onChange={(event) =>
                   updateField("classificationId", event.target.value)
                 }
@@ -296,6 +309,29 @@ export function CreateTicketForm({
               </FormField>
             </div>
           </div>
+        </section>
+
+        <section
+          className={styles.section}
+          aria-label="Documentación del ticket"
+        >
+          <FormField
+            label="Documentación del ticket"
+            htmlFor="ticket-documents"
+            helperText="Adjunta hasta 3 archivos: imágenes, texto, documentos, Excel, comprimidos u otros formatos."
+          >
+            <FileUpload
+              inputId="ticket-documents"
+              value={formData.documents}
+              onChange={(files) => updateField("documents", files)}
+              accept=""
+              multiple
+              maxFiles={3}
+              maxSize={Infinity}
+              label="Seleccionar documentación"
+              helperText={`${formData.documents.length} de 3 archivos seleccionados · Cualquier formato`}
+            />
+          </FormField>
         </section>
 
         <footer className={styles.actions}>

@@ -153,6 +153,7 @@ export function ImageUploadActionModal({
 
         <FormField label="Archivos" htmlFor="ticket-images" required>
           <FileUpload
+            key={activeGroup}
             inputId="ticket-images"
             value={files}
             onChange={setFiles}

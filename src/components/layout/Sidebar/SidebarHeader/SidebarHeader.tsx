@@ -2,7 +2,7 @@ import { Plus, Search } from "lucide-react";
 
 import styles from "./SidebarHeader.module.css";
 
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface SidebarHeaderProps {
   searchQuery: string;
@@ -14,9 +14,13 @@ export function SidebarHeader({
   onSearchQueryChange,
 }: SidebarHeaderProps) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   function handleCreateTicket() {
-    navigate("/tickets/new");
+    if (location.pathname === "/tickets/new") return;
+    navigate("/tickets/new", {
+      state: { returnTo: location.pathname + location.search + location.hash },
+    });
   }
   return (
     <header className={styles.header}>

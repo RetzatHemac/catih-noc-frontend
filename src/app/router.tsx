@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import { PERMISSIONS } from "../auth";
 import { PermissionGate } from "./components/PermissionGate";
 
@@ -16,7 +16,6 @@ import {
 
 import { AppShell } from "../components/layout/AppShell/AppShell";
 
-import { TicketPage } from "../pages/TicketPage/TicketPage";
 import { DashboardPage } from "../pages/DashboardPage";
 import { TicketDetailPage } from "../pages/TicketDetailPage/TicketDetailPage";
 
@@ -29,6 +28,14 @@ import { TaggingPage } from "../features/tagging/components/TaggingPage/TaggingP
 import type { DetailRouteHandle } from "./types/route.types";
 
 export const router = createBrowserRouter([
+  {
+    path: "/tickets/:ticketId/documents/:documentId/view",
+    lazy: async () => {
+      const { TicketDocumentPage } =
+        await import("../pages/TicketDocumentPage/TicketDocumentPage");
+      return { Component: TicketDocumentPage };
+    },
+  },
   {
     path: "/",
     element: <AppShell />,
@@ -45,7 +52,7 @@ export const router = createBrowserRouter([
 
       {
         path: "tickets",
-        element: <TicketPage />,
+        element: <Navigate to="/" replace />,
         handle: {
           title: "Tickets",
           description: "Consulta y administra los tickets.",

@@ -1,6 +1,8 @@
-import { useRef } from "react";
+import { useId, useRef, useState } from "react";
 
-import { FileImage, Trash2, Upload } from "lucide-react";
+import { ClipboardPaste, File, Trash2, Upload } from "lucide-react";
+import { StatusMessage } from "../StatusMessage/StatusMessage";
+import { useClipboardImages } from "./useClipboardImages";
 
 import styles from "./FileUpload.module.css";
 
@@ -30,21 +32,56 @@ export function FileUpload({
   helperText,
 }: FileUploadProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const generatedId = useId();
+  const [error, setError] = useState("");
 
-  function handleFiles(event: React.ChangeEvent<HTMLInputElement>) {
-    const selectedFiles = Array.from(event.target.files ?? []);
-
+  function addFiles(selectedFiles: File[]) {
+    if (disabled) return;
     if (!selectedFiles.length) {
       return;
     }
 
-    const validFiles = selectedFiles.filter((file) => file.size <= maxSize);
+    const allowedFiles = selectedFiles.filter((file) =>
+      matchesAccept(file, accept),
+    );
+    const validFiles = allowedFiles.filter((file) => file.size <= maxSize);
+    const capacity = multiple ? Math.max(0, maxFiles - value.length) : 1;
+    const messages: string[] = [];
+    if (allowedFiles.length !== selectedFiles.length) {
+      messages.push(
+        "Algunos archivos tienen un formato no permitido en esta sección.",
+      );
+    }
+    if (validFiles.length !== allowedFiles.length) {
+      messages.push(
+        `Algunos archivos superan el límite de ${formatFileSize(maxSize)}.`,
+      );
+    }
+    if (validFiles.length > capacity) {
+      messages.push(
+        `Puedes adjuntar como máximo ${maxFiles} archivos. Se añadieron únicamente los que caben; elimina uno para cambiarlo.`,
+      );
+    }
+    setError(messages.join(" "));
 
     const nextFiles = multiple
       ? [...value, ...validFiles].slice(0, maxFiles)
       : validFiles.slice(0, 1);
 
-    onChange(nextFiles);
+    if (validFiles.length) onChange(nextFiles);
+  }
+
+  const {
+    containerRef,
+    onPointerEnter,
+    onPointerLeave,
+    pasteImage,
+    reading,
+    clipboardError,
+  } = useClipboardImages(addFiles, disabled);
+
+  function handleFiles(event: React.ChangeEvent<HTMLInputElement>) {
+    addFiles(Array.from(event.target.files ?? []));
 
     if (inputRef.current) {
       inputRef.current.value = "";
@@ -52,6 +89,7 @@ export function FileUpload({
   }
 
   function removeFile(index: number) {
+    setError("");
     onChange(value.filter((_, fileIndex) => fileIndex !== index));
   }
 
@@ -59,7 +97,10 @@ export function FileUpload({
     <div className={styles.container}>
       <input
         ref={inputRef}
-        id={inputId}
+        id={inputId ?? generatedId}
+        aria-label={
+          label ?? (multiple ? "Seleccionar archivos" : "Seleccionar imagen")
+        }
         type="file"
         accept={accept}
         multiple={multiple}
@@ -68,26 +109,55 @@ export function FileUpload({
         className={styles.hiddenInput}
       />
 
-      <button
-        type="button"
-        className={styles.dropzone}
-        disabled={disabled}
-        onClick={() => inputRef.current?.click()}
+      <div
+        ref={containerRef}
+        data-file-upload
+        className={styles.uploadArea}
+        onPointerEnter={onPointerEnter}
+        onPointerLeave={onPointerLeave}
       >
-        <Upload size={20} aria-hidden="true" />
+        <button
+          type="button"
+          className={styles.dropzone}
+          disabled={disabled}
+          onClick={() => inputRef.current?.click()}
+        >
+          <Upload size={20} aria-hidden="true" />
 
-        <span>
-          {label ?? (multiple ? "Seleccionar archivos" : "Seleccionar imagen")}
-        </span>
+          <span>
+            {label ??
+              (multiple ? "Seleccionar archivos" : "Seleccionar imagen")}
+          </span>
 
-        <small>{helperText ?? "PNG, JPG o WEBP · Máximo 5 MB"}</small>
-      </button>
+          <small>{helperText ?? "PNG, JPG o WEBP · Máximo 5 MB"}</small>
+        </button>
+
+        <button
+          type="button"
+          className={styles.pasteButton}
+          title={reading ? "Leyendo portapapeles…" : "Pegar del portapapeles"}
+          aria-label="Pegar del portapapeles"
+          aria-busy={reading}
+          onClick={pasteImage}
+          disabled={disabled || reading}
+        >
+          <ClipboardPaste size={20} aria-hidden="true" />
+        </button>
+      </div>
+      <small className={styles.pasteHint}>
+        Ctrl+V sobre el recuadro para pegar una imagen.
+      </small>
+      {clipboardError && (
+        <StatusMessage tone="error">{clipboardError}</StatusMessage>
+      )}
+
+      {error && <StatusMessage tone="error">{error}</StatusMessage>}
 
       {value.length > 0 && (
         <div className={styles.fileList}>
           {value.map((file, index) => (
             <div key={`${file.name}-${index}`} className={styles.fileItem}>
-              <FileImage size={18} aria-hidden="true" />
+              <File size={18} aria-hidden="true" />
 
               <div className={styles.fileInfo}>
                 <span className={styles.fileName}>{file.name}</span>
@@ -99,6 +169,7 @@ export function FileUpload({
 
               <button
                 type="button"
+                disabled={disabled}
                 className={styles.removeButton}
                 onClick={() => removeFile(index)}
                 aria-label={`Eliminar ${file.name}`}
@@ -112,6 +183,17 @@ export function FileUpload({
       )}
     </div>
   );
+}
+
+function matchesAccept(file: File, accept: string) {
+  if (!accept.trim()) return true;
+  return accept.split(",").some((entry) => {
+    const rule = entry.trim().toLowerCase();
+    if (rule.startsWith(".")) return file.name.toLowerCase().endsWith(rule);
+    if (rule.endsWith("/*"))
+      return file.type.toLowerCase().startsWith(rule.slice(0, -1));
+    return file.type.toLowerCase() === rule;
+  });
 }
 
 function formatFileSize(bytes: number) {

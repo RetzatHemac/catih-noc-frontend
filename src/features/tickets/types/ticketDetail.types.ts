@@ -1,3 +1,7 @@
+import type { DocumentFile } from "../../../components/patterns/DocumentList/document.types";
+
+export type TicketDocument = DocumentFile;
+
 export type TicketStatus =
   | "CREADO"
   | "ASIGNADO"
@@ -171,6 +175,7 @@ export interface TicketDetail {
   description: string;
 
   problemImages: TicketImage[];
+  documents?: TicketDocument[];
 
   location: TicketLocation;
 

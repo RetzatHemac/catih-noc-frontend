@@ -6,18 +6,53 @@
   gap: var(--space-3);
 }
 
+.pasteHint {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs);
+}
+
+.uploadArea {
+  position: relative;
+  min-width: 0;
+}
+.pasteButton {
+  position: absolute;
+  top: var(--space-1);
+  right: var(--space-1);
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text-accent);
+  cursor: pointer;
+}
+.pasteButton:hover:not(:disabled) {
+  background: var(--color-primary-soft);
+}
+.pasteButton:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.pasteButton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 .hiddenInput {
   display: none;
 }
 
 .dropzone {
+  width: 100%;
   display: flex;
   min-height: 120px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  padding: var(--space-4);
+  padding: var(--space-4) 48px;
   border: 1px dashed var(--color-border-strong);
   border-radius: var(--radius-md);
   background: var(--color-bg-secondary);
@@ -87,8 +122,8 @@
 
 .removeButton {
   display: grid;
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
   flex-shrink: 0;
   place-items: center;
   border-radius: var(--radius-sm);
