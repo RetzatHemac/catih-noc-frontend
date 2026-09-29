@@ -6,7 +6,7 @@
 
 El acceso Crear ticket del Sidebar guarda la ruta de origen (incluidos query y hash) en el estado de navegación. Cancelar reemplaza el formulario por ese destino tanto en móvil como en escritorio; la entrada directa sin origen vuelve a `/`. Pulsar Crear de nuevo estando en el formulario conserva el origen. Se retiró `TicketPage`, la antigua pantalla de prueba del tema; `/tickets` redirige a `/` por compatibilidad.
 
-`CreateTicketFormData.documents` contiene hasta tres `File`, independientes de `images`, y acepta cualquier formato. `FileUpload` informa los excesos de cantidad y tamaño y permite quitar archivos para sustituirlos. La documentación no impone por ahora un límite de bytes; debe acordarse con backend. El submit sigue preparando datos mock, sin crear un ticket en el listado ni asociar archivos a un detalle persistente.
+`CreateTicketFormData.documents` contiene hasta tres `File`, independientes de `images`, y acepta cualquier formato. `FileUpload` informa los excesos de cantidad y tamaño y permite quitar archivos para sustituirlos. La documentación admite como máximo 45 × 1024 × 1024 bytes (45 MB en la interfaz) sumando los tres archivos. El límite acumulado se aplica tanto a selección como a pegado, conservando los archivos que caben y avisando de los rechazados. El submit sigue preparando datos mock, sin crear un ticket en el listado ni asociar archivos a un detalle persistente.
 
 `TicketDetail.documents` contiene metadatos `TicketDocument` (id, nombre, URL, MIME y tamaño opcional). `DocumentationSection`, debajo de Descripción, compone el patrón genérico `DocumentList`. Comparte el acceso al detalle; no se inventa un permiso específico de documentación. La autorización definitiva debe acordarse con backend.
 
@@ -14,11 +14,13 @@ El patrón reutiliza `Modal` para imágenes raster y texto plano/CSV/JSON de has
 
 ## Imágenes desde el portapapeles
 
+`FileUpload` prepara los archivos mediante lectura local secuencial con `FileReader`, muestra un loader y confirma cuando están listos para adjuntar. No simula porcentajes ni una subida remota. Los formularios de creación, chat y grupos de imágenes bloquean el envío mientras el cargador está ocupado mediante `onBusyChange`. Si falla la lectura no se incorporan los archivos de ese lote; al desmontar se cancela la lectura. El estado del portapapeles comparte el indicador de actividad y los límites de validación.
+
 Ambas vías de pegado comparten la normalización del nombre: conservan el nombre del archivo cuando el navegador lo entrega; si solo entrega los bytes de la imagen, usan `image` y la extensión del MIME (por ejemplo, `image.png`). No se generan nombres con fecha/hora. La API de lectura puede entregar un Blob sin nombre aunque el evento de pegado sí incluya uno; no se infiere un nombre original que no esté disponible.
 
 Todos los puntos actuales de carga usan `FileUpload`: imagen y documentación de creación, adjuntos del chat y los seis grupos de imágenes. El hook `useClipboardImages` incorpora `paste` cuando el cargador tiene foco o el puntero está sobre su recuadro y lectura explícita mediante el icono Pegar del portapapeles (`navigator.clipboard.read`). No intercepta pegado de texto ni lee automáticamente el portapapeles. El botón requiere soporte del navegador, contexto seguro (HTTPS o localhost) y puede solicitar permiso; Ctrl+V/⌘V con foco o puntero sobre el cargador usa los datos del evento de pegado, sin invocar la lectura programática. Un campo editable u otro cargador con foco conserva la prioridad; los cargadores detrás de un modal no reciben imágenes. El icono ocupa 44 px dentro del recuadro y muestra tooltip y etiqueta accesible. La confirmación adicional de Pegar pertenece al navegador y no se puede omitir desde la aplicación.
 
-Selección y pegado comparten validaciones de MIME/extensión, tamaño y cantidad acumulada. Los límites existentes se conservan (documentación: tres archivos, cualquier tipo). El estado más reciente se usa al terminar una lectura asíncrona; una respuesta después de desmontar o deshabilitar el cargador se ignora. Cambiar grupo de imágenes reinicia el cargador. Los archivos permanecen locales hasta enviar el formulario; se mantiene el flujo mock.
+Selección y pegado comparten validaciones de MIME/extensión, tamaño y cantidad acumulada. Los límites existentes se conservan (documentación: tres archivos, cualquier tipo y 45 MB acumulados). El estado más reciente se usa al terminar una lectura asíncrona; una respuesta después de desmontar o deshabilitar el cargador se ignora. Cambiar grupo de imágenes reinicia el cargador. Los archivos permanecen locales hasta enviar el formulario; se mantiene el flujo mock.
 
 ## Visibilidad del Sidebar en escritorio
 

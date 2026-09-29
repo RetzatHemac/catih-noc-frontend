@@ -51,6 +51,8 @@ export function CreateTicketForm({
   const [formData, setFormData] = useState<CreateTicketFormData>(INITIAL_FORM);
 
   const [errors, setErrors] = useState<CreateTicketFormErrors>({});
+  const [imagesBusy, setImagesBusy] = useState(false);
+  const [documentsBusy, setDocumentsBusy] = useState(false);
 
   const [isAddSiteOpen, setIsAddSiteOpen] = useState(false);
 
@@ -124,6 +126,7 @@ export function CreateTicketForm({
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (imagesBusy || documentsBusy) return;
 
     if (!validateForm()) {
       return;
@@ -307,6 +310,7 @@ export function CreateTicketForm({
               >
                 <FileUpload
                   value={formData.images}
+                  onBusyChange={setImagesBusy}
                   onChange={(files) => updateField("images", files)}
                 />
               </FormField>
@@ -325,14 +329,16 @@ export function CreateTicketForm({
           >
             <FileUpload
               inputId="ticket-documents"
-              value={formData.attachments}
-              onChange={(files) => updateField("attachments", files)}
+              value={formData.documents}
+              onBusyChange={setDocumentsBusy}
+              onChange={(files) => updateField("documents", files)}
               accept=""
               multiple
               maxFiles={3}
               maxSize={Infinity}
+              maxTotalSize={45 * 1024 * 1024}
               label="Seleccionar documentación"
-              helperText={`${formData.attachments.length} de 3 archivos seleccionados · Cualquier formato`}
+              helperText={`${formData.documents.length} de 3 archivos seleccionados · Máximo 45 MB en total`}
             />
           </FormField>
         </section>
@@ -349,9 +355,10 @@ export function CreateTicketForm({
 
           <Button
             type="submit"
-            disabled={isSubmitting}
+            disabled={imagesBusy || documentsBusy || isSubmitting}
           >
             {isSubmitting ? "Creando ticket..." : "Crear ticket"}
+            Crear ticket
           </Button>
         </footer>
       </form>
