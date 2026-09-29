@@ -29,6 +29,7 @@ interface CreateTicketFormProps {
   onSubmit?: (data: CreateTicketFormData) => void;
 
   onCancel?: () => void;
+  isSubmitting?: boolean;
 }
 
 const INITIAL_FORM: CreateTicketFormData = {
@@ -37,7 +38,7 @@ const INITIAL_FORM: CreateTicketFormData = {
   categoryId: "",
   description: "",
   images: [],
-  documents: [],
+  attachments: [],
   ticketTypeId: "",
   classificationId: "",
 };
@@ -45,6 +46,7 @@ const INITIAL_FORM: CreateTicketFormData = {
 export function CreateTicketForm({
   onSubmit,
   onCancel,
+  isSubmitting = false,
 }: CreateTicketFormProps) {
   const [formData, setFormData] = useState<CreateTicketFormData>(INITIAL_FORM);
 
@@ -280,6 +282,7 @@ export function CreateTicketForm({
                     id="ticket-description"
                     value={formData.description}
                     placeholder="Describe el problema..."
+                    maxLength={2500}
                     aria-invalid={!!errors.description}
                     aria-describedby="ticket-description-message"
                     onChange={(event) =>
@@ -322,24 +325,34 @@ export function CreateTicketForm({
           >
             <FileUpload
               inputId="ticket-documents"
-              value={formData.documents}
-              onChange={(files) => updateField("documents", files)}
+              value={formData.attachments}
+              onChange={(files) => updateField("attachments", files)}
               accept=""
               multiple
               maxFiles={3}
               maxSize={Infinity}
               label="Seleccionar documentación"
-              helperText={`${formData.documents.length} de 3 archivos seleccionados · Cualquier formato`}
+              helperText={`${formData.attachments.length} de 3 archivos seleccionados · Cualquier formato`}
             />
           </FormField>
         </section>
 
         <footer className={styles.actions}>
-          <Button type="button" variant="secondary" onClick={handleCancel}>
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={handleCancel}
+            disabled={isSubmitting}
+          >
             Cancelar
           </Button>
 
-          <Button type="submit">Crear ticket</Button>
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Creando ticket..." : "Crear ticket"}
+          </Button>
         </footer>
       </form>
 

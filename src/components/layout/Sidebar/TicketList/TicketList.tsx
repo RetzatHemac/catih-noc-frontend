@@ -17,9 +17,7 @@ export function TicketList({
   scrollRef,
 }: TicketListProps) {
   const { user, loading, isAuthenticated } = useAuth();
-  console.warn("🔥 AUTH USER:", user); 
-  console.warn("🔥 PERMISOS:", user?.permissions);
-  const permissions = user?.effectivePermissions ?? [];
+  const permissions = user?.permissions ?? [];
   if (loading) {
     return <div>Cargando sesión...</div>;
   }

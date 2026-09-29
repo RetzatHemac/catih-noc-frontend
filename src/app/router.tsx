@@ -27,6 +27,7 @@ import { TaggingPage } from "../features/tagging/components/TaggingPage/TaggingP
 import { AuthCallbackPage } from "../pages/AuthCallbackPage/AuthCallbackPage";
 
 import { ProtectedRoute } from "../components/ProtectedRoute";
+import { PermissionRoute } from "./components/PermissionRoute";
 
 import type { DetailRouteHandle } from "./types/route.types";
 
@@ -66,17 +67,21 @@ export const router = createBrowserRouter([
           icon: Ticket,
         } satisfies DetailRouteHandle,
       },
-
           {
-            path: "tickets/new",
-            element: <CreateTicket />,
-            handle: {
-              title: "Crear ticket",
-              description: "Registra un nuevo ticket para su atención.",
-              icon: ClipboardPlus,
-            } satisfies DetailRouteHandle,
+            element: <PermissionRoute permission="ticket.crear" />,
+            children: [
+              {
+                path: "tickets/new",
+                element: <CreateTicket />,
+                handle: {
+                  title: "Crear ticket",
+                  description:
+                    "Registra un nuevo ticket para su atención.",
+                  icon: ClipboardPlus,
+                } satisfies DetailRouteHandle,
+              },
+            ],
           },
-
           {
             path: "tickets/:ticketId",
             element: <TicketDetailPage />,

@@ -2,36 +2,36 @@ import type { SelectOption, SiteOption } from "../types/createTicket.types";
 
 export const projectOptions: SelectOption[] = [
   {
-    value: "project-3k",
+    value: "1",
     label: "Proyecto 3K",
   },
   {
-    value: "wifi-mundial",
+    value: "2",
     label: "WiFi Mundial",
   },
   {
-    value: "internal",
+    value: "3",
     label: "Proyecto interno",
   },
 ];
 
 export const siteOptionsByProject: Record<string, SiteOption[]> = {
-  "project-3k": [
+  "1": [
     {
-      value: "site-gdl",
+      value: "1",
       label: "Sitio Guadalajara",
       code: "GDL-001",
     },
     {
-      value: "site-zapopan",
+      value: "2",
       label: "Sitio Zapopan",
       code: "ZAP-001",
     },
   ],
 
-  "wifi-mundial": [
+  "2": [
     {
-      value: "site-tlaquepaque",
+      value: "3",
       label: "Sitio Tlaquepaque",
       code: "TLA-001",
     },
@@ -42,45 +42,45 @@ export const siteOptionsByProject: Record<string, SiteOption[]> = {
 
 export const categoryOptions: SelectOption[] = [
   {
-    value: "network",
+    value: "1",
     label: "Red",
   },
   {
-    value: "hardware",
+    value: "2",
     label: "Hardware",
   },
   {
-    value: "software",
+    value: "3",
     label: "Software",
   },
   {
-    value: "connectivity",
+    value: "4",
     label: "Conectividad",
   },
 ];
 
 export const ticketTypeOptions: SelectOption[] = [
   {
-    value: "incident",
+    value: "1",
     label: "Incidente",
   },
   {
-    value: "request",
+    value: "2",
     label: "Solicitud",
   },
 ];
 
 export const classificationOptions: SelectOption[] = [
   {
-    value: "failure",
+    value: "1",
     label: "Falla",
   },
   {
-    value: "configuration",
+    value: "2",
     label: "Configuración",
   },
   {
-    value: "maintenance",
+    value: "3",
     label: "Mantenimiento",
   },
 ];

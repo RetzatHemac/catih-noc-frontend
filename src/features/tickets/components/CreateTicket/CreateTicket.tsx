@@ -8,17 +8,51 @@ import { CreateTicketForm } from "./CreateTicketForm";
 import type { CreateTicketFormData } from "../../types/createTicket.types";
 
 import { SectionHeader } from "../../../../components/layout/Detail/SectionHeader";
+import axios from "axios";
+import { createTicket } from "../../services/tickets.service";
 
 import styles from "./CreateTicket.module.css";
 
 export function CreateTicket() {
   const { goToPreviousView } = useNavigation();
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  function handleSubmit(data: CreateTicketFormData) {
-    setSuccessMessage(
-      `El ticket mock para el sitio ${data.siteId} quedó listo para enviarse.`,
-    );
+  const [successMessage, setSuccessMessage] =
+    useState<string | null>(null);
+
+  const [errorMessage, setErrorMessage] =
+    useState<string | null>(null);
+
+  const [isSubmitting, setIsSubmitting] =
+    useState(false);
+
+  async function handleSubmit(
+    data: CreateTicketFormData,
+  ) {
+    setSuccessMessage(null);
+    setErrorMessage(null);
+    setIsSubmitting(true);
+
+    try {
+      const response = await createTicket(data);
+
+      console.warn("Respuesta de creación:", response);
+
+      setSuccessMessage(
+        "El ticket fue enviado correctamente.",
+      );
+    } catch (error) {
+      console.error("Error creando ticket:", error);
+      if (axios.isAxiosError(error)) {
+        console.error("STATUS:", error.response?.status);
+        console.error("DATA:", error.response?.data);
+      }
+
+      setErrorMessage(
+        "No fue posible crear el ticket.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   function handleCancel() {
@@ -33,10 +67,22 @@ export function CreateTicket() {
       />
 
       {successMessage && (
-        <StatusMessage tone="success">{successMessage}</StatusMessage>
+        <StatusMessage tone="success">
+          {successMessage}
+        </StatusMessage>
       )}
 
-      <CreateTicketForm onSubmit={handleSubmit} onCancel={handleCancel} />
+      {errorMessage && (
+        <StatusMessage tone="error">
+          {errorMessage}
+        </StatusMessage>
+      )}
+
+      <CreateTicketForm
+        onSubmit={handleSubmit}
+        onCancel={handleCancel}
+        isSubmitting={isSubmitting}
+      />
     </section>
   );
 }

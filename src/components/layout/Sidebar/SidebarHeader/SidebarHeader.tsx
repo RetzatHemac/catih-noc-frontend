@@ -1,4 +1,5 @@
 import { Plus, Search } from "lucide-react";
+import { useAuth } from "../../../../auth";
 
 import styles from "./SidebarHeader.module.css";
 
@@ -22,6 +23,8 @@ export function SidebarHeader({
       state: { returnTo: location.pathname + location.search + location.hash },
     });
   }
+  const { user } = useAuth();
+
   return (
     <header className={styles.header}>
       {/* <div className={styles.brand}>
@@ -45,16 +48,17 @@ export function SidebarHeader({
             aria-label="Buscar ticket"
           />
         </label>
-
-        <button
-          type="button"
-          className={styles.createButton}
-          aria-label="Crear ticket"
-          title="Crear ticket"
-          onClick={handleCreateTicket}
-        >
-          <Plus size={20} aria-hidden="true" />
-        </button>
+        {user?.permissions.includes("ticket.crear") && (
+          <button
+            type="button"
+            className={styles.createButton}
+            aria-label="Crear ticket"
+            title="Crear ticket"
+            onClick={handleCreateTicket}
+          >
+            <Plus size={20} aria-hidden="true" />
+          </button>
+        )}
       </div>
     </header>
   );
