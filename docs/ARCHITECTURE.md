@@ -4,9 +4,15 @@
 
 ## Cancelación y documentación del ticket
 
+### Errores del envío al backend
+
+`CreateTicket` convierte errores HTTP mediante `app/utils/requestError.ts`. Los mensajes de validación 400/422 y conflictos 409 pueden venir como texto o lista en `message`; se representan como texto. Sesión, permisos, tamaño, formato, exceso de solicitudes, red y errores 5xx tienen mensajes de respaldo. No se muestra el cuerpo técnico de errores 5xx. Los avisos están junto al envío y reciben foco; campos y archivos se conservan tras el rechazo. Mientras se envía se bloquean edición, cancelación y envíos repetidos. La preparación local indica “listo para adjuntar”; la confirmación remota aparece solo tras una respuesta exitosa.
+
+El servicio usa multipart (`image` y `attachments`) y timeout de 120 segundos, sin reintento automático. Ante pérdida de respuesta se advierte que la creación puede haberse completado y se solicita verificar antes de reenviar. No se registran el formulario ni los errores completos en consola. Esta implementación cubre el flujo de creación; el normalizador es reutilizable por futuros procesos remotos.
+
 El acceso Crear ticket del Sidebar guarda la ruta de origen (incluidos query y hash) en el estado de navegación. Cancelar reemplaza el formulario por ese destino tanto en móvil como en escritorio; la entrada directa sin origen vuelve a `/`. Pulsar Crear de nuevo estando en el formulario conserva el origen. Se retiró `TicketPage`, la antigua pantalla de prueba del tema; `/tickets` redirige a `/` por compatibilidad.
 
-`CreateTicketFormData.documents` contiene hasta tres `File`, independientes de `images`, y acepta cualquier formato. `FileUpload` informa los excesos de cantidad y tamaño y permite quitar archivos para sustituirlos. La documentación admite como máximo 45 × 1024 × 1024 bytes (45 MB en la interfaz) sumando los tres archivos. El límite acumulado se aplica tanto a selección como a pegado, conservando los archivos que caben y avisando de los rechazados. El submit sigue preparando datos mock, sin crear un ticket en el listado ni asociar archivos a un detalle persistente.
+`CreateTicketFormData.attachments` contiene hasta tres `File`, independientes de `images`, y acepta cualquier formato. `FileUpload` informa los excesos de cantidad y tamaño y permite quitar archivos para sustituirlos. La documentación admite como máximo 45 × 1024 × 1024 bytes (45 MB en la interfaz) sumando los tres archivos. El límite acumulado se aplica tanto a selección como a pegado, conservando los archivos que caben y avisando de los rechazados. La creación envía multipart a POST /tickets; la lista y el detalle aún usan mocks y no se actualizan con la respuesta.
 
 `TicketDetail.documents` contiene metadatos `TicketDocument` (id, nombre, URL, MIME y tamaño opcional). `DocumentationSection`, debajo de Descripción, compone el patrón genérico `DocumentList`. Comparte el acceso al detalle; no se inventa un permiso específico de documentación. La autorización definitiva debe acordarse con backend.
 

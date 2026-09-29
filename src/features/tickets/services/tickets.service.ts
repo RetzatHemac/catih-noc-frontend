@@ -2,9 +2,7 @@ import conectNest from "../../../app/contexts/conectNest";
 
 import type { CreateTicketFormData } from "../types/createTicket.types";
 
-export async function createTicket(
-  data: CreateTicketFormData,
-) {
+export async function createTicket(data: CreateTicketFormData) {
   const formData = new FormData();
 
   formData.append("projectId", data.projectId);
@@ -21,23 +19,9 @@ export async function createTicket(
   data.attachments.forEach((file) => {
     formData.append("attachments", file);
   });
- console.warn("📤 Datos enviados al backend:");
-
-  for (const [key, value] of formData.entries()) {
-    if (value instanceof File) {
-      console.warn(key, {
-        name: value.name,
-        type: value.type,
-        size: value.size,
-      });
-    } else {
-      console.warn(key, value);
-    }
-  }
-  const response = await conectNest.post(
-    "/tickets",
-    formData,
-  );
+  const response = await conectNest.post("/tickets", formData, {
+    timeout: 120_000,
+  });
 
   return response.data;
 }

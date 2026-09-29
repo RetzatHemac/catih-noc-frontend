@@ -1,56 +1,42 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { useNavigation } from "../../../../app/hooks/useNavigation";
-import { StatusMessage } from "../../../../components/ui/StatusMessage/StatusMessage";
+import { getRequestErrorMessage } from "../../../../app/utils/requestError";
 
 import { CreateTicketForm } from "./CreateTicketForm";
 
 import type { CreateTicketFormData } from "../../types/createTicket.types";
 
 import { SectionHeader } from "../../../../components/layout/Detail/SectionHeader";
-import axios from "axios";
 import { createTicket } from "../../services/tickets.service";
 
 import styles from "./CreateTicket.module.css";
 
 export function CreateTicket() {
   const { goToPreviousView } = useNavigation();
+  const pending = useRef(false);
 
-  const [successMessage, setSuccessMessage] =
-    useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  const [errorMessage, setErrorMessage] =
-    useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const [isSubmitting, setIsSubmitting] =
-    useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  async function handleSubmit(
-    data: CreateTicketFormData,
-  ) {
+  async function handleSubmit(data: CreateTicketFormData) {
+    if (pending.current) return;
+    pending.current = true;
     setSuccessMessage(null);
     setErrorMessage(null);
     setIsSubmitting(true);
 
     try {
-      const response = await createTicket(data);
+      await createTicket(data);
 
-      console.warn("Respuesta de creación:", response);
-
-      setSuccessMessage(
-        "El ticket fue enviado correctamente.",
-      );
+      setSuccessMessage("El ticket fue enviado correctamente.");
     } catch (error) {
-      console.error("Error creando ticket:", error);
-      if (axios.isAxiosError(error)) {
-        console.error("STATUS:", error.response?.status);
-        console.error("DATA:", error.response?.data);
-      }
-
-      setErrorMessage(
-        "No fue posible crear el ticket.",
-      );
+      setErrorMessage(getRequestErrorMessage(error));
     } finally {
+      pending.current = false;
       setIsSubmitting(false);
     }
   }
@@ -66,22 +52,12 @@ export function CreateTicket() {
         description="Completa la información necesaria para registrar el ticket."
       />
 
-      {successMessage && (
-        <StatusMessage tone="success">
-          {successMessage}
-        </StatusMessage>
-      )}
-
-      {errorMessage && (
-        <StatusMessage tone="error">
-          {errorMessage}
-        </StatusMessage>
-      )}
-
       <CreateTicketForm
         onSubmit={handleSubmit}
         onCancel={handleCancel}
         isSubmitting={isSubmitting}
+        errorMessage={errorMessage}
+        successMessage={successMessage}
       />
     </section>
   );

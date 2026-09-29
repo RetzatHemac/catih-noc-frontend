@@ -121,6 +121,8 @@ Puntos que requieren acuerdo explícito:
 
 ## Errores
 
+La creación ya muestra `message: string | string[]` en respuestas 400/422/409, compatible con la respuesta actual de Nest para archivos inválidos. Los demás estados usan avisos por categoría. El formulario se conserva tras un rechazo. Timeout o pérdida de conexión no confirma que la operación haya fallado: no hay reintentos automáticos. Acordar idempotencia y consulta del resultado antes de automatizar reenvíos. El límite de espera del POST es 120 segundos.
+
 Formato recomendado:
 
 ```json
@@ -137,9 +139,9 @@ La UI debe usar `code` para el flujo y mostrar `message` solo si está redactado
 
 ## Archivos y adjuntos
 
-La nueva documentación de creación se entrega en `CreateTicketFormData.documents: File[]`, con máximo tres archivos adicionales a `images`. Acepta cualquier extensión con un máximo acumulado de 45 × 1024 × 1024 bytes entre los tres archivos. Acordar transporte de subida y validar nuevamente cantidad, tamaño acumulado, contenido y autorización en servidor.
+La nueva documentación de creación se entrega en `CreateTicketFormData.attachments: File[]`, con máximo tres archivos adicionales a `images`. Acepta cualquier extensión con un máximo acumulado de 45 × 1024 × 1024 bytes entre los tres archivos. Acordar transporte de subida y validar nuevamente cantidad, tamaño acumulado, contenido y autorización en servidor.
 
-El detalle consume `TicketDetail.documents?: TicketDocument[]`, con `id`, `name`, `url`, `mimeType`, `size` en bytes (opcional). Campo ausente o vacío muestra “Sin documentación adjunta”. Debe devolver los archivos asociados al ticket creado; actualmente el submit no persiste y los detalles muestran muestras independientes. Acordar autorización de documentación: por ahora la sección comparte el acceso al detalle, incluida la ruta independiente del visor.
+El detalle consume `TicketDetail.documents?: TicketDocument[]`, con `id`, `name`, `url`, `mimeType`, `size` en bytes (opcional). Campo ausente o vacío muestra “Sin documentación adjunta”. Debe devolver los archivos asociados al ticket creado; la creación ya envía al backend, pero los detalles aún muestran muestras independientes. Acordar autorización de documentación: por ahora la sección comparte el acceso al detalle, incluida la ruta independiente del visor.
 
 La vista previa acepta imágenes raster y texto plano/CSV/JSON de hasta 1 MiB con tamaño conocido. PDF abre directamente en nueva pestaña; DOCX utiliza un visor local, en una ruta por ticket/documento que deberá consultar y autorizar esos IDs con backend (ahora resuelve mocks). Los `.doc` antiguos quedan solo para descarga; no se contempla conversión ni envío a visores externos. Los comprimidos y Excel siguen únicamente como descarga.
 

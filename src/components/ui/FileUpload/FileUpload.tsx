@@ -135,8 +135,8 @@ export function FileUpload({
       latest.current.onChange(multiple ? [...originalValue, ...files] : files);
       setSuccess(
         files.length === 1
-          ? `${files[0]!.name}: cargado correctamente.`
-          : `${files.length} archivos cargador correctamente.`,
+          ? `${files[0]!.name}: listo para adjuntar.`
+          : `${files.length} archivos listos para adjuntar.`,
       );
     } catch {
       if (mounted.current)

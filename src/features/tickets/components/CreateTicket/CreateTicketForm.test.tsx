@@ -77,11 +77,11 @@ describe("ticket documentation upload", () => {
     );
     await screen.findByText("problema.png");
     for (const [label, value] of [
-      ["Proyecto", "project-3k"],
-      ["Sitio", "site-gdl"],
-      ["Categoría", "network"],
-      ["Tipo de ticket", "incident"],
-      ["Clasificación", "failure"],
+      ["Proyecto", "1"],
+      ["Sitio", "1"],
+      ["Categoría", "1"],
+      ["Tipo de ticket", "1"],
+      ["Clasificación", "1"],
       ["Descripción", "Sin enlace"],
     ] as const) {
       fireEvent.change(screen.getByLabelText(label, { exact: false }), {
@@ -97,7 +97,7 @@ describe("ticket documentation upload", () => {
     expect(submit).toHaveBeenCalledWith(
       expect.objectContaining({
         images: [image],
-        documents: [files[0], files[2], files[3]],
+        attachments: [files[0], files[2], files[3]],
       }),
     );
   });
