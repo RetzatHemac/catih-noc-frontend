@@ -329,16 +329,16 @@ export function CreateTicketForm({
           >
             <FileUpload
               inputId="ticket-documents"
-              value={formData.documents}
+              value={formData.attachments}
               onBusyChange={setDocumentsBusy}
-              onChange={(files) => updateField("documents", files)}
+              onChange={(files) => updateField("attachments", files)}
               accept=""
               multiple
               maxFiles={3}
               maxSize={Infinity}
               maxTotalSize={45 * 1024 * 1024}
               label="Seleccionar documentación"
-              helperText={`${formData.documents.length} de 3 archivos seleccionados · Máximo 45 MB en total`}
+              helperText={`${formData.attachments.length} de 3 archivos seleccionados · Máximo 45 MB en total`}
             />
           </FormField>
         </section>
