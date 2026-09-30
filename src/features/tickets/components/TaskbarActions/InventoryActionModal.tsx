@@ -175,8 +175,8 @@ export function InventoryActionModal({
                 id="damaged-serial-choice"
                 value={damagedSerialChoice}
                 options={damagedSerialOptions}
-                onChange={(event) => {
-                  setDamagedSerialChoice(event.target.value);
+                onValueChange={(value) => {
+                  setDamagedSerialChoice(value);
                   setDamagedModelChoice("");
                 }}
               />
@@ -206,9 +206,7 @@ export function InventoryActionModal({
                     id="damaged-model-choice"
                     value={damagedModelChoice}
                     options={brandModelOptions}
-                    onChange={(event) =>
-                      setDamagedModelChoice(event.target.value)
-                    }
+                    onValueChange={(value) => setDamagedModelChoice(value)}
                   />
                 </FormField>
                 {damagedModelChoice === MANUAL_VALUE && (
@@ -247,9 +245,7 @@ export function InventoryActionModal({
                 id="replacement-serial-choice"
                 value={replacementSerialChoice}
                 options={replacementSerialOptions}
-                onChange={(event) =>
-                  setReplacementSerialChoice(event.target.value)
-                }
+                onValueChange={(value) => setReplacementSerialChoice(value)}
               />
             </FormField>
             {replacementSerialChoice === MANUAL_VALUE && (
@@ -277,9 +273,7 @@ export function InventoryActionModal({
                 id="replacement-model-choice"
                 value={replacementModelChoice}
                 options={brandModelOptions}
-                onChange={(event) =>
-                  setReplacementModelChoice(event.target.value)
-                }
+                onValueChange={(value) => setReplacementModelChoice(value)}
               />
             </FormField>
             {replacementModelChoice === MANUAL_VALUE && (
@@ -303,7 +297,7 @@ export function InventoryActionModal({
                   id="replacement-observation"
                   value={observation}
                   options={observationOptions}
-                  onChange={(event) => setObservation(event.target.value)}
+                  onValueChange={(value) => setObservation(value)}
                 />
               </FormField>
             </div>

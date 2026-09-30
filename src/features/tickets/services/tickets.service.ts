@@ -9,7 +9,6 @@ export async function createTicket(data: CreateTicketFormData) {
   formData.append("siteId", data.siteId);
   formData.append("categoryId", data.categoryId);
   formData.append("ticketTypeId", data.ticketTypeId);
-  formData.append("classificationId", data.classificationId);
   formData.append("description", data.description);
 
   if (data.images[0]) {

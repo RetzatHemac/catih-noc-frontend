@@ -99,7 +99,7 @@ export function EditableField({
                 aria-label={label}
                 value={draftValue}
                 options={props.options}
-                onChange={(event) => setDraftValue(event.target.value)}
+                onValueChange={(value) => setDraftValue(value)}
               />
             ) : (
               <Input

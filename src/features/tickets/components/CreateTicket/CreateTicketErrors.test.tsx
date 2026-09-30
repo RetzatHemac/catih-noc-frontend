@@ -1,3 +1,4 @@
+import { selectOption } from "../../../../test/selectOption";
 import {
   act,
   fireEvent,
@@ -15,17 +16,16 @@ vi.mock("../../../../app/hooks/useNavigation", () => ({
 }));
 
 function fillForm() {
-  for (const label of [
-    "Proyecto",
-    "Sitio",
-    "Categoría",
-    "Tipo de ticket",
-    "Clasificación",
-  ]) {
+  for (const [label, option] of [
+    ["Proyecto", "Proyecto 3K"],
+    ["Sitio", "Sitio Guadalajara"],
+    ["Categoría", "Red"],
+    ["Tipo de ticket", "Incidente"],
+  ] as const) {
     const field = screen.getByLabelText(label, {
       exact: false,
-    }) as HTMLSelectElement;
-    fireEvent.change(field, { target: { value: field.options[1]!.value } });
+    });
+    selectOption(field, option);
   }
   fireEvent.change(screen.getByLabelText("Descripción", { exact: false }), {
     target: { value: "Falla del sitio" },

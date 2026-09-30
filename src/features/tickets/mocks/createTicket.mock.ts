@@ -69,18 +69,3 @@ export const ticketTypeOptions: SelectOption[] = [
     label: "Solicitud",
   },
 ];
-
-export const classificationOptions: SelectOption[] = [
-  {
-    value: "1",
-    label: "Falla",
-  },
-  {
-    value: "2",
-    label: "Configuración",
-  },
-  {
-    value: "3",
-    label: "Mantenimiento",
-  },
-];

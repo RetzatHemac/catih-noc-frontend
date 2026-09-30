@@ -89,7 +89,7 @@ export function AddSiteModal({
               id="site-project"
               value={formData.projectId}
               options={projectOptions}
-              onChange={(event) => updateField("projectId", event.target.value)}
+              onValueChange={(value) => updateField("projectId", value)}
             />
           </FormField>
 

@@ -1,3 +1,4 @@
+import { selectOption } from "../../../../test/selectOption";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { useState } from "react";
@@ -148,12 +149,14 @@ describe("TaskbarActionDialog", () => {
       </AuthProvider>,
     );
 
-    fireEvent.change(screen.getByRole("combobox", { name: "Dependencia" }), {
-      target: { value: "CLIENTE" },
-    });
-    fireEvent.change(screen.getByRole("combobox", { name: "Motivo" }), {
-      target: { value: "Sin acceso al sitio" },
-    });
+    selectOption(
+      screen.getByRole("combobox", { name: "Dependencia" }),
+      "Cliente",
+    );
+    selectOption(
+      screen.getByRole("combobox", { name: "Motivo" }),
+      "Sin acceso al sitio",
+    );
     fireEvent.change(
       screen.getByRole("textbox", { name: "Detalle del motivo" }),
       {
@@ -212,9 +215,9 @@ describe("TaskbarActionDialog", () => {
       </AuthProvider>,
     );
 
-    fireEvent.change(
+    selectOption(
       screen.getByRole("combobox", { name: "Tipo de actividad" }),
-      { target: { value: "onsite" } },
+      "Actividad en sitio",
     );
     fireEvent.change(
       screen.getByRole("textbox", { name: "Actividad realizada" }),

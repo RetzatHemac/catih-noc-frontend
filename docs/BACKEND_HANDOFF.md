@@ -30,7 +30,7 @@ El frontend puede validar para mejorar la experiencia. El backend debe validar n
 | ------------------------------------------------- | -------------------------------------------------------------------- |
 | `config/mockTickets.ts`                           | Consulta paginada y filtrada de tickets.                             |
 | `mocks/ticketDetail.mock.ts`                      | Consulta del detalle por identificador.                              |
-| `mocks/createTicket.mock.ts`                      | Catálogos de proyectos, sitios, categorías, tipos y clasificaciones. |
+| `mocks/createTicket.mock.ts`                      | Catálogos de proyectos, sitios, categorías y tipos de ticket. |
 | `auth/mockUser.ts`                                | Sesión autenticada y permisos efectivos del usuario.                 |
 | `config/inventoryOptions.ts`                      | Catálogos de series, marcas, modelos y observaciones.                |
 | `config/pauseOptions.ts`                          | Dependencias y motivos de pausa.                                     |

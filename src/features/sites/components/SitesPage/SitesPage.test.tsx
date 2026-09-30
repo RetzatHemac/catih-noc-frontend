@@ -1,3 +1,4 @@
+import { selectOption } from "../../../../test/selectOption";
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
@@ -16,7 +17,7 @@ describe("SitesPage", () => {
       screen.queryByRole("navigation", { name: "Paginación de resultados" }),
     ).not.toBeInTheDocument();
 
-    await user.selectOptions(screen.getByLabelText("Proyecto"), "project-1");
+    selectOption(screen.getByLabelText("Proyecto"), "Red Estatal 3K");
     expect(screen.getByText("14 sitios")).toBeInTheDocument();
 
     await user.type(
@@ -35,7 +36,7 @@ describe("SitesPage", () => {
   it("edits a site with prefilled fields and returns to its project", async () => {
     const user = userEvent.setup();
     renderPage();
-    await selectFirstProject(user);
+    await selectFirstProject();
 
     await user.click(
       screen.getAllByRole("button", { name: "Editar SIT-0001" })[0]!,
@@ -54,7 +55,7 @@ describe("SitesPage", () => {
   it("shows passwords and creates and deletes addressing", async () => {
     const user = userEvent.setup();
     renderPage();
-    await selectFirstProject(user);
+    await selectFirstProject();
 
     await user.click(
       screen.getAllByRole("button", { name: "Ver más de SIT-0001" })[0]!,
@@ -86,21 +87,16 @@ describe("SitesPage", () => {
   it("updates inventory status and toggles the inline image gallery", async () => {
     const user = userEvent.setup();
     renderPage();
-    await selectFirstProject(user);
+    await selectFirstProject();
 
     await user.click(
       screen.getAllByRole("button", { name: "Inventario de SIT-0001" })[0]!,
     );
     await user.click(screen.getByRole("button", { name: "Cambiar status" }));
-    await user.selectOptions(
-      screen.getByLabelText(/Status del inventario/),
-      "pending",
-    );
+    selectOption(screen.getByLabelText(/Status del inventario/), "Pendiente");
     await user.click(screen.getByRole("button", { name: "Guardar" }));
     await user.click(screen.getByRole("button", { name: "Cambiar status" }));
-    expect(screen.getByLabelText(/Status del inventario/)).toHaveValue(
-      "pending",
-    );
+    expect(screen.getByText("Pendiente")).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "Cancelar" }));
 
     await user.click(
@@ -118,7 +114,7 @@ describe("SitesPage", () => {
   it("asks for confirmation before deleting a site", async () => {
     const user = userEvent.setup();
     renderPage();
-    await selectFirstProject(user);
+    await selectFirstProject();
 
     fireEvent.click(
       screen.getAllByRole("button", { name: "Eliminar SIT-0001" })[0]!,
@@ -139,6 +135,6 @@ function renderPage() {
   );
 }
 
-async function selectFirstProject(user: ReturnType<typeof userEvent.setup>) {
-  await user.selectOptions(screen.getByLabelText("Proyecto"), "project-1");
+async function selectFirstProject() {
+  selectOption(screen.getByLabelText("Proyecto"), "Red Estatal 3K");
 }

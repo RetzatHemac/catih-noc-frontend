@@ -84,8 +84,8 @@ export function TicketRelationsDialog({
                 { value: "parent", label: "Ticket padre" },
                 { value: "child", label: "Ticket hijo" },
               ]}
-              onChange={(event) =>
-                setRelationType(event.target.value as "parent" | "child")
+              onValueChange={(value) =>
+                setRelationType(value as "parent" | "child")
               }
             />
           </FormField>
@@ -97,7 +97,7 @@ export function TicketRelationsDialog({
                 value: ticket.id,
                 label: `${ticket.id} · ${ticket.site}`,
               }))}
-              onChange={(event) => setTicketId(event.target.value)}
+              onValueChange={(value) => setTicketId(value)}
             />
           </FormField>
         </div>

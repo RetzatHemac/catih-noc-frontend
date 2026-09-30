@@ -1,3 +1,4 @@
+import { selectOption } from "../../../../test/selectOption";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
@@ -22,9 +23,10 @@ describe("ReleaseCrewDialog", () => {
     const releaseButton = screen.getByRole("button", { name: "Liberar" });
     expect(releaseButton).toBeDisabled();
 
-    fireEvent.change(screen.getByRole("combobox", { name: "Cuadrilla" }), {
-      target: { value: crew.id },
-    });
+    selectOption(
+      screen.getByRole("combobox", { name: "Cuadrilla" }),
+      `${crew.name} · ${crew.closedTicketIdentifier}`,
+    );
     fireEvent.click(releaseButton);
 
     expect(onRelease).toHaveBeenCalledWith(crew.id);

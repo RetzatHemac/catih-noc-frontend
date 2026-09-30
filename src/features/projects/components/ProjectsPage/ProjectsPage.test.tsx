@@ -1,3 +1,4 @@
+import { selectOption } from "../../../../test/selectOption";
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
@@ -21,7 +22,7 @@ describe("ProjectsPage", () => {
     expect(screen.getByText("1 proyecto")).toBeInTheDocument();
     expect(screen.getAllByText("WiFi Mundial Jalisco")).toHaveLength(2);
 
-    await user.selectOptions(screen.getByLabelText("Estado"), "expired");
+    selectOption(screen.getByLabelText("Estado"), "Expirado");
     expect(screen.getByText("0 proyectos")).toBeInTheDocument();
   });
 

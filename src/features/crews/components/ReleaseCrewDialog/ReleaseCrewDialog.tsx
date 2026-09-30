@@ -64,7 +64,7 @@ export function ReleaseCrewDialog({
                 value: crew.id,
                 label: `${crew.name} · ${crew.closedTicketIdentifier}`,
               }))}
-              onChange={(event) => setCrewId(event.target.value)}
+              onValueChange={(value) => setCrewId(value)}
             />
           </FormField>
           {selectedCrew && (

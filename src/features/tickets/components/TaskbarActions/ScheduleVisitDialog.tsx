@@ -64,7 +64,7 @@ export function ScheduleVisitDialog({
             id="schedule-user"
             value={userId}
             options={SCHEDULE_USER_OPTIONS}
-            onChange={(event) => setUserId(event.target.value)}
+            onValueChange={(value) => setUserId(value)}
           />
         </FormField>
         <FormField label="Fecha y hora" htmlFor="schedule-date" required>

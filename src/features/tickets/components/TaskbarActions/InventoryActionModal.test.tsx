@@ -1,3 +1,4 @@
+import { selectOption } from "../../../../test/selectOption";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
@@ -11,9 +12,10 @@ describe("InventoryActionModal", () => {
       <InventoryActionModal onClose={() => undefined} onSubmit={onSubmit} />,
     );
 
-    fireEvent.change(screen.getByRole("combobox", { name: "Serie dañada" }), {
-      target: { value: "manual" },
-    });
+    selectOption(
+      screen.getByRole("combobox", { name: "Serie dañada" }),
+      "Ingresar manualmente",
+    );
     fireEvent.change(
       screen.getByRole("textbox", {
         name: "Número de serie del equipo dañado",
@@ -22,11 +24,11 @@ describe("InventoryActionModal", () => {
         target: { value: "D-001" },
       },
     );
-    fireEvent.change(
+    selectOption(
       screen.getByRole("combobox", {
         name: "Marca y modelo del equipo dañado",
       }),
-      { target: { value: "manual" } },
+      "Ingresar marca y modelo manualmente",
     );
     fireEvent.change(
       screen.getByRole("textbox", { name: "Marca del equipo dañado" }),
@@ -41,11 +43,9 @@ describe("InventoryActionModal", () => {
       },
     );
 
-    fireEvent.change(
+    selectOption(
       screen.getByRole("combobox", { name: "Serie de reemplazo" }),
-      {
-        target: { value: "manual" },
-      },
+      "Ingresar manualmente",
     );
     fireEvent.change(
       screen.getByRole("textbox", {
@@ -55,11 +55,11 @@ describe("InventoryActionModal", () => {
         target: { value: "R-001" },
       },
     );
-    fireEvent.change(
+    selectOption(
       screen.getByRole("combobox", {
         name: "Marca y modelo del equipo de reemplazo",
       }),
-      { target: { value: "manual" } },
+      "Ingresar marca y modelo manualmente",
     );
     fireEvent.change(
       screen.getByRole("textbox", { name: "Marca del equipo de reemplazo" }),
@@ -73,9 +73,10 @@ describe("InventoryActionModal", () => {
         target: { value: "Modelo R" },
       },
     );
-    fireEvent.change(screen.getByRole("combobox", { name: "Observación" }), {
-      target: { value: "Equipo nuevo instalado y funcionando" },
-    });
+    selectOption(
+      screen.getByRole("combobox", { name: "Observación" }),
+      "Equipo nuevo instalado y funcionando",
+    );
     fireEvent.click(
       screen.getByRole("button", { name: "Registrar inventario" }),
     );

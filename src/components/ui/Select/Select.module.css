@@ -1,33 +1,119 @@
-.select {
+﻿.select {
   width: 100%;
   min-width: 0;
-  min-height: 40px;
-  padding: 0 var(--space-3);
+  font: inherit;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+.control {
+  min-height: 44px;
   border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-md);
   background: var(--color-surface);
-  color: var(--color-text-primary);
-  font: inherit;
-  font-size: var(--font-size-sm);
-  cursor: pointer;
 }
-
-.select:hover:not(:disabled) {
+.control:hover {
   border-color: var(--color-border-strong);
 }
-
-.select:focus {
+.focused {
   border-color: var(--color-border-focus);
-  outline: none;
   box-shadow: var(--focus-ring);
 }
-
-.select:disabled {
+.invalid {
+  border-color: var(--color-danger);
+}
+.disabled,
+fieldset:disabled .control {
   background: var(--color-bg-secondary);
   color: var(--color-text-muted);
   cursor: not-allowed;
 }
-
-.select[aria-invalid="true"] {
-  border-color: var(--color-danger);
+fieldset:disabled .select {
+  pointer-events: none;
+}
+.values {
+  padding: var(--space-2) var(--space-3);
+  gap: var(--space-1);
+  min-width: 0;
+}
+.input {
+  color: inherit;
+  margin: 0;
+  padding: 0;
+}
+.singleValue {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.placeholder {
+  color: var(--color-text-muted);
+}
+.indicators {
+  align-self: stretch;
+}
+.indicator {
+  min-width: 32px;
+  justify-content: center;
+  padding: var(--space-2);
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+.indicator:hover {
+  color: var(--color-text-primary);
+}
+.menu {
+  margin-top: var(--space-1);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  box-shadow: 0 6px 18px rgb(0 0 0 / 16%);
+  overflow: hidden;
+}
+.menuList {
+  padding: var(--space-1);
+  overscroll-behavior: contain;
+}
+.option {
+  min-height: 44px;
+  padding: var(--space-3);
+  overflow-wrap: anywhere;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+}
+.optionFocused {
+  background: var(--color-bg-secondary);
+}
+.optionSelected {
+  font-weight: 600;
+  box-shadow: inset 3px 0 var(--color-border-focus);
+}
+.optionDisabled {
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+.tag {
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+  max-width: 100%;
+}
+.tagLabel {
+  padding: var(--space-1) var(--space-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tagRemove {
+  min-width: 32px;
+  justify-content: center;
+  padding: var(--space-2);
+  cursor: pointer;
+}
+.tagRemove:hover {
+  background: var(--color-border);
+}
+.empty {
+  padding: var(--space-3);
+  color: var(--color-text-muted);
 }

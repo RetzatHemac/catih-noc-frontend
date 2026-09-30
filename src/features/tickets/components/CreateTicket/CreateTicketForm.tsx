@@ -10,7 +10,6 @@ import { Textarea } from "../../../../components/ui/Textarea/Textarea";
 
 import {
   categoryOptions,
-  classificationOptions,
   projectOptions,
   siteOptionsByProject,
   ticketTypeOptions,
@@ -43,7 +42,6 @@ const INITIAL_FORM: CreateTicketFormData = {
   images: [],
   attachments: [],
   ticketTypeId: "",
-  classificationId: "",
 };
 
 export function CreateTicketForm({
@@ -124,10 +122,6 @@ export function CreateTicketForm({
       nextErrors.ticketTypeId = "Selecciona el tipo de ticket.";
     }
 
-    if (!formData.classificationId) {
-      nextErrors.classificationId = "Selecciona una clasificación.";
-    }
-
     setErrors(nextErrors);
 
     return Object.keys(nextErrors).length === 0;
@@ -181,13 +175,14 @@ export function CreateTicketForm({
               >
                 <Select
                   id="ticket-project"
+                  disabled={isSubmitting}
                   value={formData.projectId}
                   options={projectOptions}
                   aria-invalid={!!errors.projectId}
                   aria-describedby={
                     errors.projectId ? "ticket-project-message" : undefined
                   }
-                  onChange={(event) => handleProjectChange(event.target.value)}
+                  onValueChange={(value) => handleProjectChange(value)}
                 />
               </FormField>
 
@@ -202,14 +197,12 @@ export function CreateTicketForm({
                     id="ticket-site"
                     value={formData.siteId}
                     options={availableSites}
-                    disabled={!formData.projectId}
+                    disabled={isSubmitting || !formData.projectId}
                     aria-invalid={!!errors.siteId}
                     aria-describedby={
                       errors.siteId ? "ticket-site-message" : undefined
                     }
-                    onChange={(event) =>
-                      updateField("siteId", event.target.value)
-                    }
+                    onValueChange={(value) => updateField("siteId", value)}
                   />
 
                   <Button
@@ -232,15 +225,14 @@ export function CreateTicketForm({
               >
                 <Select
                   id="ticket-category"
+                  disabled={isSubmitting}
                   value={formData.categoryId}
                   options={categoryOptions}
                   aria-invalid={!!errors.categoryId}
                   aria-describedby={
                     errors.categoryId ? "ticket-category-message" : undefined
                   }
-                  onChange={(event) =>
-                    updateField("categoryId", event.target.value)
-                  }
+                  onValueChange={(value) => updateField("categoryId", value)}
                 />
               </FormField>
 
@@ -252,37 +244,14 @@ export function CreateTicketForm({
               >
                 <Select
                   id="ticket-type"
+                  disabled={isSubmitting}
                   value={formData.ticketTypeId}
                   options={ticketTypeOptions}
                   aria-invalid={!!errors.ticketTypeId}
                   aria-describedby={
                     errors.ticketTypeId ? "ticket-type-message" : undefined
                   }
-                  onChange={(event) =>
-                    updateField("ticketTypeId", event.target.value)
-                  }
-                />
-              </FormField>
-
-              <FormField
-                label="Clasificación"
-                htmlFor="ticket-classification"
-                required
-                error={errors.classificationId}
-              >
-                <Select
-                  id="ticket-classification"
-                  value={formData.classificationId}
-                  options={classificationOptions}
-                  aria-invalid={!!errors.classificationId}
-                  aria-describedby={
-                    errors.classificationId
-                      ? "ticket-classification-message"
-                      : undefined
-                  }
-                  onChange={(event) =>
-                    updateField("classificationId", event.target.value)
-                  }
+                  onValueChange={(value) => updateField("ticketTypeId", value)}
                 />
               </FormField>
 

@@ -15,7 +15,6 @@ export interface CreateTicketFormData {
   images: File[];
   attachments: File[];
   ticketTypeId: string;
-  classificationId: string;
 }
 
 export interface CreateTicketFormErrors {
@@ -24,7 +23,6 @@ export interface CreateTicketFormErrors {
   categoryId?: string;
   description?: string;
   ticketTypeId?: string;
-  classificationId?: string;
 }
 
 export interface CreateSiteFormData {

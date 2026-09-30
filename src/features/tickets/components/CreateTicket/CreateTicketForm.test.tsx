@@ -1,3 +1,4 @@
+import { selectOption } from "../../../../test/selectOption";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { CreateTicketForm } from "./CreateTicketForm";
@@ -77,16 +78,18 @@ describe("ticket documentation upload", () => {
     );
     await screen.findByText("problema.png");
     for (const [label, value] of [
-      ["Proyecto", "1"],
-      ["Sitio", "1"],
-      ["Categoría", "1"],
-      ["Tipo de ticket", "1"],
-      ["Clasificación", "1"],
+      ["Proyecto", "Proyecto 3K"],
+      ["Sitio", "Sitio Guadalajara"],
+      ["Categoría", "Red"],
+      ["Tipo de ticket", "Incidente"],
       ["Descripción", "Sin enlace"],
     ] as const) {
-      fireEvent.change(screen.getByLabelText(label, { exact: false }), {
-        target: { value },
-      });
+      const field = screen.getByLabelText(label, { exact: false });
+      if (label === "Descripción") {
+        fireEvent.change(field, { target: { value } });
+      } else {
+        selectOption(field, value);
+      }
     }
     await waitFor(() =>
       expect(

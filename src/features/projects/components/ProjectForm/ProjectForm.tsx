@@ -309,9 +309,7 @@ export function ProjectForm({ project, onSave, onCancel }: ProjectFormProps) {
                 { value: "yes", label: "Sí incluye" },
                 { value: "no", label: "No incluye" },
               ]}
-              onChange={(event) =>
-                setInfrastructure(event.target.value === "yes")
-              }
+              onValueChange={(value) => setInfrastructure(value === "yes")}
             />
           </FormField>
           {infrastructure && (

@@ -150,8 +150,8 @@ export function SitesPage() {
                 label: project.name,
               }))}
               placeholder="Selecciona un proyecto"
-              onChange={(event) => {
-                setProjectId(event.target.value);
+              onValueChange={(value) => {
+                setProjectId(value);
                 setQuery("");
                 setPage(1);
               }}
@@ -180,8 +180,8 @@ export function SitesPage() {
               value={String(pageSize)}
               options={pageSizeOptions}
               disabled={!projectId}
-              onChange={(event) => {
-                setPageSize(Number(event.target.value) as PageSize);
+              onValueChange={(value) => {
+                setPageSize(Number(value) as PageSize);
                 setPage(1);
               }}
             />

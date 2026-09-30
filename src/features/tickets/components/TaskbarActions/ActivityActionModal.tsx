@@ -69,7 +69,7 @@ export function ActivityActionModal({
             id="activity-scope"
             value={scope}
             options={scopeOptions}
-            onChange={(event) => setScope(event.target.value as ActivityScope)}
+            onValueChange={(value) => setScope(value as ActivityScope)}
           />
         </FormField>
 

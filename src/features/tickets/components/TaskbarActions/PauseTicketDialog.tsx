@@ -67,8 +67,8 @@ export function PauseTicketDialog({
             id="pause-dependency"
             value={dependency}
             options={PAUSE_DEPENDENCY_OPTIONS}
-            onChange={(event) => {
-              setDependency(event.target.value as PauseDependency | "");
+            onValueChange={(value) => {
+              setDependency(value as PauseDependency | "");
               setReasonType("");
             }}
           />
@@ -79,7 +79,7 @@ export function PauseTicketDialog({
             value={reasonType}
             options={reasonOptions}
             disabled={!dependency}
-            onChange={(event) => setReasonType(event.target.value)}
+            onValueChange={(value) => setReasonType(value)}
           />
         </FormField>
         <FormField label="Detalle del motivo" htmlFor="pause-detail" required>

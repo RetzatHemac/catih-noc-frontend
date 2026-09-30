@@ -127,8 +127,8 @@ export function TaggingPage() {
               id="tagging-page-size"
               value={String(pageSize)}
               options={pageSizeOptions}
-              onChange={(event) => {
-                setPageSize(Number(event.target.value) as PageSize);
+              onValueChange={(value) => {
+                setPageSize(Number(value) as PageSize);
                 setPage(1);
               }}
             />

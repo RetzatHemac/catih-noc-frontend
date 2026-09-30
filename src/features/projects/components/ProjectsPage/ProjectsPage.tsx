@@ -205,8 +205,8 @@ export function ProjectsPage() {
               id="projects-page-size"
               value={String(pageSize)}
               options={pageSizeOptions}
-              onChange={(event) => {
-                setPageSize(Number(event.target.value) as PageSize);
+              onValueChange={(value) => {
+                setPageSize(Number(value) as PageSize);
                 setPage(1);
               }}
             />
@@ -219,8 +219,8 @@ export function ProjectsPage() {
               value={status}
               options={statusOptions}
               placeholder="Todos"
-              onChange={(event) => {
-                setStatus(event.target.value as "" | ProjectStatus);
+              onValueChange={(value) => {
+                setStatus(value as "" | ProjectStatus);
                 setPage(1);
               }}
             />

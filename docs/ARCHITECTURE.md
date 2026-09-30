@@ -1,6 +1,19 @@
 # Arquitectura del frontend
 
-Última actualización: 25 de septiembre de 2026.
+Última actualización: 30 de septiembre de 2026.
+
+## Selectores con búsqueda y selección múltiple
+
+Todos los desplegables usan `components/ui/Select`, que encapsula `react-select` y los estilos del tema. Permite escribir para filtrar sin distinguir mayúsculas o acentos, desplegar las opciones y elegir con ratón, tacto o teclado. El texto de búsqueda no crea opciones ni se envía como valor. Escape cierra primero la lista; los menús dentro de modales permanecen en su diálogo y usan posición fija para salir del área desplazable.
+
+Las pantallas consumen identificadores, no objetos de la biblioteca: selección simple usa `value: string` y `onValueChange(value)`; `multiple` activa `value: string[]` y `onValueChange(values)`, con etiquetas removibles. Ambos modos comparten las opciones `{ value, label, disabled? }`. Los campos actuales siguen siendo simples; habilitar un campo múltiple requiere definir también su contrato de datos y validación.
+
+```tsx
+<Select id="providers" multiple options={providerOptions}
+  value={providerIds} onValueChange={setProviderIds} />
+```
+
+Se conserva `defaultValue` para formularios no controlados, `name`, `required`, `disabled`, las etiquetas y los mensajes de validación. `FormData.get(name)` devuelve el identificador simple; para múltiples se usa `FormData.getAll(name)` (sin selección se filtran cadenas vacías). Los formularios que bloquean sus campos durante un envío deben pasar `disabled` también al selector. La búsqueda actual es local sobre las opciones disponibles; los catálogos remotos deberán incorporar su carga en la capa de datos.
 
 ## Cancelación y documentación del ticket
 

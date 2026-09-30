@@ -71,6 +71,11 @@ export function SidebarFilters({
       ?.focus({ preventScroll: true });
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key !== "Escape") return;
+      if (
+        event.target instanceof Element &&
+        event.target.closest('[role="combobox"][aria-expanded="true"]')
+      )
+        return;
       event.preventDefault();
       event.stopPropagation();
       setExpanded(false);
@@ -187,9 +192,9 @@ export function SidebarFilters({
                   value={filters.project}
                   options={projectOptions}
                   placeholder="Todos"
-                  onChange={(event) =>
+                  onValueChange={(value) =>
                     onChange({
-                      project: event.target.value as TicketFilters["project"],
+                      project: value as TicketFilters["project"],
                     })
                   }
                 />
@@ -202,9 +207,9 @@ export function SidebarFilters({
                   value={filters.type}
                   options={typeOptions}
                   placeholder="Todos"
-                  onChange={(event) =>
+                  onValueChange={(value) =>
                     onChange({
-                      type: event.target.value as TicketFilters["type"],
+                      type: value as TicketFilters["type"],
                     })
                   }
                 />
@@ -217,9 +222,7 @@ export function SidebarFilters({
                   value={filters.supervisor}
                   options={supervisorOptions}
                   placeholder="Todos"
-                  onChange={(event) =>
-                    onChange({ supervisor: event.target.value })
-                  }
+                  onValueChange={(value) => onChange({ supervisor: value })}
                 />
               </label>
 
@@ -230,7 +233,7 @@ export function SidebarFilters({
                   value={filters.user}
                   options={userOptions}
                   placeholder="Todos"
-                  onChange={(event) => onChange({ user: event.target.value })}
+                  onValueChange={(value) => onChange({ user: value })}
                 />
               </label>
             </div>
