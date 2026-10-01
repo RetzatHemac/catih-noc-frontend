@@ -11,6 +11,39 @@ const options = [
 ];
 
 describe("Select", () => {
+  it.each([false, true])(
+    "keeps an empty option as a hint only (multiple=%s)",
+    async (multiple) => {
+      const user = userEvent.setup();
+      const change = vi.fn();
+      const catalog = [{ value: "", label: "Selecciona un país" }, ...options];
+      render(
+        multiple ? (
+          <Select
+            multiple
+            aria-label="País"
+            options={catalog}
+            onValueChange={change}
+          />
+        ) : (
+          <Select aria-label="País" options={catalog} onValueChange={change} />
+        ),
+      );
+      const input = screen.getByRole("combobox");
+      expect(screen.getByText("Selecciona un país")).toBeInTheDocument();
+      await user.click(input);
+      expect(
+        screen.queryByRole("option", { name: "Selecciona un país" }),
+      ).not.toBeInTheDocument();
+      await user.keyboard("{Home}{Enter}");
+      expect(change).toHaveBeenLastCalledWith(multiple ? ["mx"] : "mx");
+      await user.type(input, "Selecciona");
+      await user.keyboard("{Enter}");
+      expect(screen.getByText("Sin coincidencias")).toBeInTheDocument();
+      expect(change).toHaveBeenCalledTimes(1);
+    },
+  );
+
   it("keeps validation messages associated with the search input", () => {
     render(
       <>

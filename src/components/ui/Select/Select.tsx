@@ -58,7 +58,8 @@ export function Select(props: SelectProps) {
     options,
     id,
     name,
-    placeholder = "Seleccionar...",
+    placeholder = options.find((option) => option.value === "")?.label ??
+      "Seleccionar...",
     className,
     disabled,
     required,
@@ -72,6 +73,8 @@ export function Select(props: SelectProps) {
   const [open, setOpen] = useState(false);
   const [portal, setPortal] = useState<HTMLElement | null>(null);
   const selected = props.value ?? internalValue;
+  // An empty ID means no selection, never a selectable catalog entry.
+  const selectableOptions = options.filter((option) => option.value !== "");
 
   useEffect(() => {
     const form = root.current?.closest("form");
@@ -111,10 +114,12 @@ export function Select(props: SelectProps) {
         instanceId={instanceId}
         inputId={id ?? instanceId}
         name={name}
-        options={options}
+        options={selectableOptions}
         value={(Array.isArray(selected) ? selected : [selected]).flatMap(
           (value) => {
-            const option = options.find((item) => item.value === value);
+            const option = selectableOptions.find(
+              (item) => item.value === value,
+            );
             return option ? [option] : [];
           },
         )}
