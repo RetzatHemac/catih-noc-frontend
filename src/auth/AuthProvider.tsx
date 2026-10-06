@@ -32,6 +32,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         name: usuario.full_name,
         email: usuario.email ?? "",
         role: usuario.role_name,
+        classification_code: usuario.classification_code,
         permissions: usuario.permissions,
       };
 

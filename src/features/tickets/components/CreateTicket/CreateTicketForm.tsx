@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { StatusMessage } from "../../../../components/ui/StatusMessage/StatusMessage";
-import { Info } from "lucide-react";
+import type { SelectOption } from "../../types/createTicket.types";
 
 import { Button } from "../../../../components/ui/Button/Button";
 import { FileUpload } from "../../../../components/ui/FileUpload/FileUpload";
@@ -8,12 +8,12 @@ import { FormField } from "../../../../components/ui/FormField/FormField";
 import { Select } from "../../../../components/ui/Select/Select";
 import { Textarea } from "../../../../components/ui/Textarea/Textarea";
 
-import {
-  categoryOptions,
-  projectOptions,
-  siteOptionsByProject,
-  ticketTypeOptions,
-} from "../../mocks/createTicket.mock";
+import { 
+  getCategoryOptions,
+  getTypeOptions,
+  getProjectOptions,
+  getSiteOptionsByProject,
+ } from "../../services/ticketCatalogs.service";
 
 import type {
   CreateTicketFormData,
@@ -24,6 +24,7 @@ import type {
 import { AddSiteModal } from "./AddSiteModal";
 
 import styles from "./CreateTicketForm.module.css";
+import { Info } from "lucide-react";
 
 interface CreateTicketFormProps {
   onSubmit?: (data: CreateTicketFormData) => void;
@@ -63,12 +64,11 @@ export function CreateTicketForm({
 
   const [isAddSiteOpen, setIsAddSiteOpen] = useState(false);
 
-  const [sitesByProject, setSitesByProject] = useState(siteOptionsByProject);
-
-  const availableSites = useMemo(
-    () => sitesByProject[formData.projectId] ?? [],
-    [sitesByProject, formData.projectId],
-  );
+  //catalogos
+  const [categoryOptions, setCategoryOptions] = useState<SelectOption[]>([]);
+  const [ticketTypeOptions, setTicketTypeOptions] = useState<SelectOption[]>([]);
+  const [projectOptions, setProjectOptions] = useState<SelectOption[]>([]);
+  const [siteOptions, setSiteOptions] = useState<SiteOption[]>([]);
 
   function updateField<K extends keyof CreateTicketFormData>(
     field: K,
@@ -86,18 +86,20 @@ export function CreateTicketForm({
   }
 
   function handleProjectChange(projectId: string) {
-    setFormData((current) => ({
-      ...current,
-      projectId,
-      siteId: "",
-    }));
+  setFormData((current) => ({
+    ...current,
+    projectId,
+    siteId: "",
+  }));
 
-    setErrors((current) => ({
-      ...current,
-      projectId: undefined,
-      siteId: undefined,
-    }));
-  }
+  setSiteOptions([]);
+
+  setErrors((current) => ({
+    ...current,
+    projectId: undefined,
+    siteId: undefined,
+  }));
+}
 
   function validateForm() {
     const nextErrors: CreateTicketFormErrors = {};
@@ -149,17 +151,70 @@ export function CreateTicketForm({
   }
 
   function handleSiteCreated(site: SiteOption) {
-    const projectId = formData.projectId;
+    // const projectId = formData.projectId;
 
-    setSitesByProject((current) => ({
-      ...current,
-      [projectId]: [...(current[projectId] ?? []), site],
-    }));
+    // setSitesByProject((current) => ({
+    //   ...current,
+    //   [projectId]: [...(current[projectId] ?? []), site],
+    // }));
 
     updateField("siteId", site.value);
 
     setIsAddSiteOpen(false);
   }
+
+//Espacio para useeffect
+
+useEffect(() => {
+  const loadCatalogs = async () => {
+    try {
+      const [categories, types, projects] = await Promise.all([
+        getCategoryOptions(),
+        getTypeOptions(),
+        getProjectOptions(),
+      ]);
+
+      setCategoryOptions(categories);
+      setTicketTypeOptions(types);
+      setProjectOptions(projects);
+    } catch (error) {
+      console.error("Error cargando catálogos:", error);
+    }
+  };
+
+  void loadCatalogs();
+}, []);
+
+useEffect(() => {
+  if (!formData.projectId) {
+    return;
+  }
+
+  let cancelled = false;
+
+  const loadSites = async () => {
+    try {
+      const sites = await getSiteOptionsByProject(
+        formData.projectId,
+      );
+
+      if (!cancelled) {
+        setSiteOptions(sites);
+      }
+    } catch (error) {
+      if (!cancelled) {
+        console.error("Error cargando sitios:", error);
+        setSiteOptions([]);
+      }
+    }
+  };
+
+  void loadSites();
+
+  return () => {
+    cancelled = true;
+  };
+}, [formData.projectId]);
 
   return (
     <>
@@ -196,13 +251,15 @@ export function CreateTicketForm({
                   <Select
                     id="ticket-site"
                     value={formData.siteId}
-                    options={availableSites}
+                    options={siteOptions}
                     disabled={isSubmitting || !formData.projectId}
                     aria-invalid={!!errors.siteId}
                     aria-describedby={
                       errors.siteId ? "ticket-site-message" : undefined
                     }
-                    onValueChange={(value) => updateField("siteId", value)}
+                    onValueChange={(value) =>
+                      updateField("siteId", value)
+                    }
                   />
 
                   <Button

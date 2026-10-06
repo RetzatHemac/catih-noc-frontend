@@ -18,7 +18,7 @@ export async function createTicket(data: CreateTicketFormData) {
   data.attachments.forEach((file) => {
     formData.append("attachments", file);
   });
-  const response = await conectNest.post("/tickets", formData, {
+  const response = await conectNest.post("/tickets/create", formData, {
     timeout: 120_000,
   });
 

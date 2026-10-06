@@ -28,6 +28,7 @@ export function TicketList({
       <p>Autenticado: {isAuthenticated ? "Sí" : "No"}</p>
       <p> Usuario: {user?.name} </p>
       <p> Rol: {user?.role} </p>
+      <p> Clasificación: {user?.classification_code} </p>
       <pre> {JSON.stringify(permissions, null, 2)} </pre>
     </div>
       <div className={styles.heading}>

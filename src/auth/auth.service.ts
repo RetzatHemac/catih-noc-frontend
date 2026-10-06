@@ -13,6 +13,7 @@ export interface AuthMeResponse {
     company_id: number;
     company_name: string;
     role_name: string;
+    classification_code: string;
     permissions: string[];
   };
 }

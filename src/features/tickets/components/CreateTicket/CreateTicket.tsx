@@ -33,6 +33,7 @@ export function CreateTicket() {
       await createTicket(data);
 
       setSuccessMessage("El ticket fue enviado correctamente.");
+      navigate("/welcome");
     } catch (error) {
       setErrorMessage(getRequestErrorMessage(error));
     } finally {
